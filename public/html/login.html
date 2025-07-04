@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+	<link rel="icon" href="images/favicon.png" type="image/x-icon" />
+	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+
+	<!-- META -->
+	<meta name="description" content="" />
+	<meta property="og:site_name" content="" />
+	<meta property="og:type" content="" />
+	<meta property="og:url" content="" />
+	<meta property="og:title" content="" />
+	<meta property="og:description" content="" />
+
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="" />
+	<meta name="twitter:title" content="" />
+	<meta name="twitter:description" content="" />
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/nouislider.min.css" />
+	<link rel="stylesheet" href="css/fontawesome-6.6-all.css" />
+	<link rel="stylesheet" href="css/company-deals.css" />
+
+	<!-- font-family: "Raleway", serif; | font-family: "Open Sans", serif; -->
+	<link
+		href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+		rel="stylesheet">
+
+	<!-- SCRIPT -->
+	<script src="scripts/jquery-3.7.1.min.js"></script>
+	<script src="scripts/bootstrap.bundle.min.js"></script>
+	<script src="scripts/nouislider.min.js"></script>
+	<script src="scripts/flickity.min.js"></script>
+	<script src="scripts/function.js"></script>
+
+
+	<title>Home</title>
+
+</head>
+
+<body class="">
+	<div id="window">
+
+
+
+
+		<header class="gbl-header dashboard-header">
+			<div class="container">
+				<a class="brand-logo" href="index.php">
+					<img class="" src="images/logo.png" alt="Logo">
+				</a>
+
+				<div class="menu-grid">
+					<nav class="site-nav">
+						<ul class="site-menu">
+							<li class="site-menu"><a href="index">Home</a></li>
+							<li class="site-menu"><a href="whyus">Why Us</a></li>
+							<li class="site-menu"><a href="about">About Us</a></li>
+							<li class="sub-menu">
+								<a href="javascript:void(0)">Services</a>
+
+								<div class="dropdow-menu">
+									<div class="inner">
+										<ul>
+											<li><a href="javascript:void(0)">Buy or Sell a Company</a></li>
+											<li><a href="javascript:void(0)">Rent Out Your Property for GST or Company
+													Registration</a></li>
+											<li><a href="javascript:void(0)">Issue No Objection Certificate of Your
+													Trade Mark</a></li>
+										</ul>
+									</div>
+								</div>
+							</li>
+							<li class="site-menu"><a href="javascript:void(0)">Contact Us</a></li>
+						</ul>
+					</nav>
+					<button class="navToggle">
+						<span class="hamburger-menu">
+							<span class="bar"></span>
+						</span>
+					</button>
+
+					<!-- Mobile Nav Header -->
+					<nav class="mobnav-grid">
+						<a href="javascript:void(0)" class="mobnav-close navToggle">
+							<img src="images/cross-icon-w.png" alt="cross-icon-white">
+						</a>
+						<ul>
+							<li class=""><a href="javascript:void(0)">Home</a></li>
+							<li class=""><a href="whyus">Why Us</a></li>
+							<li class=""><a href="javascript:void(0)">About Us</a></li>
+							<li class="menu-item">
+								<a href="javascript:void(0)" class="menu-link">Services</a>
+								<ul class="menu-info none">
+									<li><a href="javascript:void(0)">Buy or Sell a Company</a></li>
+									<li><a href="javascript:void(0)">Rent Out Your Property for GST or Company
+											Registration</a></li>
+									<li><a href="javascript:void(0)">Issue No Objection Certificate of Your Trade
+											Mark</a></li>
+								</ul>
+							</li>
+							<li class=""><a href="javascript:void(0)">Contact Us</a></li>
+						</ul>
+					</nav>
+				</div>
+
+				<a href="javascript:void(0)" class="cta-primary with-shadow">Login</a>
+			</div>
+		</header>
+
+
+
+		<main class="body-wrap">
+
+			<section class="dashboard-wrap">
+				<div class="container">
+					<div class="form-wrap login-signup-form">
+						<header>
+							<h2>Login</h2>
+						</header>
+						<form action="http://stage.companydeals.in/user/login" method="post">
+							<input type="hidden" name="_token" value="oSzDbfTP9VBCrC2Y4jvt8cUw18jowMzadmyr4TiT" autocomplete="off"> <input type="hidden" name="role" value="">
+							<div class="alert alert-danger">
+								<ul>
+									<li>The provided credentials do not match our records.</li>
+									<li>The provided credentials do not match our records.</li>
+									<li>The provided credentials do not match our records.</li>
+								</ul>
+							</div>
+							<div class="col-md-12">
+								<div class="field">
+									<!--<label class="form-label none">Login as:</label>-->
+									<div class="d-flex align-items-center">
+										<div class="form-check form-check-inline w-auto">
+											<input class="form-check-input" type="radio" name="role" id="buyer"
+												value="buyer" required="">
+											<label class="mb-0" for="buyer">Buyer</label>
+										</div>
+										<div class="form-check form-check-inline w-auto">
+											<input class="form-check-input" type="radio" name="role" id="seller"
+												value="seller" required="">
+											<label class="mb-0" for="seller">Seller</label>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="field">
+									<label for="email">Email address</label>
+									<input type="email" class="form-control" id="email" name="email"
+										placeholder="Enter your email" required="" fdprocessedid="7gp3zw">
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="field">
+									<label for="password" class="form-label">Password</label>
+									<input type="password" class="form-control" id="password" name="password"
+										placeholder="Enter your password" required="" fdprocessedid="4cw0hr">
+								</div>
+							</div>
+							<div class="d-flex justify-content-between align-items-center mb-3">
+								<button type="submit" class="cta-primary med with-shadow">Login</button>
+								<a href="http://stage.companydeals.in/user/forgot-password" class="forgotPass">Forgot
+									password?</a>
+							</div>
+
+
+						</form>
+
+
+					</div>
+				</div>
+
+			</section>
+
+		</main>
+		<!-- End Content -->
+
+		<footer class="footer">
+
+
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-lg-4 order-lg-2">
+						<ul class="footer-link">
+							<li><a href="javascript:void(0)">Terms & Conditions</a></li>
+							<li><a href="javascript:void(0)">Privacy Policy</a></li>
+						</ul>
+					</div>
+
+					<div class="col-md-6 col-lg-4 email-text order-lg-3">
+						<p>Email: <a href="javascript:void(0)">admin@companydeals.com</a></p>
+					</div>
+
+					<div class="col-lg-4 copyright-text order-lg-1">
+						<p>Copyright2024 Company deals</p>
+					</div>
+				</div>
+			</div>
+
+		</footer>
+
+
+	</div>
+</body>
+
+</html>

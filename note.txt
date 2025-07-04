@@ -1,0 +1,14 @@
+E:\wamp\bin\php\php8.2.0\php composer.phar create-project --prefer-dist laravel/laravel companydeals
+
+E:\wamp\bin\php\php8.2.0\php artisan migrate
+
+
+E:\wamp\bin\php\php8.2.0\php artisan cache:clear
+E:\wamp\bin\php\php8.2.0\php artisan view:clear
+E:\wamp\bin\php\php8.2.0\php artisan migrate
+E:\wamp\bin\php\php8.2.0\php artisan db:seed --class=DatabaseSeeder
+
+E:\wamp\bin\php\php8.2.0\php artisan make:middleware AdminMiddleware
+
+
+E:\wamp\bin\php\php8.2.0\php artisan make:controller Admin/Auth/ResetPasswordController
