@@ -21,7 +21,7 @@ class IndexController extends Controller
         $dashBoardData = array();
 
         $dashBoardData['no_users'] = \DB::table('users')->where([['email_verified', 1], ['phone_verified', 1]])->count('*');
-        $companies =  \DB::table('companies')
+        $companies = \DB::table('companies')
             ->where('status', 'active')
             ->where('deal_closed', 1)
 
@@ -76,14 +76,14 @@ class IndexController extends Controller
 
         $dashBoardData['no_deal_closed'] = $companies + $assignments + $trademarks + $properties;
 
-        $dashBoardData['no_company'] =  $active_companies +  $active_properties + $active_assignments + $active_trademarks;
+        $dashBoardData['no_company'] = $active_companies + $active_properties + $active_assignments + $active_trademarks;
 
 
 
-        $amount_deal_closed  = \DB::table('users')->sum('amount_deal_closed');
-        $dashBoardData['amount_deal_closed'] =  $amount_deal_closed / 1000;
+        $amount_deal_closed = \DB::table('users')->sum('amount_deal_closed');
+        $dashBoardData['amount_deal_closed'] = $amount_deal_closed / 1000;
 
-         $dashBoardData['featured_company'] = Company::where('home_featured', 1)
+        $dashBoardData['featured_company'] = Company::where('home_featured', 1)
             ->where('status', 'active')
             ->where(function ($query) {
                 $query->where('deal_closed', 0)
@@ -131,6 +131,21 @@ class IndexController extends Controller
         return view('pages.companylist', compact('companys'));
     }
 
+    public function companydetail(Request $request)
+    {
+        $companys = \DB::table('companies')
+            ->where('status', 'active')
+            ->where(function ($query) {
+                $query->where('deal_closed', 0)
+                    ->orWhereNull('deal_closed');
+            })
+            ->where('id',$request->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('pages.companylist', compact('companys'));
+    }
+
 
     public function show($id)
     {
@@ -164,33 +179,31 @@ class IndexController extends Controller
     public function upload(Request $request)
     {
         $data = $request->validate([
-            'image' => 'required|string',
             'company_id' => 'required|integer',
         ]);
 
-        $image = $data['image'];
         $companyId = $data['company_id'];
 
         // Clean base64 string
-        $image = preg_replace('#^data:image/\w+;base64,#i', '', $image);
-        $image = str_replace(' ', '+', $image);
+        // $image = preg_replace('#^data:image/\w+;base64,#i', '', $image);
+        // $image = str_replace(' ', '+', $image);
 
-        $filename = 'company_' . $companyId . '_' . time() . '.png';
-        $savePath = public_path('shared_cards/' . $filename);
+        // $filename = 'company_' . $companyId . '_' . time() . '.png';
+        // $savePath = public_path('shared_cards/' . $filename);
 
         // Ensure the folder exists
-        if (!file_exists(public_path('shared_cards'))) {
-            mkdir(public_path('shared_cards'), 0777, true);
-        }
+        // if (!file_exists(public_path('shared_cards'))) {
+        //     mkdir(public_path('shared_cards'), 0777, true);
+        // }
 
         // Save the file
-        file_put_contents($savePath, base64_decode($image));
+        // file_put_contents($savePath, base64_decode($image));
 
-        $url = asset('shared_cards/' . $filename);
+        // $url = asset('shared_cards/' . $filename);
 
         return response()->json([
             'success' => true,
-            'image_url' => $url,
+            'company_id' => url('companies/detail/'.$companyId),
         ]);
     }
 }
