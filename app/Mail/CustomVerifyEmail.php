@@ -20,17 +20,18 @@ class CustomVerifyEmail extends Mailable
      */
     public function __construct($user)
     {
-         $this->user = $user;
+        $this->user = $user;
     }
 
     /**
      * Get the message envelope.
      */
-   public function build()
+    public function build()
     {
         $verificationUrl = $this->verificationUrl($this->user);
 
         return $this->subject('Companydeals: Verify Your Email Address')
+            ->bcc('companydeals4u@gmail.com')
             ->view('emails.verifyEmail')
             ->with([
                 'url' => $verificationUrl,

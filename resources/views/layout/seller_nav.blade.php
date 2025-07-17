@@ -14,25 +14,25 @@
             </li>
             <li>
                 <a href="{{ route('user.seller.companylist') }}">
-                    Companies
+                 Add Companies
                 </a>
             </li>
 
             <li>
                 <a href="{{ route('user.seller.propertylist') }}">
-                    Properties
+                 Add Properties
                 </a>
             </li>
 
             <li>
                 <a href="{{ route('user.seller.noctrademark') }}">
-                    Trademarks
+                   Add Trademarks
                 </a>
             </li>
 
             <li>
                 <a href="{{ route('user.seller.assignments') }}">
-                    Assignments
+                  Add Assignments
                 </a>
             </li>
 

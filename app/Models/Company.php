@@ -224,10 +224,10 @@ class Company extends Model
         }
 
         if ($third == true) {
-            $companies = $user->companies()->where('companies.deal_closed', 1)->get();
+            $companies = $user->companies()->where('companies.status', $condition)->where('companies.deal_closed', 1)->get();
         }
         if ($fourth == true) {
-            $companies = $user->companies()->where('companies.deal_closed', 0)->get();
+            $companies = $user->companies()->where('companies.status', $condition)->where('companies.deal_closed', 0)->get();
         }
 
         $arrCompany = array();

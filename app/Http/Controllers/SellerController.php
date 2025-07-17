@@ -221,15 +221,15 @@ class SellerController extends Controller
         $dealClosedTrademarkArr = array();
         $activeAssignmentArr = array();
         $dealClosedAssignmentArr = array();
-        $activeCompanyArr =  Company::seller_companies("active", false, true);
-        $activePropertyArr = Property::seller_properties('active',);
+        $activeCompanyArr = Company::seller_companies("active", false, true);
+        $activePropertyArr = Property::seller_properties('active', );
         $activeTrademarkArr = NocTrademark::seller_noctrademark('active');
         $activeAssignmentArr = Assignment::seller_assignments('active');
 
         // deal closed section
-        $dealClosedCompanyArr =  Company::seller_companies("all", true);
-        $dealClosedPropertyArr =  Property::seller_properties("all", true);
-        $dealClosedTrademarkArr =  NocTrademark::seller_noctrademark("all", true);
+        $dealClosedCompanyArr = Company::seller_companies("all", true);
+        $dealClosedPropertyArr = Property::seller_properties("all", true);
+        $dealClosedTrademarkArr = NocTrademark::seller_noctrademark("all", true);
         $dealClosedAssignmentArr = Assignment::seller_assignments('all', true);
 
         return view('pages.user.seller_dashboard', compact('activePropertyArr', 'activeTrademarkArr', 'activeCompanyArr', 'activeAssignmentArr', 'dealClosedCompanyArr', 'dealClosedPropertyArr', 'dealClosedTrademarkArr', 'dealClosedAssignmentArr'));
@@ -433,9 +433,9 @@ class SellerController extends Controller
 
         $serviceType = 'seller_company';
         $serviceId = $company_id;
-        $amount =  100; // fallback ₹100
+        $amount = 100; // fallback ₹100
         $startDate = now();
-        $endDate =  now()->addMonth();
+        $endDate = now()->addMonth();
 
         $transactionId = $request->input('order_id'); // comes from return_url
 
