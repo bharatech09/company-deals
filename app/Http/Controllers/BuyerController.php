@@ -16,7 +16,7 @@ class BuyerController extends Controller
 
     public function assignment_filter_ajax(Request $request)
     {
-        $buyer_id =  \Auth::guard('user')->id();
+        $buyer_id = \Auth::guard('user')->id();
         $buyer = Buyer::findOrFail($buyer_id);
         $interestedAssignment = $buyer->assignments;
 
@@ -47,7 +47,7 @@ class BuyerController extends Controller
     }
     public function assignment_remove_from_interested($id)
     {
-        $buyer_id =  \Auth::guard('user')->id();
+        $buyer_id = \Auth::guard('user')->id();
 
         if ($buyer_id > 0) {
             $buyer = Buyer::findOrFail($buyer_id);
@@ -60,7 +60,7 @@ class BuyerController extends Controller
     }
     public function assignment_addtointerested($id)
     {
-        $buyer_id =  \Auth::guard('user')->id();
+        $buyer_id = \Auth::guard('user')->id();
 
         if ($buyer_id > 0) {
             $buyer = Buyer::findOrFail($buyer_id);
@@ -73,7 +73,7 @@ class BuyerController extends Controller
     }
     public function company_remove_from_interested($id)
     {
-        $buyer_id =  \Auth::guard('user')->id();
+        $buyer_id = \Auth::guard('user')->id();
 
         if ($buyer_id > 0) {
             $buyer = Buyer::findOrFail($buyer_id);
@@ -86,7 +86,7 @@ class BuyerController extends Controller
     }
     public function company_addtointerested($id)
     {
-        $buyer_id =  \Auth::guard('user')->id();
+        $buyer_id = \Auth::guard('user')->id();
 
         if ($buyer_id > 0) {
             $buyer = Buyer::findOrFail($buyer_id);
@@ -99,7 +99,7 @@ class BuyerController extends Controller
     }
     public function property_remove_from_interested($id)
     {
-        $buyer_id =  \Auth::guard('user')->id();
+        $buyer_id = \Auth::guard('user')->id();
 
         if ($buyer_id > 0) {
             $buyer = Buyer::findOrFail($buyer_id);
@@ -114,7 +114,7 @@ class BuyerController extends Controller
 
     public function trademark_addtointerested($id)
     {
-        $buyer_id =  \Auth::guard('user')->id();
+        $buyer_id = \Auth::guard('user')->id();
 
         if ($buyer_id > 0) {
             $buyer = Buyer::findOrFail($buyer_id);
@@ -127,7 +127,7 @@ class BuyerController extends Controller
     }
     public function trademark_remove_from_interested($id)
     {
-        $buyer_id =  \Auth::guard('user')->id();
+        $buyer_id = \Auth::guard('user')->id();
 
         if ($buyer_id > 0) {
             $buyer = Buyer::findOrFail($buyer_id);
@@ -142,7 +142,7 @@ class BuyerController extends Controller
 
     public function property_addtointerested($id)
     {
-        $buyer_id =  \Auth::guard('user')->id();
+        $buyer_id = \Auth::guard('user')->id();
 
         if ($buyer_id > 0) {
             $buyer = Buyer::findOrFail($buyer_id);
@@ -160,9 +160,9 @@ class BuyerController extends Controller
         $buyer = Buyer::findOrFail($buyer_id);
 
         $interestedCompany = $buyer->companies()->where(function ($q) {
-                $q->where('companies.deal_closed', 0)
-                    ->orWhereNull(column: 'companies.deal_closed');   // 0 या NULL दोनों ऐक्सेप्ट
-            })->orderBy('updated_at', 'desc')->get();
+            $q->where('companies.deal_closed', 0)
+                ->orWhereNull(column: 'companies.deal_closed');   // 0 या NULL दोनों ऐक्सेप्ट
+        })->orderBy('updated_at', 'desc')->get();
         $interestedCompanyArr = [];
 
         foreach ($interestedCompany as $eachCompany) {
@@ -275,9 +275,9 @@ class BuyerController extends Controller
         }
 
         $interestedProperty = $buyer->properties()->where(function ($q) {
-                $q->where('properties.deal_closed', 0)
-                    ->orWhereNull(column: 'properties.deal_closed');   // 0 या NULL दोनों ऐक्सेप्ट
-            })->orderBy('updated_at', 'desc')->get();
+            $q->where('properties.deal_closed', 0)
+                ->orWhereNull(column: 'properties.deal_closed');   // 0 या NULL दोनों ऐक्सेप्ट
+        })->orderBy('updated_at', 'desc')->get();
         $interestedPropertyArr = array();
         foreach ($interestedProperty as $key => $eachProperty) {
 
@@ -295,9 +295,9 @@ class BuyerController extends Controller
         }
 
         $interestedTrademarks = $buyer->noctrademarks()->where(function ($q) {
-                $q->where('noc_trademarks.deal_closed', 0)
-                    ->orWhereNull(column: 'noc_trademarks.deal_closed');   // 0 या NULL दोनों ऐक्सेप्ट
-            })->orderBy('updated_at', 'desc')->get();
+            $q->where('noc_trademarks.deal_closed', 0)
+                ->orWhereNull(column: 'noc_trademarks.deal_closed');   // 0 या NULL दोनों ऐक्सेप्ट
+        })->orderBy('updated_at', 'desc')->get();
         $interestedTrademarkArr = array();
         foreach ($interestedTrademarks as $key => $trademark) {
             //   if($trademark->deal_closed ==1)
@@ -317,9 +317,9 @@ class BuyerController extends Controller
         }
 
         $interestedAssignments = $buyer->assignments()->where(function ($q) {
-                $q->where('assignments.deal_closed', 0)
-                    ->orWhereNull(column: 'assignments.deal_closed');   // 0 या NULL दोनों ऐक्सेप्ट
-            })->orderBy('updated_at', 'desc')->get();
+            $q->where('assignments.deal_closed', 0)
+                ->orWhereNull(column: 'assignments.deal_closed');   // 0 या NULL दोनों ऐक्सेप्ट
+        })->orderBy('updated_at', 'desc')->get();
         $interestedAssignmentArr = array();
         foreach ($interestedAssignments as $key => $assignment) {
             //   if($assignment->deal_closed ==1)
@@ -342,7 +342,8 @@ class BuyerController extends Controller
 
         // deal closed company
 
-        $dealClosedCompany = $buyer->companies()->where('deal_closed', 1)->orderBy('updated_at', 'desc')->get();;
+        $dealClosedCompany = $buyer->companies()->where('deal_closed', 1)->orderBy('updated_at', 'desc')->get();
+        ;
         $dealClosedCompanyCompanyArr = array();
         foreach ($dealClosedCompany as $key => $eachCompany) {
             $tempCompany = $this->getCompanyDetail($eachCompany);
@@ -524,7 +525,16 @@ class BuyerController extends Controller
     }
     public function company_filter()
     {
-        return view('pages.user.buyer_filter_company');
+        $companies = Company::get(); // Your custom filter logic
+
+        $min_price = $companies->min('ask_price') ?? 0;
+        $max_price = $companies->max('ask_price') ?? 1000000;
+
+        
+        $data['ask_price_min'] =  $min_price;
+        $data['ask_price_max'] =  $max_price;
+
+        return view('pages.user.buyer_filter_company',$data);
     }
 
 
@@ -535,7 +545,7 @@ class BuyerController extends Controller
     }
     public function company_filter_ajax(Request $request)
     {
-        $buyer_id =  \Auth::guard('user')->id();
+        $buyer_id = \Auth::guard('user')->id();
         $buyer = Buyer::findOrFail($buyer_id);
         $interestedCompany = $buyer->companies;
 
@@ -578,11 +588,11 @@ class BuyerController extends Controller
         $i = 1;
         foreach ($companies as $key => $company) {
             if ($i == 1) {
-                $filerData['priceMin'] = $company->ask_price_amount;
-                $filerData['priceMax'] = $company->ask_price_amount;
+                $filerData['priceMin'] = $company->ask_price_amount ?? 0 ;
+                $filerData['priceMax'] = $company->ask_price_amount ?? 0 ;
             } else {
                 if ($company->ask_price_amount < $filerData['priceMin'])
-                    $filerData['priceMin'] = $company->ask_price_amount;
+                    $filerData['priceMin'] = $company->ask_price_amount ?? 0;
                 if ($company->ask_price_amount > $filerData['priceMax'])
                     $filerData['priceMax'] = $company->ask_price_amount;
             }
@@ -599,7 +609,7 @@ class BuyerController extends Controller
 
     public function noctrademark_filter_ajax(Request $request)
     {
-        $buyer_id =  \Auth::guard('user')->id();
+        $buyer_id = \Auth::guard('user')->id();
         $buyer = Buyer::findOrFail($buyer_id);
         $interestedNoctrademark = $buyer->noctrademarks;
 
@@ -650,7 +660,7 @@ class BuyerController extends Controller
     }
     public function property_filter_ajax(Request $request)
     {
-        $buyer_id =  \Auth::guard('user')->id();
+        $buyer_id = \Auth::guard('user')->id();
         $buyer = Buyer::findOrFail($buyer_id);
         $interestedProperty = $buyer->properties()->orderBy('properties.updated_at', 'desc')->get();
 
@@ -710,11 +720,17 @@ class BuyerController extends Controller
             $propertyArr[] = $this->getPropertyDetail($prop);
             $i++;
         }
+        if($filerData['priceMin'] ==  $filerData['priceMax']){
+            $filerData['priceMax'] += 1000;
+        }
+        if($filerData['spaceMin'] ==  $filerData['spaceMax']){
+            $filerData['spaceMax'] += 1000;
+        }
         return view('pages.user.buyer_filter_property_ajax', compact('propertyArr', 'filerData'));
     }
     protected function getCompanyDetail($company)
     {
-        return array(
+        $data = [
             'id' => $company->id,
             'name' => $company->name,
             'name_prefix' => $company->name_prefix,
@@ -725,8 +741,92 @@ class BuyerController extends Controller
             'ask_price' => $company->ask_price,
             'ask_price_unit' => $company->ask_price_unit,
             'status' => ($company->deal_closed) ? "Deal Closed" : $company->status,
-        );
+
+            // Basic Financial Details
+            'have_gst' => $company->have_gst,
+            'current_market_price' => $company->current_market_price,
+            'high_52_weeks' => $company->high_52_weeks,
+            'low_52_weeks' => $company->low_52_weeks,
+            'promoters_holding' => $company->promoters_holding,
+            'transferable_holding' => $company->transferable_holding,
+            'public_holding' => $company->public_holding,
+            'market_capitalization' => $company->market_capitalization,
+            'trading_conditions' => $company->trading_conditions,
+            'acquisition_method' => $company->acquisition_method,
+            'face_value' => $company->face_value,
+
+            // Company Structure
+            'no_of_directors' => $company->no_of_directors,
+            'no_of_promoters' => $company->no_of_promoters,
+            'demat_shareholding' => $company->demat_shareholding,
+            'physical_shareholding' => $company->physical_shareholding,
+            'authorised_capital' => $company->authorised_capital,
+            'authorised_capital_amount' => $company->authorised_capital_amount,
+            'paidup_capital' => $company->paidup_capital,
+            'paidup_capital_amount' => $company->paidup_capital_amount,
+            'activity_code' => $company->activity_code,
+            'type_of_NBFC' => $company->type_of_NBFC,
+            'size_of_NBFC' => $company->size_of_NBFC,
+            'ask_price_amount' => $company->ask_price_amount,
+            'market_capitalization_amount' => $company->market_capitalization_amount,
+            'market_capitalization_unit' => $company->market_capitalization_unit,
+
+            // Balance Sheet
+            'net_worth' => $company->net_worth,
+            'net_worth_amount' => $company->net_worth_amount,
+            'net_worth_unit' => $company->net_worth_unit,
+            'reserve' => $company->reserve,
+            'reserve_amount' => $company->reserve_amount,
+            'reserve_unit' => $company->reserve_unit,
+            'secured_creditors_amount' => $company->secured_creditors_amount,
+            'secured_creditors_unit' => $company->secured_creditors_unit,
+            'unsecured_creditors_amount' => $company->unsecured_creditors_amount,
+            'unsecured_creditors_unit' => $company->unsecured_creditors_unit,
+            'land_building_amount' => $company->land_building_amount,
+            'land_building_unit' => $company->land_building_unit,
+            'plant_machinery' => $company->plant_machinery,
+            'plant_machinery_amount' => $company->plant_machinery_amount,
+            'plant_machinery_unit' => $company->plant_machinery_unit,
+            'investment_amount' => $company->investment_amount,
+            'investment_unit' => $company->investment_unit,
+            'debtors_amount' => $company->debtors_amount,
+            'debtors_unit' => $company->debtors_unit,
+            'cash_bank_amount' => $company->cash_bank_amount,
+            'cash_bank_unit' => $company->cash_bank_unit,
+
+            // Compliance
+            'roc_status' => $company->roc_status,
+            'roc_year' => $company->roc_year,
+            'income_tax_status' => $company->income_tax_status,
+            'income_tax_year' => $company->income_tax_year,
+            'gst_status' => $company->gst_status,
+            'gst_year' => $company->gst_year,
+            'rbi_status' => $company->rbi_status,
+            'rbi_year' => $company->rbi_year,
+            'fema_status' => $company->fema_status,
+            'fema_year' => $company->fema_year,
+            'sebi_status' => $company->sebi_status,
+            'sebi_year' => $company->sebi_year,
+            'stock_exchange_status' => $company->stock_exchange_status,
+            'stock_exchange_year' => $company->stock_exchange_year,
+        ];
+
+        // Add Turnover and Profit details
+        for ($i = 1; $i <= 5; $i++) {
+            $data["turnover_year{$i}"] = $company->{"turnover_year{$i}"};
+            $data["turnover{$i}"] = $company->{"turnover{$i}"};
+            $data["turnover_amount{$i}"] = $company->{"turnover_amount{$i}"};
+            $data["turnover_unit{$i}"] = $company->{"turnover_unit{$i}"};
+
+            $data["profit_year{$i}"] = $company->{"profit_year{$i}"};
+            $data["profit{$i}"] = $company->{"profit{$i}"};
+            $data["profit_amount{$i}"] = $company->{"profit_amount{$i}"};
+            $data["profit_unit{$i}"] = $company->{"profit_unit{$i}"};
+        }
+
+        return $data;
     }
+
 
     protected function getTrademarkDetail($trademark)
     {
@@ -778,13 +878,14 @@ class BuyerController extends Controller
         );
     }
 
-    public function message(Request $request){
-        $buyer_id =  \Auth::guard('user')->id();
+    public function message(Request $request)
+    {
+        $buyer_id = \Auth::guard('user')->id();
 
-       $message =  Message::where('user_id', $buyer_id)->orderby('id','desc')->get() ;
-       return view('pages.user.message',compact('message'));
+        $message = Message::where('user_id', $buyer_id)->orderby('id', 'desc')->get();
+        return view('pages.user.message', compact('message'));
 
-       
+
     }
 
 }

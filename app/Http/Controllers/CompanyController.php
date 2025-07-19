@@ -80,7 +80,7 @@ class CompanyController extends Controller
     }
     public function seller_companylist()
     {
-        $arrCompany =  Company::seller_companies("inactive");
+        $arrCompany = Company::seller_companies("inactive");
         return view('pages.user.seller_companylist', compact('arrCompany'));
     }
 
@@ -135,7 +135,7 @@ class CompanyController extends Controller
         }
         if ($request->input('turnover_base_yr') > 0) {
             $turnover_base_yr = $request->input('turnover_base_yr');
-        } elseif (isset($companyData) &&  $companyData->turnover_year1 > 0) {
+        } elseif (isset($companyData) && $companyData->turnover_year1 > 0) {
             $turnover_base_yr = $companyData->turnover_year1;
         } else {
             $turnover_base_yr = "";
@@ -246,7 +246,7 @@ class CompanyController extends Controller
     {
         $companyData = Company::findOrFail($request->input('id'));
         if ($companyData->year_of_incorporation == date('Y')) {
-             $companyData = $this->resetstep2data($companyData);
+            $companyData = $this->resetstep2data($companyData);
             $companyData->update();
             return redirect()->route('user.seller.companyform.showstep3', ['id' => $companyData->id]);
         }
@@ -359,7 +359,7 @@ class CompanyController extends Controller
 
     public function showstep3(Request $request)
     {
-         $companyData = Company::findOrFail($request->input('id'));
+        $companyData = Company::findOrFail($request->input('id'));
         return view('pages.user.company.form_step3', compact('companyData'));
     }
     public function savestep3(Request $request)
@@ -395,11 +395,11 @@ class CompanyController extends Controller
             $validatedData['gst_year'] = $request->input('gst_year');
         }
         $validatedData['rbi_status'] = $request->input('rbi_status');
-        if ($request->input('rbi_status')  == 'Updated upto') {
+        if ($request->input('rbi_status') == 'Updated upto') {
             $validatedData['rbi_year'] = $request->input('rbi_year');
         }
         $validatedData['fema_status'] = $request->input('fema_status');
-        if ($request->input('fema_status')  == 'Updated upto') {
+        if ($request->input('fema_status') == 'Updated upto') {
             $validatedData['fema_year'] = $request->input('fema_year');
         }
         $validatedData['sebi_status'] = $request->input('sebi_status');
