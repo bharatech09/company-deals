@@ -60,7 +60,7 @@ Route::middleware('sellerloggedin')->group(function () {
 
 
 	Route::get('/user/seller/companylist', [CompanyController::class, 'seller_companylist'])->name('user.seller.companylist');
-	Route::get('/user/seller/{id}/{buyer_id}/closedealcompany', [CompanyController::class, 'closedeal'])->name('user.seller.closedealcompany');
+Route::get('/user/seller/{id}/{buyer_id}/closedealcompany', [CompanyController::class, 'closedeal'])->name('user.seller.closedealcompany');
 
 	/***add edit company start****/
 	Route::get('/user/seller/companyform/showstep1', [CompanyController::class, 'showstep1'])->name('user.seller.companyform.showstep1');

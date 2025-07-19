@@ -29,7 +29,7 @@
                         @endif
 
                         <div class="buyer-seller-details">
-                            <heade class="text-center" r>
+                            <header>
                                 <h2>Companies Of Your interest </h2>
                                 </header>
                                 <div style="border: 1px solid green;"></div>
@@ -49,7 +49,7 @@
                                                                     $updatedSeller = str_replace("No of deal closed", "</br><b>No of deal closed previously</b>", $company['seller']);
                                                                     $updatedSeller = str_replace("amount of deal closed:", "</br><b>Amount of deal closed previously:</b>", $updatedSeller . '</br></br>');
                                                                 @endphp
-                                                                <li style="color:black;border-bottom: 2px solid  black;">
+                                                                <li style="color:black;border-bottom: 2px solid  balck;">
                                                                     Seller Details:<br>
                                                                     {!! $updatedSeller !!}
                                                                 </li>
@@ -396,7 +396,7 @@
 
                             @if(count($dealClosedCompanyCompanyArr) > 0)
 
-                                <header class="text-center mt-2">
+                                <header class=" mt-2">
                                     <h2>Companies Deal Closed</h2>
                                 </header>
                                 <div class="row">
@@ -412,7 +412,7 @@
                                                                     $updatedSeller = str_replace("No of deal closed", "</br><b>No of deal closed previously</b>", $company['seller']);
                                                                     $updatedSeller = str_replace("amount of deal closed:", "</br><b>Amount of deal closed previously:</b>", $updatedSeller . '</br></br>');
                                                                 @endphp
-                                                                <li style="color:black;border-bottom: 2px solid  black;">
+                                                                <li style="color:black;border-bottom: 2px solid  balck;">
                                                                     Seller Details:<br>
                                                                     {!! $updatedSeller !!}
 
@@ -585,7 +585,7 @@
                             @if(count($dealClosedPropertyArr) > 0)
 
 
-                                <header class="text-center mt-5">
+                                <header class=" mt-5">
                                     <h2>Property Deal Closed</h2>
                                 </header>
                                 <div class="row">
@@ -638,7 +638,7 @@
                             @if(count($dealClosedTrademarkArr) > 0)
 
 
-                                <header class="text-center mt-5">
+                                <header class=" mt-5">
                                     <h2>Trademark Deal Closed</h2>
                                 </header>
                                 <div class="row">
@@ -693,7 +693,7 @@
                             @if(count($dealClosedAssignmentArr) > 0)
 
 
-                                <header class="text-center mt-5">
+                                <header class=" mt-5">
                                     <h2>Assigments Deal Closed</h2>
                                 </header>
                                 <div class="row">
