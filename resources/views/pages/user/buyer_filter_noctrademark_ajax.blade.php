@@ -12,7 +12,7 @@
             <li>Status: {{$trademark['status']}}</li>
             <li>Valid Upto: {{date('j F, Y', strtotime($trademark['valid_upto']))}}</li>
             <li> Description: {{$trademark['description']}}</li>
-            <li>Ask Description: {{$trademark['ask_price']}} {{$trademark['ask_price_unit']}} per month</li>
+            <li>Ask Price: {{$trademark['ask_price']}} {{$trademark['ask_price_unit']}} per month</li>
             <li> 
                 <a href="{{ route('user.buyer.trademark.addtointerested', $trademark['id']) }}" class="cta-primary interested_trademark" type="submit">I am interested in this NOC of trademark</a>
             </li>

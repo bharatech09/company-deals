@@ -29,7 +29,7 @@ $valid_upto = date('j F, Y', strtotime($trademark['valid_upto']));
                 </ul>
                 @endif
                 <!--   <li>URN: {{$trademark['urn']}} </li> -->
-                <li><strong>Is Active?:
+                <li><strong>Status:
 
 
                         @if($trademark['is_active'] == 'inactive' && $trademark['approved']==0)
@@ -59,7 +59,7 @@ $valid_upto = date('j F, Y', strtotime($trademark['valid_upto']));
                 <li>Status: {{$trademark['status']}}</li>
                 <li>Valid Upto: {{$valid_upto}}</li>
                 <li> Description: {{$trademark['description']}}</li>
-                <li>Ask Description: {{$trademark['ask_price']}} {{$trademark['ask_price_unit']}} per month</li>
+                <li>Ask Price: {{$trademark['ask_price']}} {{$trademark['ask_price_unit']}} per month</li>
                 @if($trademark['deal_closed'] ==1 && $trademark['buyer_id'] > 0 )
                 <li>Buyer Details: <br> {!!$trademark['finalBuyer']!!}</li>
                 @endif
