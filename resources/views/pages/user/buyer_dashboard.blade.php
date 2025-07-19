@@ -49,7 +49,7 @@
                                                                     $updatedSeller = str_replace("No of deal closed", "</br><b>No of deal closed previously</b>", $company['seller']);
                                                                     $updatedSeller = str_replace("amount of deal closed:", "</br><b>Amount of deal closed previously:</b>", $updatedSeller . '</br></br>');
                                                                 @endphp
-                                                                <li style="color:black;border-bottom: 2px solid  balck;">
+                                                                <li style="color:black;border-bottom: 2px solid  black;">
                                                                     Seller Details:<br>
                                                                     {!! $updatedSeller !!}
                                                                 </li>
@@ -412,7 +412,7 @@
                                                                     $updatedSeller = str_replace("No of deal closed", "</br><b>No of deal closed previously</b>", $company['seller']);
                                                                     $updatedSeller = str_replace("amount of deal closed:", "</br><b>Amount of deal closed previously:</b>", $updatedSeller . '</br></br>');
                                                                 @endphp
-                                                                <li style="color:black;border-bottom: 2px solid  balck;">
+                                                                <li style="color:black;border-bottom: 2px solid  black;">
                                                                     Seller Details:<br>
                                                                     {!! $updatedSeller !!}
 
