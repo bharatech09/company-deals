@@ -58,6 +58,18 @@ Route::middleware('sellerloggedin')->group(function () {
 	Route::get('/user/seller/company/pay/{company_id}', [SellerController::class, 'initiateCompanyPayment'])->name('user.seller.company.payment');
 	Route::get('/user/seller/company/payment/return/{company_id}', [SellerController::class, 'paymentSuccess'])->name('user.seller.company.payment.return');
 
+	// Property payment routes
+	Route::get('/user/seller/property/pay/{property_id}', [SellerController::class, 'initiatePropertyPayment'])->name('user.seller.property.payment');
+	Route::get('/user/seller/property/payment/return/{property_id}', [SellerController::class, 'propertyPaymentSuccess'])->name('user.seller.property.payment.return');
+
+	// Trademark payment routes
+	Route::get('/user/seller/trademark/pay/{trademark_id}', [SellerController::class, 'initiateTrademarkPayment'])->name('user.seller.trademark.payment');
+	Route::get('/user/seller/trademark/payment/return/{trademark_id}', [SellerController::class, 'trademarkPaymentSuccess'])->name('user.seller.trademark.payment.return');
+
+	// Assignment payment routes
+	Route::get('/user/seller/assignment/pay/{assignment_id}', [SellerController::class, 'initiateAssignmentPayment'])->name('user.seller.assignment.payment');
+	Route::get('/user/seller/assignment/payment/return/{assignment_id}', [SellerController::class, 'assignmentPaymentSuccess'])->name('user.seller.assignment.payment.return');
+
 
 	Route::get('/user/seller/companylist', [CompanyController::class, 'seller_companylist'])->name('user.seller.companylist');
 Route::get('/user/seller/{id}/{buyer_id}/closedealcompany', [CompanyController::class, 'closedeal'])->name('user.seller.closedealcompany');
@@ -110,4 +122,9 @@ Route::middleware('buyerloggedin')->group(function () {
 	Route::post('/user/buyer/assignment-filter-ajax', [BuyerController::class, 'assignment_filter_ajax'])->name('user.buyer.assignment_filter_ajax');
 	Route::get('/user/buyer/{id}/assignment/addtointerested', [BuyerController::class, 'assignment_addtointerested'])->name('user.buyer.assignment.addtointerested');
 	Route::get('/user/buyer/{id}/assignment/removefrominterested', [BuyerController::class, 'assignment_remove_from_interested'])->name('user.buyer.assignment.removefrominterested');
+
+	// Buyer one-time payment to view seller details
+	Route::get('/user/buyer/pay', [BuyerController::class, 'showSellerDetailsPaymentForm'])->name('user.buyer.pay');
+	Route::post('/user/buyer/pay/process', [BuyerController::class, 'processSellerDetailsPayment'])->name('user.buyer.pay.process');
+	Route::get('/user/buyer/pay/return', [BuyerController::class, 'sellerDetailsPaymentReturn'])->name('user.buyer.pay.return');
 });

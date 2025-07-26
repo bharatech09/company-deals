@@ -223,8 +223,8 @@ class SellerController extends Controller
         $dealClosedAssignmentArr = array();
         $activeCompanyArr = Company::seller_companies("active", false, true);
         $activePropertyArr = Property::seller_properties('active', );
-        $activeTrademarkArr = NocTrademark::seller_noctrademark('active');
-        $activeAssignmentArr = Assignment::seller_assignments('active');
+         $activeTrademarkArr = NocTrademark::seller_noctrademark('active');
+         $activeAssignmentArr = Assignment::seller_assignments('active');
 
         // deal closed section
         $dealClosedCompanyArr = Company::seller_companies("all", true);
@@ -496,5 +496,257 @@ class SellerController extends Controller
         // $company->save();
 
         // return redirect()->route('user.seller.dashboard')->with('success', 'Payment successful for your company listing.');
+    }
+
+    // for property payment
+    public function initiatePropertyPayment($property_id)
+    {
+        $property = Property::findOrFail($property_id);
+        $user = \Auth::guard('user')->user();
+
+        $appId = config('services.cashfree.app_id');        // OR env('CASHFREE_APP_ID')
+        $secretKey = config('services.cashfree.secret_key'); // OR env('CASHFREE_SECRET_KEY')
+
+        $orderData = [
+            "order_amount" => 100,
+            "order_currency" => "INR",
+            "customer_details" => [
+                "customer_id" => str_replace(['@', '.'], '_', $user->email),
+                "customer_email" => $user->email,
+                "customer_phone" => $user->phone,
+                "customer_name" => $user->name
+            ],
+            "order_note" => "Property Payment: {$property->urn}",
+            "order_meta" => [
+                "return_url" => route('user.seller.property.payment.return', ['property_id' => $property->id])
+            ],
+            "checkout_mode" => "REDIRECT"
+        ];
+
+        $response = Http::withHeaders([
+            'x-client-id' => $appId,
+            'x-client-secret' => $secretKey,
+            'x-api-version' => '2025-01-01',
+            'Content-Type' => 'application/json',
+        ])->post('https://sandbox.cashfree.com/pg/orders', $orderData);
+
+        $body = $response->json();
+
+        if (isset($body['payment_session_id'])) {
+            return view('pages.seller.property.payment_session', [
+                'paymentSessionId' => $body['payment_session_id']
+            ]);
+        }
+
+        return back()->with('error', $body['message'] ?? 'Cashfree payment session creation failed.');
+    }
+
+    public function propertyPaymentSuccess(Request $request, $property_id)
+    {
+        $user = \Auth::guard('user')->user();
+
+        $serviceType = 'seller_property';
+        $serviceId = $property_id;
+        $amount = 100; // ₹100 for property payment
+        $startDate = now();
+        $endDate = now()->addMonth();
+
+        $transactionId = $request->input('order_id'); // comes from return_url
+
+        // 1. Create payment record
+        $payment = Payment::create([
+            'user_id' => $user->id,
+            'amount' => $amount,
+            'service_start_date' => $startDate,
+            'service_end_date' => $endDate,
+            'service_type' => $serviceType,
+            'service_id' => $serviceId,
+            'status' => 'paid',
+            'payment_method' => 'Online',
+            'payment_from' => 'seller',
+            'payment_type' => 'Online',
+            'transaction_id' => $transactionId,
+        ]);
+
+        // 2. Update related service
+        if ($serviceType === 'seller_property') {
+            $property = Property::findOrFail($serviceId);
+            $property->update([
+                'status' => 'active',
+                'payment_id' => $payment->id,
+            ]);
+
+            return redirect()->route('user.seller.dashboard')->with('success', 'Payment successful for your property listing.');
+        }
+
+        return redirect()->route('user.seller.dashboard')->with('error', 'Payment processing failed.');
+    }
+
+    // for trademark payment
+    public function initiateTrademarkPayment($trademark_id)
+    {
+        $trademark = NocTrademark::findOrFail($trademark_id);
+        $user = \Auth::guard('user')->user();
+
+        $appId = config('services.cashfree.app_id');        // OR env('CASHFREE_APP_ID')
+        $secretKey = config('services.cashfree.secret_key'); // OR env('CASHFREE_SECRET_KEY')
+
+        $orderData = [
+            "order_amount" => 100,
+            "order_currency" => "INR",
+            "customer_details" => [
+                "customer_id" => str_replace(['@', '.'], '_', $user->email),
+                "customer_email" => $user->email,
+                "customer_phone" => $user->phone,
+                "customer_name" => $user->name
+            ],
+            "order_note" => "Trademark Payment: {$trademark->wordmark}",
+            "order_meta" => [
+                "return_url" => route('user.seller.trademark.payment.return', ['trademark_id' => $trademark->id])
+            ],
+            "checkout_mode" => "REDIRECT"
+        ];
+
+        $response = Http::withHeaders([
+            'x-client-id' => $appId,
+            'x-client-secret' => $secretKey,
+            'x-api-version' => '2025-01-01',
+            'Content-Type' => 'application/json',
+        ])->post('https://sandbox.cashfree.com/pg/orders', $orderData);
+
+        $body = $response->json();
+
+        if (isset($body['payment_session_id'])) {
+            return view('pages.seller.trademark.payment_session', [
+                'paymentSessionId' => $body['payment_session_id']
+            ]);
+        }
+
+        return back()->with('error', $body['message'] ?? 'Cashfree payment session creation failed.');
+    }
+
+    public function trademarkPaymentSuccess(Request $request, $trademark_id)
+    {
+        $user = \Auth::guard('user')->user();
+
+        $serviceType = 'seller_trademark';
+        $serviceId = $trademark_id;
+        $amount = 100; // ₹100 for trademark payment
+        $startDate = now();
+        $endDate = now()->addMonth();
+
+        $transactionId = $request->input('order_id'); // comes from return_url
+
+        // 1. Create payment record
+        $payment = Payment::create([
+            'user_id' => $user->id,
+            'amount' => $amount,
+            'service_start_date' => $startDate,
+            'service_end_date' => $endDate,
+            'service_type' => $serviceType,
+            'service_id' => $serviceId,
+            'status' => 'paid',
+            'payment_method' => 'Online',
+            'payment_from' => 'seller',
+            'payment_type' => 'Online',
+            'transaction_id' => $transactionId,
+        ]);
+
+        // 2. Update related service
+        if ($serviceType === 'seller_trademark') {
+            $trademark = NocTrademark::findOrFail($serviceId);
+            $trademark->update([
+                'is_active' => 'active',
+                'payment_id' => $payment->id,
+            ]);
+
+            return redirect()->route('user.seller.dashboard')->with('success', 'Payment successful for your trademark listing.');
+        }
+
+        return redirect()->route('user.seller.dashboard')->with('error', 'Payment processing failed.');
+    }
+
+    // for assignment payment
+    public function initiateAssignmentPayment($assignment_id)
+    {
+        $assignment = Assignment::findOrFail($assignment_id);
+        $user = \Auth::guard('user')->user();
+
+        $appId = config('services.cashfree.app_id');        // OR env('CASHFREE_APP_ID')
+        $secretKey = config('services.cashfree.secret_key'); // OR env('CASHFREE_SECRET_KEY')
+
+        $orderData = [
+            "order_amount" => 100,
+            "order_currency" => "INR",
+            "customer_details" => [
+                "customer_id" => str_replace(['@', '.'], '_', $user->email),
+                "customer_email" => $user->email,
+                "customer_phone" => $user->phone,
+                "customer_name" => $user->name
+            ],
+            "order_note" => "Assignment Payment: {$assignment->subject}",
+            "order_meta" => [
+                "return_url" => route('user.seller.assignment.payment.return', ['assignment_id' => $assignment->id])
+            ],
+            "checkout_mode" => "REDIRECT"
+        ];
+
+        $response = Http::withHeaders([
+            'x-client-id' => $appId,
+            'x-client-secret' => $secretKey,
+            'x-api-version' => '2025-01-01',
+            'Content-Type' => 'application/json',
+        ])->post('https://sandbox.cashfree.com/pg/orders', $orderData);
+
+        $body = $response->json();
+
+        if (isset($body['payment_session_id'])) {
+            return view('pages.seller.assignment.payment_session', [
+                'paymentSessionId' => $body['payment_session_id']
+            ]);
+        }
+
+        return back()->with('error', $body['message'] ?? 'Cashfree payment session creation failed.');
+    }
+
+    public function assignmentPaymentSuccess(Request $request, $assignment_id)
+    {
+        $user = \Auth::guard('user')->user();
+
+        $serviceType = 'seller_assignment';
+        $serviceId = $assignment_id;
+        $amount = 100; // ₹100 for assignment payment
+        $startDate = now();
+        $endDate = now()->addMonth();
+
+        $transactionId = $request->input('order_id'); // comes from return_url
+
+        // 1. Create payment record
+        $payment = Payment::create([
+            'user_id' => $user->id,
+            'amount' => $amount,
+            'service_start_date' => $startDate,
+            'service_end_date' => $endDate,
+            'service_type' => $serviceType,
+            'service_id' => $serviceId,
+            'status' => 'paid',
+            'payment_method' => 'Online',
+            'payment_from' => 'seller',
+            'payment_type' => 'Online',
+            'transaction_id' => $transactionId,
+        ]);
+
+        // 2. Update related service
+        if ($serviceType === 'seller_assignment') {
+            $assignment = Assignment::findOrFail($serviceId);
+            $assignment->update([
+                'is_active' => 'active',
+                'payment_id' => $payment->id,
+            ]);
+
+            return redirect()->route('user.seller.dashboard')->with('success', 'Payment successful for your assignment listing.');
+        }
+
+        return redirect()->route('user.seller.dashboard')->with('error', 'Payment processing failed.');
     }
 }

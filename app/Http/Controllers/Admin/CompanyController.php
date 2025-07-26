@@ -74,7 +74,7 @@ class CompanyController extends Controller
 
     public function companylist()
     {
-        $companys = Company::sortable()->orderby('updated_at', 'desc')->paginate(4000);
+        $companys = Company::with('user')->sortable()->orderby('updated_at', 'desc')->paginate(4000);
         return view('admin.pages.company.list', compact('companys'));
     }
     public function paymentform($service_id, $service_type)
@@ -91,7 +91,8 @@ class CompanyController extends Controller
         ]);
 
         $validatedData['user_id'] = \Auth::guard('admin')->user()->id;
-        $validatedData['service_type'] = $request->input('service_type');
+        // $validatedData['service_type'] = $request->input('service_type');
+        $validatedData['service_type'] = 'seller_company';
         $validatedData['service_id'] = $request->input('service_id');
         $validatedData['status'] = 'paid';
         $validatedData['payment_method'] = 'admin';

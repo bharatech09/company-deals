@@ -132,8 +132,8 @@ class Assignment extends Model
 
             $buyersArr = array();
             foreach ($buyers as $eachBuyer) {
-                // var_dump($eachBuyer);
-                if (!is_null($eachBuyer->pivot)  && $eachBuyer->pivot->is_active == 'active') {
+                // var_dump($eachBuyer); && $eachBuyer->pivot->is_active == 'active'
+                if (!is_null($eachBuyer->pivot) ) {
                     $tempBuyer = array();
                     $tempBuyer['buyerDetail'] = "Name: " . $eachBuyer->name . ", Whatsapp: " . $eachBuyer->phone . ", Email: " . $eachBuyer->email . ",<br> Previous deals done: " . $eachBuyer->buyer_no_deal_closed . ", Amount of deals closed: " . number_format(($eachBuyer->buyer_amount_deal_closed) / 1000) . " Thousands";
                     $tempBuyer['buyer_id'] = $eachBuyer->pivot->buyer_id;

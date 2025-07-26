@@ -521,7 +521,18 @@ class BuyerController extends Controller
         }
 
 
-        return view('pages.user.buyer_dashboard', compact('interestedPropertyArr', 'interestedTrademarkArr', 'interestedCompanyArr', 'interestedAssignmentArr', 'dealClosedCompanyCompanyArr', 'dealClosedPropertyArr', 'dealClosedTrademarkArr', 'dealClosedAssignmentArr'));
+        // Payment check for seller details (one-time)
+        $hasPaid = \App\Models\Payment::where([
+            ['user_id', '=', $buyer_id],
+            ['service_type', '=', 'buyer_unlock_seller_details'],
+            ['status', '=', 'paid'],
+        ])->exists();
+
+        return view('pages.user.buyer_dashboard', compact(
+            'interestedPropertyArr', 'interestedTrademarkArr', 'interestedCompanyArr', 'interestedAssignmentArr',
+            'dealClosedCompanyCompanyArr', 'dealClosedPropertyArr', 'dealClosedTrademarkArr', 'dealClosedAssignmentArr',
+            'hasPaid'
+        ));
     }
     public function company_filter()
     {
@@ -886,6 +897,146 @@ class BuyerController extends Controller
         return view('pages.user.message', compact('message'));
 
 
+    }
+
+    /**
+     * Check if the buyer has paid for viewing seller details (one-time payment)
+     */
+    protected function hasPaidForSellerDetails($buyerId)
+    {
+        return \App\Models\Payment::where([
+            ['user_id', '=', $buyerId],
+            ['service_type', '=', 'buyer_unlock_seller_details'],
+            ['status', '=', 'paid'],
+        ])->exists();
+    }
+
+    /**
+     * Show payment form for viewing seller details
+     */
+    public function showSellerDetailsPaymentForm(Request $request)
+    {
+        $type = $request->query('type', 'global');
+        $id = $request->query('id', null);
+        return view('pages.user.buyer_payment', compact('type', 'id'));
+    }
+
+    /**
+     * Process payment for viewing seller details
+     */
+    public function processSellerDetailsPayment(Request $request)
+    {
+        \Log::debug('Buyer payment initiation', [
+            'request' => $request->all(),
+        ]);
+        $amount = 2000;
+        $type = $request->input('type', 'global');
+        $itemId = $request->input('item_id', null);
+
+        $appId = config('services.cashfree.app_id');
+        $secretKey = config('services.cashfree.secret_key');
+        $user = \Auth::guard('user')->user();
+        $orderData = [
+            "order_amount" => $amount,
+            "order_currency" => "INR",
+            "customer_details" => [
+                "customer_id" => str_replace(['@', '.'], '_', $user->email),
+                "customer_phone" => $user->phone,
+                "customer_email" => $user->email,
+                "customer_name" => $user->name ?? "Customer"
+            ],
+            "order_note" => "Buyer Payment for Seller Details ($type, $itemId)",
+            "order_meta" => [
+                "return_url" => route('user.buyer.pay.return') . "?order_id={order_id}&order_token={order_token}"
+            ],
+            "checkout_mode" => "REDIRECT"
+        ];
+        \Log::debug('Cashfree orderData', $orderData);
+        $response = \Illuminate\Support\Facades\Http::withHeaders([
+            'x-client-id' => $appId,
+            'x-client-secret' => $secretKey,
+            'x-api-version' => '2025-01-01',
+            'Content-Type' => 'application/json',
+        ])->post('https://sandbox.cashfree.com/pg/orders', $orderData);
+        $body = $response->json();
+        \Log::debug('Cashfree response', ['body' => $body]);
+        if (isset($body['payment_session_id'])) {
+            return view('pages.user.payment_session', [
+                'paymentSessionId' => $body['payment_session_id'],
+                'type' => $type,
+                'item_id' => $itemId
+            ]);
+        }
+        \Log::error('Cashfree session creation failed', ['body' => $body]);
+        return back()->with('error', $body['message'] ?? 'Cashfree session creation failed.');
+    }
+
+    /**
+     * Handle payment return from Cashfree
+     */
+    public function sellerDetailsPaymentReturn(Request $request)
+    {
+        \Log::debug('Buyer payment return', [
+            'query' => $request->query(),
+            'input' => $request->all(),
+        ]);
+        $orderId = $request->query('order_id');
+        $orderToken = $request->query('order_token');
+        $type = $request->input('type', 'global');
+        $itemId = $request->input('item_id', null);
+        $appId = config('services.cashfree.app_id');
+        $secretKey = config('services.cashfree.secret_key');
+        if (!$orderId || !$orderToken) {
+            \Log::error('Invalid payment return', ['order_id' => $orderId, 'order_token' => $orderToken]);
+            return redirect()->route('user.buyer.dashboard')->with('error', 'Invalid payment return.');
+        }
+        try {
+            $client = new \GuzzleHttp\Client();
+            $response = $client->get("https://sandbox.cashfree.com/pg/orders/{$orderId}", [
+                'headers' => [
+                    'x-client-id' => $appId,
+                    'x-client-secret' => $secretKey,
+                    'x-api-version' => '2022-09-01',
+                    'Content-Type' => 'application/json',
+                ],
+            ]);
+            $body = json_decode($response->getBody(), true);
+            \Log::debug('Cashfree order status response', ['body' => $body]);
+            // Save/update payment in DB
+            $payment = \App\Models\Payment::updateOrCreate(
+                ['order_id' => $orderId],
+                [
+                    'user_id' => auth()->id(),
+                    'amount' => $body['order_amount'] ?? 0,
+                    'status' => $body['order_status'] ?? 'unknown',
+                    'payment_method' => $body['payment_method'] ?? null,
+                    'transaction_id' => $body['payment_id'] ?? null,
+                    'notes' => json_encode([
+                        'type' => $type,
+                        'item_id' => $itemId,
+                        'cashfree' => $body,
+                    ]),
+                    'service_type' => 'buyer_unlock_seller_details',
+                ]
+            );
+            \Log::info('Buyer payment', [
+                'user_id' => auth()->id(),
+                'type' => $type,
+                'item_id' => $itemId,
+                'order_id' => $orderId,
+                'amount' => $body['order_amount'] ?? 0,
+                'status' => $body['order_status'] ?? 'unknown',
+                'payment_db_id' => $payment->id ?? null,
+            ]);
+            if (($body['order_status'] ?? '') === 'paid') {
+                return redirect()->route('user.buyer.dashboard')->with('status', 'Payment successful! You can now view seller details.');
+            } else {
+                return redirect()->route('user.buyer.dashboard')->with('error', 'Payment not successful.');
+            }
+        } catch (\Exception $e) {
+            \Log::error('Payment verification failed', ['exception' => $e->getMessage()]);
+            return redirect()->route('user.buyer.dashboard')->with('error', 'Payment verification failed: ' . $e->getMessage());
+        }
     }
 
 }

@@ -101,7 +101,7 @@ class NocTrademark extends Model
                 $finalBuyer = Buyer::findOrFail($eachTrademark->buyer_id);
                 $tempArr['finalBuyer'] =  "Name: " . $finalBuyer->name . ", Whatsapp: " . $finalBuyer->phone . ", Email: " . $finalBuyer->email . ",<br> Previous deals done: " . $finalBuyer->buyer_no_deal_closed . ", Amount of deals closed: " . number_format(($finalBuyer->buyer_amount_deal_closed) / 1000) . " Thousands";
             }
-            $buyers = $eachTrademark->buyers;
+             $buyers = $eachTrademark->buyers;
             $tempArr['no_interested_buyer'] = 0;
             if (count($buyers) > 0) {
                 $tempArr['no_interested_buyer'] = count($buyers);
@@ -109,10 +109,12 @@ class NocTrademark extends Model
             $buyersArr = array();
             foreach ($buyers as $eachBuyer) {
                 // var_dump($eachBuyer);
-                if (!is_null($eachBuyer->pivot)  && $eachBuyer->pivot->is_active == 'active') {
+                // $eachBuyer->pivot->is_active == 'active'
+                if (!is_null($eachBuyer->pivot)  ) {
                     $tempBuyer = array();
                     $tempBuyer['buyerDetail'] = "Name: " . $eachBuyer->name . ", Whatsapp: " . $eachBuyer->phone . ", Email: " . $eachBuyer->email . ",<br> Previous deals done: " . $eachBuyer->buyer_no_deal_closed . ", Amount of deals closed: " . number_format(($eachBuyer->buyer_amount_deal_closed) / 1000) . " Thousands";
                     $tempBuyer['buyer_id'] = $eachBuyer->pivot->buyer_id;
+                    // array_push($buyers, $tempBuyer);
                     $buyersArr[] = $tempBuyer;
                 }
             }

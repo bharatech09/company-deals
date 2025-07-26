@@ -24,6 +24,9 @@
                 <th>@sortablelink('home_featured', 'Featured')</th>
                 <th>Payment</th>
                 <th>View</th>
+                <th>Seller Name</th>
+                <th>Seller Email</th>
+                <th>Seller Contact</th>
                 <th>@sortablelink('created_at', 'Date & TimeStamp')</th>
                 <th>Delete</th>
               </tr>
@@ -42,6 +45,15 @@
                 </td>
                 <td>
                   <a href="{{ route('admin.company.detail', $company->id) }}"><i class="mdi mdi-eye-outline"></i></a>
+                </td>
+                <td>
+                  <p>{{ $company->user->name ?? '' }}</p>
+                </td>
+                <td>
+                  <p>{{ $company->user->email ?? '' }}</p>
+                </td>
+                <td>
+                  <p>{{ $company->user->phone ?? '' }}</p>
                 </td>
                 <td class="text-center">{{ $company->created_at->timezone('Asia/Kolkata')->format('d-m-Y h:i A') }}</td>
                 <td>

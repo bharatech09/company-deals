@@ -43,7 +43,7 @@
                                                     <article>
                                                         <ul class="feature-list">
 
-                                                            @if($company['buyer_status'] == 'active')
+                                                            @if($hasPaid && $company['buyer_status'] == 'active')
                                                                 @php
 
                                                                     $updatedSeller = str_replace("No of deal closed", "</br><b>No of deal closed previously</b>", $company['seller']);
@@ -53,9 +53,9 @@
                                                                     Seller Details:<br>
                                                                     {!! $updatedSeller !!}
                                                                 </li>
-                                                            @else
+                                                            @elseif(!$hasPaid)
                                                                 <li>
-                                                                    <a href="#" class="cta-primary interested_assignment"
+                                                                    <a href="{{ route('user.buyer.pay', ['type' => 'company', 'id' => $company['id']]) }}" class="cta-primary interested_assignment"
                                                                         type="submit">Pay to view Seller Details</a>
                                                                 </li>
                                                             @endif
@@ -190,7 +190,7 @@
                                                             </ul>
                                                         </div>
 
-                                                        <span class="toggle-more-details2"
+                                                        <span class="toggle-more-details-company"
                                                             style="color: black; font-weight: 700; cursor: pointer;"
                                                             data-bs-target="#moreDetails{{ $company['id'] }}">
                                                             Show More
@@ -204,7 +204,7 @@
 
                                 <script>
                                     document.addEventListener('DOMContentLoaded', function () {
-                                        const toggles = document.querySelectorAll('.toggle-more-details');
+                                        const toggles = document.querySelectorAll('.toggle-more-details-company');
 
                                         toggles.forEach(toggle => {
                                             const targetId = toggle.getAttribute('data-bs-target');
@@ -247,7 +247,7 @@
                                             <div class="card-featured">
                                                 <article>
                                                     <ul class="feature-list">
-                                                        @if($property['buyer_status'] == 'active')
+                                                        @if($hasPaid && $property['buyer_status'] == 'active')
                                                             <li style="
                                                                                         border-bottom: 1px solid black;
                                                                                     "> Sellar Details: <br />
@@ -257,10 +257,9 @@
 
                                                             </li>
 
-                                                        @endif
-                                                        @if($property['buyer_status'] != 'active')
+                                                        @elseif(!$hasPaid)
                                                             <li>
-                                                                <a href="#" class="cta-primary interested_assignment"
+                                                                <a href="{{ route('user.buyer.pay', ['type' => 'property', 'id' => $property['id']]) }}" class="cta-primary interested_assignment"
                                                                     type="submit">Pay to view Seller Details</a>
                                                             </li>
                                                         @endif
@@ -301,13 +300,12 @@
                                             <div class="card-featured">
                                                 <article>
                                                     <ul class="feature-list">
-                                                        @if($trademark['buyer_status'] == 'active')
+                                                        @if($hasPaid && $trademark['buyer_status'] == 'active')
                                                             <li style="border-bottom: 1px solid black;">Sellar Details: <br />
                                                                 {!!$trademark['seller']!!}</li>
-                                                        @endif
-                                                        @if($trademark['buyer_status'] == 'inactive')
+                                                        @elseif(!$hasPaid)
                                                             <li>
-                                                                <a href="#" class="cta-primary interested_assignment"
+                                                                <a href="{{ route('user.buyer.pay', ['type' => 'trademark', 'id' => $trademark['id']]) }}" class="cta-primary interested_assignment"
                                                                     type="submit">Pay to view Seller Details</a>
                                                             </li>
                                                         @endif
@@ -353,13 +351,12 @@
                                             <div class="card-featured">
                                                 <article>
                                                     <ul class="feature-list">
-                                                        @if($assignment['buyer_status'] == 'active')
+                                                        @if($hasPaid && $assignment['buyer_status'] == 'active')
                                                             <li style="border-bottom:1px solid black ;">Seller Details: <br />
                                                                 {!!$assignment['seller']!!}</li>
-                                                        @endif
-                                                        @if($assignment['buyer_status'] == 'inactive')
+                                                        @elseif(!$hasPaid)
                                                             <li>
-                                                                <a href="#" class="cta-primary interested_assignment"
+                                                                <a href="{{ route('user.buyer.pay', ['type' => 'assignment', 'id' => $assignment['id']]) }}" class="cta-primary interested_assignment"
                                                                     type="submit">Pay to view Seller Details</a>
                                                             </li>
                                                         @endif
@@ -407,7 +404,7 @@
                                                     <article>
                                                         <ul class="feature-list">
 
-                                                            @if($company['buyer_status'] == 'active')
+                                                            @if($hasPaid && $company['buyer_status'] == 'active')
                                                                 @php
                                                                     $updatedSeller = str_replace("No of deal closed", "</br><b>No of deal closed previously</b>", $company['seller']);
                                                                     $updatedSeller = str_replace("amount of deal closed:", "</br><b>Amount of deal closed previously:</b>", $updatedSeller . '</br></br>');
@@ -417,9 +414,9 @@
                                                                     {!! $updatedSeller !!}
 
                                                                 </li>
-                                                            @else
+                                                            @elseif(!$hasPaid)
                                                                 <li>
-                                                                    <a href="#" class="cta-primary interested_assignment"
+                                                                    <a href="{{ route('user.buyer.pay') }}" class="cta-primary interested_assignment"
                                                                         type="submit">Pay to view Seller Details</a>
                                                                 </li>
                                                             @endif
@@ -597,13 +594,12 @@
                                                 <div class="card-featured">
                                                     <article>
                                                         <ul class="feature-list">
-                                                            @if($property['buyer_status'] == 'active')
+                                                            @if($hasPaid && $property['buyer_status'] == 'active')
                                                                 <li>Sellar Detailss: <br />
                                                                     {!!$property['seller']!!}</li>
-                                                            @endif
-                                                            @if($property['buyer_status'] != 'active')
+                                                            @elseif(!$hasPaid)
                                                                 <li>
-                                                                    <a href="#" class="cta-primary interested_assignment"
+                                                                    <a href="{{ route('user.buyer.pay', ['type' => 'property', 'id' => $property['id']]) }}" class="cta-primary interested_assignment"
                                                                         type="submit">Pay to view Seller Details</a>
                                                                 </li>
                                                             @endif
@@ -650,13 +646,12 @@
                                                 <div class="card-featured">
                                                     <article>
                                                         <ul class="feature-list">
-                                                            @if($trademark['buyer_status'] == 'active')
+                                                            @if($hasPaid && $trademark['buyer_status'] == 'active')
                                                                 <li style="border-bottom:1px solid black ;">Selleassigbr Details: <br />
                                                                     {!!$trademark['seller']!!}</li>
-                                                            @endif
-                                                            @if($trademark['buyer_status'] == 'inactive')
+                                                            @elseif(!$hasPaid)
                                                                 <li>
-                                                                    <a href="#" class="cta-primary interested_assignment"
+                                                                    <a href="{{ route('user.buyer.pay', ['type' => 'trademark', 'id' => $trademark['id']]) }}" class="cta-primary interested_assignment"
                                                                         type="submit">Pay to view Seller Details</a>
                                                                 </li>
                                                             @endif
@@ -705,13 +700,12 @@
                                                 <div class="card-featured">
                                                     <article>
                                                         <ul class="feature-list">
-                                                            @if($assignment['buyer_status'] == 'active')
+                                                            @if($hasPaid && $assignment['buyer_status'] == 'active')
                                                                 <li style="border-bottom:1px solid black ;">Seller Details: <br />
                                                                     {!!$assignment['seller']!!}</li>
-                                                            @endif
-                                                            @if($assignment['buyer_status'] == 'inactive')
+                                                            @elseif(!$hasPaid)
                                                                 <li>
-                                                                    <a href="#" class="cta-primary interested_assignment"
+                                                                    <a href="{{ route('user.buyer.pay', ['type' => 'assignment', 'id' => $assignment['id']]) }}" class="cta-primary interested_assignment"
                                                                         type="submit">Pay to view Seller Details</a>
                                                                 </li>
                                                             @endif
