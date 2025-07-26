@@ -91,7 +91,7 @@ class AssignmentController extends Controller
     }
     public function assignmentlist()
     {
-            $assignments = Assignment::sortable()->orderby('updated_at','desc')->paginate(4000);
+            $assignments = Assignment::with('user')->sortable()->orderby('updated_at','desc')->paginate(4000);
 
         return view('admin.pages.assignment.list', compact('assignments'));
     }

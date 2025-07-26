@@ -106,9 +106,9 @@ class GeneralUtils extends Controller
         if($authorised_capital_unit_option != ''){
            $getIndex= array_search($authorised_capital_unit_option,$optionArr);
            foreach($optionArr as $key=> $eachVal){
-            if($getIndex !=$key ){
-                unset($optionArr[$key]);
-            }
+            // if($getIndex !=$key ){
+            //     unset($optionArr[$key]);
+            // }
            }
         $selected_value = $authorised_capital_unit_option;
 

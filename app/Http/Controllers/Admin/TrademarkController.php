@@ -86,7 +86,7 @@ class TrademarkController extends Controller
     public function trademarklist()
     {
 
-        $nocTrademarks = NocTrademark::sortable()->orderBy('created_at', 'desc')->paginate(20);
+        $nocTrademarks = NocTrademark::with('user')->sortable()->orderBy('created_at', 'desc')->paginate(20);
 
         return view('admin.pages.trademark.list', compact('nocTrademarks'));
     }

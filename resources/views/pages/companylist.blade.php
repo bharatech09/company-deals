@@ -38,7 +38,9 @@
       <div class="card shadow-lg border-0 rounded-4 h-100 hover-scale">
       <div class="card-header bg-primary bg-opacity-10 rounded-top-4">
         <h5 class="card-title fw-bold text-primary mb-0">
-        {{ $company->name }} {{ $company->name_prefix }} @if($company->name_prefix == '' && $company->type_of_entity =='LISTED NBFC (BSE MAIN BOARD)') LIMITED  @endif()
+        {{ $company->name }} {{ $company->name_prefix }}
+        @if($company->name_prefix == '' && $company->type_of_entity == 'LISTED NBFC (BSE MAIN BOARD)') LIMITED
+      @endif()
         </h5>
       </div>
       <div class="card-body d-flex flex-column">
@@ -99,59 +101,86 @@
         </div>
 
         <!-- More Details Collapsible -->
+        <ul class="list-unstyled small text-muted">
 
         <div id="moreDetails{{ $company->id }}" class="collapse border-top pt-3 mt-auto">
         <ul class="list-unstyled small text-muted">
-        <li><strong>Have GST?:</strong> {{ $company->have_gst ?? 'N/A' }}</li>
-        <li><strong>No. of Directors:</strong> {{ $company->no_of_directors }}</li>
-        <li><strong>No. of Promoters:</strong> {{ $company->no_of_promoters }}</li>
-        <li><strong>Activity Code:</strong> {{ $company->activity_code ?? 'N/A' }}</li>
-        <li><strong>Authorised Capital:</strong>
-        ₹{{ number_format($company->authorized_capital_amount ?? $company->authorised_capital_amount ?? 0) }}
-        </li>
-        <li><strong>Paid-up Capital:</strong>
-        ₹{{ number_format($company->paid_up_capital_amount ?? $company->paidup_capital_amount ?? 0) }}</li>
-        <li><strong>Demat Shareholding:</strong> {{ $company->demat_shareholding ?? 'N/A' }}%</li>
-        <li><strong>Physical Shareholding:</strong> {{ $company->physical_shareholding ?? 'N/A' }}%</li>
-        <li><strong>Promoters Shareholding:</strong> {{ $company->promoters_holding ?? 'N/A' }}%</li>
-        <li><strong>Transferable Shareholding:</strong> {{ $company->transferable_holding ?? 'N/A' }}%</li>
-        <li><strong>Public Shareholding:</strong> {{ $company->public_holding ?? 'N/A' }}%</li>
-        <li><strong>Current Market Price:</strong> ₹{{ $company->current_market_price ?? 'N/A' }}</li>
-        <li><strong>52 Weeks High:</strong> ₹{{ $company->high_52_weeks ?? 'N/A' }}</li>
-        <li><strong>52 Weeks Low:</strong> ₹{{ $company->low_52_weeks ?? 'N/A' }}</li>
-        <li><strong>Market Capitalization:</strong>
-        ₹{{ number_format($company->market_capitalization_amount ?? 0) }}</li>
-        <li><strong>Trading Conditions:</strong> {{ $company->trading_conditions ?? 'N/A' }}</li>
-        <li><strong>Acquisition Method:</strong> {{ $company->acquisition_method ?? 'N/A' }}</li>
-        <li><strong>Face Value:</strong> ₹{{ $company->face_value ?? 'N/A' }}</li>
-        <li><strong>Type of NBFC:</strong> {{ $company->type_of_NBFC ?? 'N/A' }}</li>
-        <li><strong>Size of NBFC:</strong> {{ $company->size_of_NBFC ?? 'N/A' }}</li>
-        <li><strong>Turnover (2025):</strong> ₹{{ number_format($company->turnover_amount1 ?? 0) }}</li>
-        <li><strong>Turnover (2024):</strong> ₹{{ number_format($company->turnover_amount2 ?? 0) }}</li>
-        <li><strong>Profit (2025):</strong> ₹{{ number_format($company->profit_amount1 ?? 0) }}</li>
-        <li><strong>Profit (2024):</strong> ₹{{ number_format($company->profit_amount2 ?? 0) }}</li>
-        <li><strong>Net Worth:</strong> ₹{{ number_format($company->net_worth_amount ?? 0) }}</li>
-        <li><strong>Reserve:</strong> ₹{{ number_format($company->reserve_amount ?? 0) }}</li>
-        <li><strong>Secured Creditors:</strong> ₹{{ number_format($company->secured_creditors_amount ?? 0) }}
-        </li>
-        <li><strong>Unsecured Creditors:</strong>
-        ₹{{ number_format($company->unsecured_creditors_amount ?? 0) }}</li>
-        <li><strong>Land & Building:</strong> ₹{{ number_format($company->land_building_amount ?? 0) }}</li>
-        <li><strong>Plant & Machinery:</strong> ₹{{ number_format($company->plant_machinery_amount ?? 0) }}
-        </li>
-        <li><strong>Investment:</strong> ₹{{ number_format($company->investment_amount ?? 0) }}</li>
-        <li><strong>Debtors:</strong> ₹{{ number_format($company->debtors_amount ?? 0) }}</li>
-        <li><strong>Cash & Bank:</strong> ₹{{ number_format($company->cash_bank_amount ?? 0) }}</li>
-        <li><strong>ROC Status:</strong> {{ $company->roc_status ?? 'N/A' }}
-        ({{ $company->roc_year ?? 'N/A' }})
-        </li>
-        <li><strong>Income Tax Status:</strong> {{ $company->income_tax_status ?? 'N/A' }}
-        ({{ $company->income_tax_year ?? 'N/A' }})</li>
-        <li><strong>GST Status:</strong> {{ $company->gst_status ?? 'N/A' }}</li>
-        <li><strong>RBI Status:</strong> {{ $company->rbi_status ?? 'N/A' }}</li>
-        <li><strong>FEMA Status:</strong> {{ $company->fema_status ?? 'N/A' }}</li>
-        <li><strong>80G/12A Certificate :</strong> {{ $company->year_of_incorporation ?? 'N/A' }}</li>
-        {{-- <li><strong>Auditor's Report:</strong> {{ $company->auditor_report ?? 'N/A' }}</li> --}}
+            <li><strong>Have GST?:</strong> {{ $company->have_gst ?? 'N/A' }}</li>
+    <li><strong>No. of Directors:</strong> {{ $company->no_of_directors ?? 'N/A' }}</li>
+    <li><strong>No. of Promoters:</strong> {{ $company->no_of_promoters ?? 'N/A' }}</li>
+    <li><strong>Activity Code:</strong> {{ $company->activity_code ?? 'N/A' }}</li>
+
+    <li><strong>Authorised Capital:</strong>
+        ₹{{ number_format($company->authorized_capital ?? $company->authorised_capital_amount ?? 0) }}
+        {{ $company->authorized_capital_unit ?? 'Rupees' }}
+    </li>
+
+    <li><strong>Paid-up Capital:</strong>
+        ₹{{ number_format($company->paid_up_capital ?? $company->paidup_capital_amount ?? 0) }}
+        {{ $company->paid_up_capital_unit ?? 'Rupees' }}
+    </li>
+
+    <li><strong>Demat Shareholding:</strong> {{ $company->demat_shareholding ?? 'N/A' }}%</li>
+
+    {{-- Optional Shareholding Fields --}}
+    {{-- <li><strong>Physical Shareholding:</strong> {{ $company->physical_shareholding ?? 'N/A' }}%</li>
+    <li><strong>Promoters Shareholding:</strong> {{ $company->promoters_holding ?? 'N/A' }}%</li>
+    <li><strong>Transferable Shareholding:</strong> {{ $company->transferable_holding ?? 'N/A' }}%</li>
+    <li><strong>Public Shareholding:</strong> {{ $company->public_holding ?? 'N/A' }}%</li>
+    <li><strong>Current Market Price:</strong> ₹{{ $company->current_market_price ?? 'N/A' }}</li>
+    <li><strong>52 Weeks High:</strong> ₹{{ $company->high_52_weeks ?? 'N/A' }}</li>
+    <li><strong>52 Weeks Low:</strong> ₹{{ $company->low_52_weeks ?? 'N/A' }}</li>
+    <li><strong>Market Capitalization:</strong> ₹{{ number_format($company->market_capitalization_amount ?? 0) }} {{ $company->market_capitalization_unit ?? '' }}</li>
+    <li><strong>Trading Conditions:</strong> {{ $company->trading_conditions ?? 'N/A' }}</li>
+    <li><strong>Acquisition Method:</strong> {{ $company->acquisition_method ?? 'N/A' }}</li>
+    <li><strong>Face Value:</strong> ₹{{ $company->face_value ?? 'N/A' }}</li>
+    <li><strong>Type of NBFC:</strong> {{ $company->type_of_NBFC ?? 'N/A' }}</li>
+    <li><strong>Size of NBFC:</strong> {{ $company->size_of_NBFC ?? 'N/A' }}</li> --}}
+
+    {{-- Turnover & Profit (1–5 years) --}}
+    @for ($i = 1; $i <= 5; $i++)
+        @php
+            $turnoverYear = $company->{'turnover_year' . $i} ?? null;
+            $turnoverAmount = $company->{'turnover' . $i} ?? null;
+            $turnoverUnit = $company->{'turnover_unit' . $i} ?? 'Rupees';
+
+            $profitYear = $company->{'profit_year' . $i} ?? null;
+            $profitAmount = $company->{'profit' . $i} ?? null;
+            $profitUnit = $company->{'profit_unit' . $i} ?? 'Rupees';
+        @endphp
+
+        @if($turnoverYear || $turnoverAmount)
+            <li><strong>Turnover ({{ $turnoverYear ?? 'Year '.$i }}):</strong> ₹{{ number_format($turnoverAmount ?? 0) }} {{ $turnoverUnit }}</li>
+        @endif
+
+        @if($profitYear || $profitAmount)
+            <li><strong>Profit After Tax ({{ $profitYear ?? 'Year '.$i }}):</strong> ₹{{ number_format($profitAmount ?? 0) }} {{ $profitUnit }}</li>
+        @endif
+    @endfor
+
+    <li><strong>Net Worth:</strong> ₹{{ number_format($company->net_worth ?? 0) }} {{ $company->net_worth_unit ?? 'Rupees' }}</li>
+    <li><strong>Reserve:</strong> ₹{{ number_format($company->reserve ?? 0) }} {{ $company->reserve_unit ?? 'Rupees' }}</li>
+    <li><strong>Secured Creditors:</strong> ₹{{ number_format($company->secured_creditors ?? 0) }} {{ $company->secured_creditors_unit ?? 'Rupees' }}</li>
+    <li><strong>Unsecured Creditors:</strong> ₹{{ number_format($company->unsecured_creditors ?? 0) }} {{ $company->unsecured_creditors_unit ?? 'Rupees' }}</li>
+    <li><strong>Land & Building:</strong> ₹{{ number_format($company->land_building ?? 0) }} {{ $company->land_building_unit ?? 'Rupees' }}</li>
+    <li><strong>Plant & Machinery:</strong> ₹{{ number_format($company->plant_machinery ?? 0) }} {{ $company->plant_machinery_unit ?? 'Rupees' }}</li>
+    <li><strong>Investment:</strong> ₹{{ number_format($company->investment ?? 0) }} {{ $company->investment_unit ?? 'Rupees' }}</li>
+    <li><strong>Debtors:</strong> ₹{{ number_format($company->debtors ?? 0) }} {{ $company->debtors_unit ?? 'Rupees' }}</li>
+    <li><strong>Cash & Bank:</strong> ₹{{ number_format($company->cash_bank ?? 0) }} {{ $company->cash_bank_unit ?? 'Rupees' }}</li>
+
+    {{-- Compliance Status --}}
+    <li><strong>ROC Status:</strong> {{ $company->roc_status ?? 'N/A' }} ({{ $company->roc_year ?? 'N/A' }})</li>
+    <li><strong>Income Tax Status:</strong> {{ $company->income_tax_status ?? 'N/A' }} ({{ $company->income_tax_year ?? 'N/A' }})</li>
+    <li><strong>GST Status:</strong> {{ $company->gst_status ?? 'N/A' }}   ({{ $company->gst_year ?? '' }})</li>
+    <li><strong>RBI Status:</strong> {{ $company->rbi_status ?? 'N/A' }}   ({{ $company->rbi_year ?? '' }})</li>
+    <li><strong>FEMA Status:</strong> {{ $company->fema_status ?? 'N/A' }}   ({{ $company->fema_year ?? '' }})</li>
+    <li><strong>SEBI Status:</strong> {{ $company->sebi_status ?? 'N/A' }}   ({{ $company->sebi_year ?? '' }})</li>
+    <li><strong>Stock Exchange Status:</strong> {{ $company->stock_exchange_status ?? 'N/A' }} {{ $company->stock_exchange_year ?? '' }}</li>
+    <li><strong>Certificate Year:</strong> {{ $company->ceritificate_status ?? 'N/A' }} {{ $company->ceritificate_year ?? '' }}</li>
+
+    {{-- Optional --}}
+    {{-- <li><strong>Auditor's Report:</strong> {{ $company->auditor_report ?? 'N/A' }}</li> --}}
+
         </ul>
         </div>
 
@@ -164,7 +193,7 @@
         <svg class="bi bi-chevron-down toggle-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
         fill="currentColor" viewBox="0 0 16 16">
         <path fill-rule="evenodd"
-        d="M1.646 5.646a.5.5 0 0 1 .708 0L8 11.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
+          d="M1.646 5.646a.5.5 0 0 1 .708 0L8 11.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
         </svg>
         </button>
 

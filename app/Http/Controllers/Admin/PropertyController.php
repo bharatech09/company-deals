@@ -91,7 +91,7 @@ class PropertyController extends Controller
     }
     public function propertylist()
     {
-        $properties = Property::sortable()->orderBy('created_at', 'desc')->paginate(4000); // Enable sorting + pagination
+        $properties = Property::with('user')->sortable()->orderBy('created_at', 'desc')->paginate(4000); // Enable sorting + pagination
 
         return view('admin.pages.property.list', compact('properties'));
     }
