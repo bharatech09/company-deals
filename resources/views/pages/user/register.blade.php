@@ -1,5 +1,24 @@
 @extends('layout.master')
 @section('content')
+<style>
+    .g-recaptcha {
+        margin: 10px 0;
+        transform: scale(1);
+        transform-origin: 0 0;
+    }
+    
+    @media (max-width: 480px) {
+        .g-recaptcha {
+            transform: scale(0.9);
+        }
+    }
+    
+    .field .text-danger {
+        font-size: 14px;
+        margin-top: 5px;
+        display: block;
+    }
+</style>
 <section class="dashboard-wrap">
    <div class="container">
       <div class="form-wrap login-signup-form">
@@ -53,6 +72,14 @@
                   <input type="password" class="form-control" name="password_confirmation" placeholder="Password confirmation" required="">
                </div>
             </div>
+            <div class="col-md-12">
+               <div class="field">
+                  <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
+                  @error('g-recaptcha-response')
+                     <span class="text-danger">{{ $message }}</span>
+                  @enderror
+               </div>
+            </div>
             <div class="d-flex justify-content-between align-items-center mb-3">
                <button type="submit" class="cta-primary med with-shadow">Register</button>
             </div>
@@ -60,4 +87,6 @@
       </div>
    </div>
 </section>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @endsection

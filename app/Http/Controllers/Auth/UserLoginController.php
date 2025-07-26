@@ -11,6 +11,7 @@ use App\Mail\CustomVerifyEmail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use App\Rules\ReCaptcha;
 
 class UserLoginController extends Controller
 {
@@ -161,6 +162,7 @@ class UserLoginController extends Controller
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
                 'phone' => ['required', 'digits:10', 'unique:users'],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
+                'g-recaptcha-response' => ['required', new ReCaptcha],
             ]);
 
             if ($validator->fails()) {
