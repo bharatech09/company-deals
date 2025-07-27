@@ -208,18 +208,38 @@
     });
   }
 
-  document.querySelectorAll('[data-bs-toggle="collapse"]').forEach(button => {
-    button.addEventListener('click', () => {
-      const target = document.querySelector(button.getAttribute('data-bs-target'));
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('[data-bs-toggle="collapse"]').forEach(button => {
+      const targetId = button.getAttribute('data-bs-target');
+      const target = document.querySelector(targetId);
       const toggleText = button.querySelector('.toggle-text');
       const toggleIcon = button.querySelector('.toggle-icon');
 
-      if (target.classList.contains('show')) {
-        toggleText.textContent = 'Show More';
-        toggleIcon.style.transform = 'rotate(0deg)';
-      } else {
-        toggleText.textContent = 'Show Less';
-        toggleIcon.style.transform = 'rotate(180deg)';
+      if (target) {
+        // Create Bootstrap collapse instance
+        const bsCollapse = new bootstrap.Collapse(target, {
+          toggle: false
+        });
+
+        // Update text and icon when shown
+        target.addEventListener('shown.bs.collapse', function () {
+          toggleText.textContent = 'Show Less';
+          toggleIcon.style.transform = 'rotate(180deg)';
+          button.setAttribute('aria-expanded', 'true');
+        });
+
+        // Update text and icon when hidden
+        target.addEventListener('hidden.bs.collapse', function () {
+          toggleText.textContent = 'Show More';
+          toggleIcon.style.transform = 'rotate(0deg)';
+          button.setAttribute('aria-expanded', 'false');
+        });
+
+        // Handle click events
+        button.addEventListener('click', function (e) {
+          e.preventDefault();
+          bsCollapse.toggle();
+        });
       }
     });
   });

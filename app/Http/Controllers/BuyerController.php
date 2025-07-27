@@ -584,8 +584,7 @@ class BuyerController extends Controller
 
         return view('pages.user.buyer_dashboard', compact(
             'interestedPropertyArr', 'interestedTrademarkArr', 'interestedCompanyArr', 'interestedAssignmentArr',
-            'dealClosedCompanyCompanyArr', 'dealClosedPropertyArr', 'dealClosedTrademarkArr', 'dealClosedAssignmentArr',
-            'hasPaid'
+            'dealClosedCompanyCompanyArr', 'dealClosedPropertyArr', 'dealClosedTrademarkArr', 'dealClosedAssignmentArr'
         ));
     }
     public function company_filter()
