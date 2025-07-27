@@ -118,7 +118,7 @@ class Property extends Model
 
             foreach ($buyers as $eachBuyer) {
                 // && $eachBuyer->pivot->is_active === 'active'
-                if (!is_null($eachBuyer->pivot) ) {
+                if (!is_null($eachBuyer->pivot)&& $eachBuyer->pivot->is_active === 'active' ) {
                     $buyersArr[] = [
                         'buyerDetail' => "Name: {$eachBuyer->name}, Whatsapp: {$eachBuyer->phone}, Email: {$eachBuyer->email},<br> Previous deals done: {$eachBuyer->buyer_no_deal_closed}, Amount of deals closed: " . number_format($eachBuyer->buyer_amount_deal_closed / 1000) . " Thousands",
                         'buyer_id' => $eachBuyer->pivot->buyer_id,
