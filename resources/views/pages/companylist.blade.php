@@ -123,7 +123,7 @@
         <li><strong>Demat Shareholding:</strong> {{ $company->demat_shareholding ?? 'N/A' }}%</li>
 
         {{-- Optional Shareholding Fields --}}
-        {{-- <li><strong>Physical Shareholding:</strong> {{ $company->physical_shareholding ?? 'N/A' }}%
+        <li><strong>Physical Shareholding:</strong> {{ $company->physical_shareholding ?? 'N/A' }}%
         </li>
         <li><strong>Promoters Shareholding:</strong> {{ $company->promoters_holding ?? 'N/A' }}%</li>
         <li><strong>Transferable Shareholding:</strong> {{ $company->transferable_holding ?? 'N/A' }}%</li>
@@ -137,7 +137,7 @@
         <li><strong>Acquisition Method:</strong> {{ $company->acquisition_method ?? 'N/A' }}</li>
         <li><strong>Face Value:</strong> ₹{{ $company->face_value ?? 'N/A' }}</li>
         <li><strong>Type of NBFC:</strong> {{ $company->type_of_NBFC ?? 'N/A' }}</li>
-        <li><strong>Size of NBFC:</strong> {{ $company->size_of_NBFC ?? 'N/A' }}</li> --}}
+        <li><strong>Size of NBFC:</strong> {{ $company->size_of_NBFC ?? 'N/A' }}</li> 
 
         {{-- Turnover & Profit (1–5 years) --}}
         @for ($i = 1; $i <= 5; $i++)
@@ -206,7 +206,7 @@
         <li><strong>Stock Exchange Status:</strong> {{ $company->stock_exchange_status ?? 'N/A' }}
           {{ $company->stock_exchange_year ?? '' }}
         </li>
-        <li><strong>Certificate Year:</strong> {{ $company->ceritificate_status ?? 'N/A' }}
+        <li><strong>80G/12A Certificate:</strong> {{ $company->ceritificate_status ?? 'N/A' }}
           {{ $company->ceritificate_year ?? '' }}
         </li>
 
@@ -301,20 +301,40 @@
     });
     }
 
-    document.querySelectorAll('[data-bs-toggle="collapse"]').forEach(button => {
-    button.addEventListener('click', () => {
-      const target = document.querySelector(button.getAttribute('data-bs-target'));
-      const toggleText = button.querySelector('.toggle-text');
-      const toggleIcon = button.querySelector('.toggle-icon');
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('[data-bs-toggle="collapse"]').forEach(button => {
+            const targetId = button.getAttribute('data-bs-target');
+            const target = document.querySelector(targetId);
+            const toggleText = button.querySelector('.toggle-text');
+            const toggleIcon = button.querySelector('.toggle-icon');
 
-      if (target.classList.contains('show')) {
-      toggleText.textContent = 'Show More';
-      toggleIcon.style.transform = 'rotate(0deg)';
-      } else {
-      toggleText.textContent = 'Show Less';
-      toggleIcon.style.transform = 'rotate(180deg)';
-      }
-    });
+            if (target) {
+                // Create Bootstrap collapse instance
+                const bsCollapse = new bootstrap.Collapse(target, {
+                    toggle: false
+                });
+
+                // Update text and icon when shown
+                target.addEventListener('shown.bs.collapse', function () {
+                    toggleText.textContent = 'Show Less';
+                    toggleIcon.style.transform = 'rotate(180deg)';
+                    button.setAttribute('aria-expanded', 'true');
+                });
+
+                // Update text and icon when hidden
+                target.addEventListener('hidden.bs.collapse', function () {
+                    toggleText.textContent = 'Show More';
+                    toggleIcon.style.transform = 'rotate(0deg)';
+                    button.setAttribute('aria-expanded', 'false');
+                });
+
+                // Handle click events
+                button.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    bsCollapse.toggle();
+                });
+            }
+        });
     });
   </script>
 @endsection

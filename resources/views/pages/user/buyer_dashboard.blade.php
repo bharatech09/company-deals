@@ -211,17 +211,30 @@
                                         const targetId = toggle.getAttribute('data-bs-target');
                                         const targetEl = document.querySelector(targetId);
 
-                                        toggle.addEventListener('click', function () {
-                                            const isShown = targetEl.classList.contains('show');
+                                        if (targetEl) {
+                                            // Create Bootstrap collapse instance
+                                            const bsCollapse = new bootstrap.Collapse(targetEl, {
+                                                toggle: false
+                                            });
 
-                                            if (isShown) {
-                                                targetEl.classList.remove('show');
-                                                toggle.textContent = 'Show More';
-                                            } else {
-                                                targetEl.classList.add('show');
+                                            // Update text when shown
+                                            targetEl.addEventListener('shown.bs.collapse', function () {
                                                 toggle.textContent = 'Show Less';
-                                            }
-                                        });
+                                                toggle.setAttribute('aria-expanded', 'true');
+                                            });
+
+                                            // Update text when hidden
+                                            targetEl.addEventListener('hidden.bs.collapse', function () {
+                                                toggle.textContent = 'Show More';
+                                                toggle.setAttribute('aria-expanded', 'false');
+                                            });
+
+                                            // Handle click events
+                                            toggle.addEventListener('click', function (e) {
+                                                e.preventDefault();
+                                                bsCollapse.toggle();
+                                            });
+                                        }
                                     });
                                 });
                             </script>
@@ -567,17 +580,30 @@
                                             const targetId = toggle.getAttribute('data-bs-target');
                                             const targetEl = document.querySelector(targetId);
 
-                                            toggle.addEventListener('click', function () {
-                                                const isShown = targetEl.classList.contains('show');
+                                            if (targetEl) {
+                                                // Create Bootstrap collapse instance
+                                                const bsCollapse = new bootstrap.Collapse(targetEl, {
+                                                    toggle: false
+                                                });
 
-                                                if (isShown) {
-                                                    targetEl.classList.remove('show');
-                                                    toggle.textContent = 'Show More';
-                                                } else {
-                                                    targetEl.classList.add('show');
+                                                // Update text when shown
+                                                targetEl.addEventListener('shown.bs.collapse', function () {
                                                     toggle.textContent = 'Show Less';
-                                                }
-                                            });
+                                                    toggle.setAttribute('aria-expanded', 'true');
+                                                });
+
+                                                // Update text when hidden
+                                                targetEl.addEventListener('hidden.bs.collapse', function () {
+                                                    toggle.textContent = 'Show More';
+                                                    toggle.setAttribute('aria-expanded', 'false');
+                                                });
+
+                                                // Handle click events
+                                                toggle.addEventListener('click', function (e) {
+                                                    e.preventDefault();
+                                                    bsCollapse.toggle();
+                                                });
+                                            }
                                         });
                                     });
                                 </script>

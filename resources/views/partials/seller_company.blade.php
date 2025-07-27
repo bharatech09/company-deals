@@ -50,20 +50,20 @@
                                 ₹{{ number_format($company['paid_up_capital'] ?? $company['paidup_capital_amount']) }}
                                 {{ $company['paid_up_capital_unit'] ?? 'Rupees' }}</li>
                             <li>Demat Shareholding: {{ $company['demat_shareholding'] }}%</li>
-                            <!-- <li>Physical Shareholding: {{ $company['physical_shareholding'] }}%</li>
-                            <li>Promoters Shareholding: {{ $company['promoters_holding'] ?? 'N/A' }}%</li> -->
-                            <!-- <li>Transferable Shareholding: {{ $company['transferable_holding'] ?? 'N/A' }}%</li>
+                            <li>Physical Shareholding: {{ $company['physical_shareholding'] }}%</li>
+                            <li>Promoters Shareholding: {{ $company['promoters_holding'] ?? 'N/A' }}%</li>
+                            <li>Transferable Shareholding: {{ $company['transferable_holding'] ?? 'N/A' }}%</li>
                             <li>Public Shareholding: {{ $company['public_holding'] ?? 'N/A' }}%</li>
-                            <li>Current Market Price: ₹{{ $company['current_market_price'] ?? 'N/A' }}</li> -->
-                            <!-- <li>52 Weeks High: ₹{{ $company['high_52_weeks'] ?? 'N/A' }}</li> -->
-                            <!-- <li>52 Weeks Low: ₹{{ $company['low_52_weeks'] ?? 'N/A' }}</li> -->
-                            <!-- <li>Market Capitalization: ₹{{ number_format($company['market_capitalization_amount']) }}
-                                {{ $company['market_capitalization_unit'] }}</li> -->
-                            <!-- <li>Trading Conditions: {{ $company['trading_conditions'] ?? 'N/A' }}</li> -->
-                            <!-- <li>Acquisition Method: {{ $company['acquisition_method'] ?? 'N/A' }}</li> -->
-                            <!-- <li>Face Value: ₹{{ $company['face_value'] ?? 'N/A' }}</li> -->
-                            <!-- <li>Type of NBFC: {{ $company['type_of_NBFC'] ?? 'N/A' }}</li> -->
-                            <!-- <li>Size of NBFC: {{ $company['size_of_NBFC'] ?? 'N/A' }}</li> -->
+                            <li>Current Market Price: ₹{{ $company['current_market_price'] ?? 'N/A' }}</li>
+                            <li>52 Weeks High: ₹{{ $company['high_52_weeks'] ?? 'N/A' }}</li>
+                            <li>52 Weeks Low: ₹{{ $company['low_52_weeks'] ?? 'N/A' }}</li>
+                            <li>Market Capitalization: ₹{{ number_format($company['market_capitalization_amount']) }}
+                                {{ $company['market_capitalization_unit'] }}</li>
+                            <li>Trading Conditions: {{ $company['trading_conditions'] ?? 'N/A' }}</li> 
+                            <li>Acquisition Method: {{ $company['acquisition_method'] ?? 'N/A' }}</li>
+                             <li>Face Value: ₹{{ $company['face_value'] ?? 'N/A' }}</li>
+                            <li>Type of NBFC: {{ $company['type_of_NBFC'] ?? 'N/A' }}</li>
+                            <li>Size of NBFC: {{ $company['size_of_NBFC'] ?? 'N/A' }}</li>
                             @for ($i = 1; $i <= 5; $i++)
                                 @php
                                     $turnoverYear = $company['turnover_year' . $i] ?? null;
@@ -112,7 +112,7 @@
                             <li>FEMA Status: {{ $company['fema_status'] }} ({{ $company['fema_year'] }})</li>
                             <li>SEBI Status: {{ $company['sebi_status'] }} ({{ $company['sebi_year'] }})</li>
                             <li>Stock Exchange Status: {{ $company['stock_exchange_status'] }} {{ $company['stock_exchange_year'] }}</li>
-                            <li>Certificate Year: {{ $company['ceritificate_status'] ?? '' }} {{ $company['ceritificate_year'] ?? '' }}</li>
+                            <li>80G/12A Certificate: {{ $company['ceritificate_status'] ?? '' }} {{ $company['ceritificate_year'] ?? '' }}</li>
                         </ul>
                     </div>
 

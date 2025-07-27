@@ -8,7 +8,6 @@
       <nav class="site-nav">
         <ul class="site-menu">
           <li class="site-menu"><a href="{{ route('frontend.home') }}">Home</a></li>
-          <li class="site-menu"><a href="{{ route('frontend.why_us') }}">WHY US</a></li>
           <li class="sub-menu">
             <a href="javascript:void(0)">Service</a>
 
@@ -23,6 +22,8 @@
               </div>
             </div>
           </li>
+          <li class="site-menu"><a href="{{ route('frontend.why_us') }}">WHY US</a></li>
+          
           <li class="site-menu"><a href="{{ route('frontend.about_us') }}">ABOUT US</a></li>
         </ul>
       </nav>

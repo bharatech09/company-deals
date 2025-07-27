@@ -88,7 +88,7 @@
                             <li>SEBI Status: {{ $company['sebi_status'] ?? '' }} ({{ $company['sebi_year'] ?? '' }})</li>
                             <li>Stock Exchange Status: {{ $company['stock_exchange_status'] ?? '' }}
                                 {{ $company['stock_exchange_year'] ?? '' }}</li>
-                            <li>Certificate Year: {{ $company['ceritificate_status'] ?? '' }}
+                            <li>80G/12A Certificate: {{ $company['ceritificate_status'] ?? '' }}
                                 {{ $company['ceritificate_year'] ?? '' }}</li>
                         </ul>
 
@@ -114,24 +114,32 @@
 <!-- Script for Show More / Show Less -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        // Initialize all toggle buttons
         document.querySelectorAll('.toggle-more-details2').forEach(function (toggle) {
             const targetId = toggle.getAttribute('data-bs-target');
             const targetEl = document.querySelector(targetId);
 
             if (targetEl) {
+                // Create Bootstrap collapse instance
                 const bsCollapse = new bootstrap.Collapse(targetEl, {
                     toggle: false
                 });
 
+                // Update text when shown
                 targetEl.addEventListener('shown.bs.collapse', function () {
                     toggle.textContent = 'Show Less';
+                    toggle.setAttribute('aria-expanded', 'true');
                 });
 
+                // Update text when hidden
                 targetEl.addEventListener('hidden.bs.collapse', function () {
                     toggle.textContent = 'Show More';
+                    toggle.setAttribute('aria-expanded', 'false');
                 });
 
-                toggle.addEventListener('click', function () {
+                // Handle click events
+                toggle.addEventListener('click', function (e) {
+                    e.preventDefault();
                     bsCollapse.toggle();
                 });
             }

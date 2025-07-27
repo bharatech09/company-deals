@@ -186,4 +186,40 @@
             </div>
         </div>
     </section>
+
+    <!-- Script for Show More / Show Less functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize all toggle buttons for companies
+            document.querySelectorAll('.toggle-more-details2').forEach(function (toggle) {
+                const targetId = toggle.getAttribute('data-bs-target');
+                const targetEl = document.querySelector(targetId);
+
+                if (targetEl) {
+                    // Create Bootstrap collapse instance
+                    const bsCollapse = new bootstrap.Collapse(targetEl, {
+                        toggle: false
+                    });
+
+                    // Update text when shown
+                    targetEl.addEventListener('shown.bs.collapse', function () {
+                        toggle.textContent = 'Show Less';
+                        toggle.setAttribute('aria-expanded', 'true');
+                    });
+
+                    // Update text when hidden
+                    targetEl.addEventListener('hidden.bs.collapse', function () {
+                        toggle.textContent = 'Show More';
+                        toggle.setAttribute('aria-expanded', 'false');
+                    });
+
+                    // Handle click events
+                    toggle.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        bsCollapse.toggle();
+                    });
+                }
+            });
+        });
+    </script>
 @endsection
