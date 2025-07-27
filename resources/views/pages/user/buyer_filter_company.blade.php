@@ -80,11 +80,108 @@
 
 @push('plugin-styles')
     <link rel="stylesheet" href="{{ asset('/frontendassets/css/nouislider.min.css') }}">
+    <style>
+        /* Ensure collapse functionality works */
+        .collapse:not(.show) {
+            display: none;
+        }
+        
+        .collapse.show {
+            display: block;
+        }
+        
+        /* Smooth transition for fallback */
+        .collapse {
+            transition: all 0.3s ease;
+        }
+        
+        /* Ensure toggle buttons are clickable */
+        .toggle-more-details2 {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+    </style>
 @endpush
 
 @push('plugin-scripts')
 <script src="{{ asset('/frontendassets/js/nouislider.min.js') }}"></script>
 <script>
+    // Function to initialize toggle functionality
+    function initializeToggleFunctionality() {
+        console.log('Initializing toggle functionality...');
+        
+        // Remove any existing event listeners to prevent duplicates
+        document.querySelectorAll('.toggle-more-details2').forEach(function (toggle) {
+            // Clone the element to remove all event listeners
+            const newToggle = toggle.cloneNode(true);
+            toggle.parentNode.replaceChild(newToggle, toggle);
+        });
+
+        // Initialize new toggle buttons
+        document.querySelectorAll('.toggle-more-details2').forEach(function (toggle) {
+            const targetId = toggle.getAttribute('data-bs-target');
+            const targetEl = document.querySelector(targetId);
+
+            if (targetEl) {
+                console.log('Setting up toggle for:', targetId);
+                
+                // Check if Bootstrap is available
+                if (typeof bootstrap !== 'undefined' && bootstrap.Collapse) {
+                    // Create Bootstrap collapse instance
+                    const bsCollapse = new bootstrap.Collapse(targetEl, {
+                        toggle: false
+                    });
+
+                    // Update text when shown
+                    targetEl.addEventListener('shown.bs.collapse', function () {
+                        toggle.textContent = 'Show Less';
+                        toggle.setAttribute('aria-expanded', 'true');
+                        console.log('Shown:', targetId);
+                    });
+
+                    // Update text when hidden
+                    targetEl.addEventListener('hidden.bs.collapse', function () {
+                        toggle.textContent = 'Show More';
+                        toggle.setAttribute('aria-expanded', 'false');
+                        console.log('Hidden:', targetId);
+                    });
+
+                    // Handle click events
+                    toggle.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        console.log('Toggle clicked for:', targetId);
+                        bsCollapse.toggle();
+                    });
+                } else {
+                    // Fallback: Use CSS classes
+                    console.log('Bootstrap not available, using CSS fallback for:', targetId);
+                    
+                    toggle.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const isShown = targetEl.classList.contains('show');
+                        
+                        if (isShown) {
+                            targetEl.classList.remove('show');
+                            toggle.textContent = 'Show More';
+                            toggle.setAttribute('aria-expanded', 'false');
+                        } else {
+                            targetEl.classList.add('show');
+                            toggle.textContent = 'Show Less';
+                            toggle.setAttribute('aria-expanded', 'true');
+                        }
+                        console.log('Toggle clicked (fallback) for:', targetId, 'isShown:', !isShown);
+                    });
+                }
+            } else {
+                console.warn('Target element not found:', targetId);
+            }
+        });
+        
+        console.log('Toggle functionality initialized for', document.querySelectorAll('.toggle-more-details2').length, 'elements');
+    }
+
     $(document).ready(function () {
         function fetchCompanies() {
             $.ajax({
@@ -94,6 +191,10 @@
                 success: function (html) {
                     $('#company_filter').html(html);
                     setTimeout(resetPriceSlider, 100); // wait for DOM update
+                    // Initialize toggle functionality after content loads
+                    setTimeout(initializeToggleFunctionality, 150);
+                    // Additional initialization with longer delay as fallback
+                    setTimeout(initializeToggleFunctionality, 500);
                 }
             });
         }
