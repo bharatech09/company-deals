@@ -126,5 +126,18 @@ Route::middleware('buyerloggedin')->group(function () {
 	// Buyer one-time payment to view seller details
 	Route::get('/user/buyer/pay', [BuyerController::class, 'showSellerDetailsPaymentForm'])->name('user.buyer.pay');
 	Route::post('/user/buyer/pay/process', [BuyerController::class, 'processSellerDetailsPayment'])->name('user.buyer.pay.process');
-	Route::get('/user/buyer/pay/return', [BuyerController::class, 'sellerDetailsPaymentReturn'])->name('user.buyer.pay.return');
+	
+	// Cashfree webhook for payment notifications
+	Route::post('/user/buyer/pay/webhook', [BuyerController::class, 'cashfreeWebhook'])->name('user.buyer.pay.webhook');
+	
+	// Test route for manual payment processing (for debugging)
+	Route::post('/user/buyer/pay/test', [BuyerController::class, 'testPaymentProcessing'])->name('user.buyer.pay.test');
+	
+	// Debug page for payment testing
+	Route::get('/user/buyer/pay/debug', function() {
+		return view('pages.user.payment_debug');
+	})->name('user.buyer.pay.debug');
 });
+
+// Payment return route - outside middleware to handle authentication manually
+Route::get('/user/buyer/pay/return', [BuyerController::class, 'sellerDetailsPaymentReturn'])->name('user.buyer.pay.return');

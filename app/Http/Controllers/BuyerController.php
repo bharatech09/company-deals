@@ -169,6 +169,10 @@ class BuyerController extends Controller
             $tempCompany = $this->getCompanyDetail($eachCompany);
             $tempCompany['buyer_status'] = $eachCompany->pivot->is_active;
 
+            // Check if buyer has paid for this company
+            $hasPaid = $this->hasPaidForCompany($buyer_id, $eachCompany->id);
+            $tempCompany['has_paid'] = $hasPaid;
+
             if ($eachCompany->pivot->is_active === 'active') {
                 $seller = User::find($eachCompany->user_id);
                 if ($seller) {
@@ -177,6 +181,8 @@ class BuyerController extends Controller
                         $tempCompany['seller'] .= "<br>No of deal closed: {$seller->no_deal_closed}, amount of deal closed: " . number_format($seller->amount_deal_closed / 1000, 2) . " Thousands";
                     }
                 }
+            } else {
+                $tempCompany['seller'] = "Pay ₹2000 to view seller details";
             }
 
             // Include only fields present in the JSON
@@ -282,7 +288,12 @@ class BuyerController extends Controller
         foreach ($interestedProperty as $key => $eachProperty) {
 
             $tempProperty = $this->getPropertyDetail($eachProperty);
-            $tempProperty['buyer_status'] = $eachProperty->pivot->is_active;
+             $tempProperty['buyer_status'] = $eachProperty->pivot->is_active;
+            
+            // Check if buyer has paid for this property
+            $hasPaid = $this->hasPaidForProperty($buyer_id, $eachProperty->id);
+            $tempProperty['has_paid'] = $hasPaid;
+            
             if ($eachProperty->pivot->is_active == 'active') {
                 $seller_id = $eachProperty->user_id;
                 $seller = User::where('id', $seller_id)->first();
@@ -290,6 +301,8 @@ class BuyerController extends Controller
                 if ($seller->amount_deal_closed > 0) {
                     $tempProperty['seller'] .= "<br>No of deal closed: " . $seller->no_deal_closed . ", amount of deal closed: " . number_format($seller->amount_deal_closed / 1000.0, 2) . " Thousands";
                 }
+            } else {
+                $tempProperty['seller'] = "Pay ₹2000 to view seller details";
             }
             $interestedPropertyArr[] = $tempProperty;
         }
@@ -304,6 +317,11 @@ class BuyerController extends Controller
             //      continue;
             $tempTrademark = $this->getTrademarkDetail($trademark);
             $tempTrademark['buyer_status'] = $trademark->pivot->is_active;
+            
+            // Check if buyer has paid for this trademark
+            $hasPaid = $this->hasPaidForTrademark($buyer_id, $trademark->id);
+            $tempTrademark['has_paid'] = $hasPaid;
+            
             if ($trademark->pivot->is_active == 'active') {
                 $seller_id = $trademark->user_id;
                 $seller = User::where('id', $seller_id)->first();
@@ -312,6 +330,8 @@ class BuyerController extends Controller
                 if ($seller->amount_deal_closed > 0) {
                     $tempTrademark['seller'] .= "<br>No of deal closed: " . $seller->no_deal_closed . ", amount of deal closed: " . number_format($seller->amount_deal_closed / 1000.0, 2) . " Thousands";
                 }
+            } else {
+                $tempTrademark['seller'] = "Pay ₹2000 to view seller details";
             }
             $interestedTrademarkArr[] = $tempTrademark;
         }
@@ -326,14 +346,21 @@ class BuyerController extends Controller
             //      continue;
             $tempAssignment = $this->getAssignmentDetail($assignment);
             $tempAssignment['buyer_status'] = $assignment->pivot->is_active;
-            if ($assignment->pivot->is_active == 'active') {
-                $seller_id = $assignment->user_id;
-                $seller = User::where('id', $seller_id)->first();
-                //  var_dump($seller);
-                $tempAssignment['seller'] = "Name: " . $seller->name . ", WhatsApp No: " . $seller->phone . ",<br> Email: " . $seller->email;
-                if ($seller->amount_deal_closed > 0) {
-                    $tempAssignment['seller'] .= "<br>No of deal closed: " . $seller->no_deal_closed . ", amount of deal closed: " . number_format($seller->amount_deal_closed / 1000.0, 2) . " Thousands";
+
+            // Check if buyer has paid for this assignment
+            $hasPaid = $this->hasPaidForAssignment($buyer_id, $assignment->id);
+            $tempAssignment['has_paid'] = $hasPaid;
+
+            if ($assignment->pivot->is_active === 'active') {
+                $seller = User::find($assignment->user_id);
+                if ($seller) {
+                    $tempAssignment['seller'] = "Name: {$seller->name}, WhatsApp No: {$seller->phone},<br> Email: {$seller->email}";
+                    if ($seller->amount_deal_closed > 0) {
+                        $tempAssignment['seller'] .= "<br>No of deal closed: {$seller->no_deal_closed}, amount of deal closed: " . number_format($seller->amount_deal_closed / 1000, 2) . " Thousands";
+                    }
                 }
+            } else {
+                $tempAssignment['seller'] = "Pay ₹2000 to view seller details";
             }
             $interestedAssignmentArr[] = $tempAssignment;
         }
@@ -349,6 +376,10 @@ class BuyerController extends Controller
             $tempCompany = $this->getCompanyDetail($eachCompany);
             $tempCompany['buyer_status'] = $eachCompany->pivot->is_active;
 
+            // Check if buyer has paid for this company
+            $hasPaid = $this->hasPaidForCompany($buyer_id, $eachCompany->id);
+            $tempCompany['has_paid'] = $hasPaid;
+
             if ($eachCompany->pivot->is_active === 'active') {
                 $seller = User::find($eachCompany->user_id);
                 if ($seller) {
@@ -357,6 +388,8 @@ class BuyerController extends Controller
                         $tempCompany['seller'] .= "<br>No of deal closed: {$seller->no_deal_closed}, amount of deal closed: " . number_format($seller->amount_deal_closed / 1000, 2) . " Thousands";
                     }
                 }
+            } else {
+                $tempCompany['seller'] = "Pay ₹2000 to view seller details";
             }
 
             // Include only fields present in the JSON
@@ -464,6 +497,11 @@ class BuyerController extends Controller
 
             $tempProperty = $this->getPropertyDetail($eachProperty);
             $tempProperty['buyer_status'] = $eachProperty->pivot->is_active;
+            
+            // Check if buyer has paid for this property
+            $hasPaid = $this->hasPaidForProperty($buyer_id, $eachProperty->id);
+            $tempProperty['has_paid'] = $hasPaid;
+            
             if ($eachProperty->pivot->is_active == 'active') {
                 $seller_id = $eachProperty->user_id;
                 $seller = User::where('id', $seller_id)->first();
@@ -471,6 +509,8 @@ class BuyerController extends Controller
                 if ($seller->amount_deal_closed > 0) {
                     $tempProperty['seller'] .= "<br>No of deal closed: " . $seller->no_deal_closed . ", amount of deal closed: " . number_format($seller->amount_deal_closed / 1000.0, 2) . " Thousands";
                 }
+            } else {
+                $tempProperty['seller'] = "Pay ₹2000 to view seller details";
             }
             $dealClosedPropertyArr[] = $tempProperty;
         }
@@ -485,6 +525,11 @@ class BuyerController extends Controller
             //      continue;
             $tempTrademark = $this->getTrademarkDetail($trademark);
             $tempTrademark['buyer_status'] = $trademark->pivot->is_active;
+            
+            // Check if buyer has paid for this trademark
+            $hasPaid = $this->hasPaidForTrademark($buyer_id, $trademark->id);
+            $tempTrademark['has_paid'] = $hasPaid;
+            
             if ($trademark->pivot->is_active == 'active') {
                 $seller_id = $trademark->user_id;
                 $seller = User::where('id', $seller_id)->first();
@@ -493,6 +538,8 @@ class BuyerController extends Controller
                 if ($seller->amount_deal_closed > 0) {
                     $tempTrademark['seller'] .= "<br>No of deal closed: " . $seller->no_deal_closed . ", amount of deal closed: " . number_format($seller->amount_deal_closed / 1000.0, 2) . " Thousands";
                 }
+            } else {
+                $tempTrademark['seller'] = "Pay ₹2000 to view seller details";
             }
             $dealClosedTrademarkArr[] = $tempTrademark;
         }
@@ -508,6 +555,11 @@ class BuyerController extends Controller
             //      continue;
             $tempAssignment = $this->getAssignmentDetail($assignment);
             $tempAssignment['buyer_status'] = $assignment->pivot->is_active;
+            
+            // Check if buyer has paid for this assignment
+            $hasPaid = $this->hasPaidForAssignment($buyer_id, $assignment->id);
+            $tempAssignment['has_paid'] = $hasPaid;
+            
             if ($assignment->pivot->is_active == 'active') {
                 $seller_id = $assignment->user_id;
                 $seller = User::where('id', $seller_id)->first();
@@ -516,17 +568,19 @@ class BuyerController extends Controller
                 if ($seller->amount_deal_closed > 0) {
                     $tempAssignment['seller'] .= "<br>No of deal closed: " . $seller->no_deal_closed . ", amount of deal closed: " . number_format($seller->amount_deal_closed / 1000.0, 2) . " Thousands";
                 }
+            } else {
+                $tempAssignment['seller'] = "Pay ₹2000 to view seller details";
             }
             $dealClosedAssignmentArr[] = $tempAssignment;
         }
 
 
         // Payment check for seller details (one-time)
-        $hasPaid = \App\Models\Payment::where([
-            ['user_id', '=', $buyer_id],
-            ['service_type', '=', 'buyer_unlock_seller_details'],
-            ['status', '=', 'paid'],
-        ])->exists();
+        // $hasPaid = \App\Models\Payment::where([
+        //     ['user_id', '=', $buyer_id],
+        //     ['service_type', '=', 'buyer_unlock_seller_details'],
+        //     ['status', '=', 'paid'],
+        // ])->exists();
 
         return view('pages.user.buyer_dashboard', compact(
             'interestedPropertyArr', 'interestedTrademarkArr', 'interestedCompanyArr', 'interestedAssignmentArr',
@@ -739,104 +793,124 @@ class BuyerController extends Controller
         }
         return view('pages.user.buyer_filter_property_ajax', compact('propertyArr', 'filerData'));
     }
-    protected function getCompanyDetail($company)
-    {
-        $data = [
-            'id' => $company->id,
-            'name' => $company->name,
-            'name_prefix' => $company->name_prefix,
-            'type_of_entity' => $company->type_of_entity,
-            'roc' => $company->roc,
-            'year_of_incorporation' => $company->year_of_incorporation,
-            'industry' => $company->industry,
-            'ask_price' => $company->ask_price,
-            'ask_price_unit' => $company->ask_price_unit,
-            'status' => ($company->deal_closed) ? "Deal Closed" : $company->status,
+   protected function getCompanyDetail($company)
+{
+    $data = [
+        'id' => $company->id,
+        'name' => $company->name,
+        'name_prefix' => $company->name_prefix,
+        'type_of_entity' => $company->type_of_entity,
+        'roc' => $company->roc,
+        'year_of_incorporation' => $company->year_of_incorporation,
+        'industry' => $company->industry,
+        'ask_price' => $company->ask_price,
+        'ask_price_unit' => $company->ask_price_unit,
+        'ask_price_amount' => $company->ask_price_amount,
+        'status' => ($company->deal_closed) ? "Deal Closed" : $company->status,
 
-            // Basic Financial Details
-            'have_gst' => $company->have_gst,
-            'current_market_price' => $company->current_market_price,
-            'high_52_weeks' => $company->high_52_weeks,
-            'low_52_weeks' => $company->low_52_weeks,
-            'promoters_holding' => $company->promoters_holding,
-            'transferable_holding' => $company->transferable_holding,
-            'public_holding' => $company->public_holding,
-            'market_capitalization' => $company->market_capitalization,
-            'trading_conditions' => $company->trading_conditions,
-            'acquisition_method' => $company->acquisition_method,
-            'face_value' => $company->face_value,
+        // Basic Financial Details
+        'have_gst' => $company->have_gst,
+        'current_market_price' => $company->current_market_price,
+        'high_52_weeks' => $company->high_52_weeks,
+        'low_52_weeks' => $company->low_52_weeks,
+        'promoters_holding' => $company->promoters_holding,
+        'transferable_holding' => $company->transferable_holding,
+        'public_holding' => $company->public_holding,
+        'market_capitalization' => $company->market_capitalization,
+        'market_capitalization_amount' => $company->market_capitalization,
+        'market_capitalization_unit' => $company->market_capitalization_unit,
+        'trading_conditions' => $company->trading_conditions,
+        'acquisition_method' => $company->acquisition_method,
+        'face_value' => $company->face_value,
 
-            // Company Structure
-            'no_of_directors' => $company->no_of_directors,
-            'no_of_promoters' => $company->no_of_promoters,
-            'demat_shareholding' => $company->demat_shareholding,
-            'physical_shareholding' => $company->physical_shareholding,
-            'authorised_capital' => $company->authorised_capital,
-            'authorised_capital_amount' => $company->authorised_capital_amount,
-            'paidup_capital' => $company->paidup_capital,
-            'paidup_capital_amount' => $company->paidup_capital_amount,
-            'activity_code' => $company->activity_code,
-            'type_of_NBFC' => $company->type_of_NBFC,
-            'size_of_NBFC' => $company->size_of_NBFC,
-            'ask_price_amount' => $company->ask_price_amount,
-            'market_capitalization_amount' => $company->market_capitalization_amount,
-            'market_capitalization_unit' => $company->market_capitalization_unit,
+        // Company Structure
+        'no_of_directors' => $company->no_of_directors,
+        'no_of_promoters' => $company->no_of_promoters,
+        'demat_shareholding' => $company->demat_shareholding,
+        'physical_shareholding' => $company->physical_shareholding,
+        'authorised_capital' => $company->authorised_capital,
+        'authorised_capital_amount' => $company->authorised_capital,
+        'authorized_capital' => $company->authorised_capital, // alias for Blade
+        'authorized_capital_unit' => $company->authorized_capital_unit,
+        'paidup_capital' => $company->paidup_capital,
+        'paidup_capital_amount' => $company->paidup_capital,
+        'paid_up_capital' => $company->paidup_capital, // alias
+        'paid_up_capital_unit' => $company->paid_up_capital_unit,
+        'activity_code' => $company->activity_code,
+        'type_of_NBFC' => $company->type_of_NBFC,
+        'size_of_NBFC' => $company->size_of_NBFC,
 
-            // Balance Sheet
-            'net_worth' => $company->net_worth,
-            'net_worth_amount' => $company->net_worth_amount,
-            'net_worth_unit' => $company->net_worth_unit,
-            'reserve' => $company->reserve,
-            'reserve_amount' => $company->reserve_amount,
-            'reserve_unit' => $company->reserve_unit,
-            'secured_creditors_amount' => $company->secured_creditors_amount,
-            'secured_creditors_unit' => $company->secured_creditors_unit,
-            'unsecured_creditors_amount' => $company->unsecured_creditors_amount,
-            'unsecured_creditors_unit' => $company->unsecured_creditors_unit,
-            'land_building_amount' => $company->land_building_amount,
-            'land_building_unit' => $company->land_building_unit,
-            'plant_machinery' => $company->plant_machinery,
-            'plant_machinery_amount' => $company->plant_machinery_amount,
-            'plant_machinery_unit' => $company->plant_machinery_unit,
-            'investment_amount' => $company->investment_amount,
-            'investment_unit' => $company->investment_unit,
-            'debtors_amount' => $company->debtors_amount,
-            'debtors_unit' => $company->debtors_unit,
-            'cash_bank_amount' => $company->cash_bank_amount,
-            'cash_bank_unit' => $company->cash_bank_unit,
+        // Balance Sheet
+        'net_worth' => $company->net_worth,
+        'net_worth_amount' => $company->net_worth,
+        'net_worth_unit' => $company->net_worth_unit,
+        'reserve' => $company->reserve,
+        'reserve_amount' => $company->reserve,
+        'reserve_unit' => $company->reserve_unit,
 
-            // Compliance
-            'roc_status' => $company->roc_status,
-            'roc_year' => $company->roc_year,
-            'income_tax_status' => $company->income_tax_status,
-            'income_tax_year' => $company->income_tax_year,
-            'gst_status' => $company->gst_status,
-            'gst_year' => $company->gst_year,
-            'rbi_status' => $company->rbi_status,
-            'rbi_year' => $company->rbi_year,
-            'fema_status' => $company->fema_status,
-            'fema_year' => $company->fema_year,
-            'sebi_status' => $company->sebi_status,
-            'sebi_year' => $company->sebi_year,
-            'stock_exchange_status' => $company->stock_exchange_status,
-            'stock_exchange_year' => $company->stock_exchange_year,
-        ];
+        'secured_creditors_amount' => $company->secured_creditors,
+        'secured_creditors' => $company->secured_creditors,
+        'secured_creditors_unit' => $company->secured_creditors_unit,
 
-        // Add Turnover and Profit details
-        for ($i = 1; $i <= 5; $i++) {
-            $data["turnover_year{$i}"] = $company->{"turnover_year{$i}"};
-            $data["turnover{$i}"] = $company->{"turnover{$i}"};
-            $data["turnover_amount{$i}"] = $company->{"turnover_amount{$i}"};
-            $data["turnover_unit{$i}"] = $company->{"turnover_unit{$i}"};
+        'unsecured_creditors_amount' => $company->unsecured_creditors,
+        'unsecured_creditors' => $company->unsecured_creditors,
+        'unsecured_creditors_unit' => $company->unsecured_creditors_unit,
 
-            $data["profit_year{$i}"] = $company->{"profit_year{$i}"};
-            $data["profit{$i}"] = $company->{"profit{$i}"};
-            $data["profit_amount{$i}"] = $company->{"profit_amount{$i}"};
-            $data["profit_unit{$i}"] = $company->{"profit_unit{$i}"};
-        }
+        'land_building_amount' => $company->land_building,
+        'land_building' => $company->land_building,
+        'land_building_unit' => $company->land_building_unit,
 
-        return $data;
+        'plant_machinery' => $company->plant_machinery,
+        'plant_machinery_amount' => $company->plant_machinery,
+        'plant_machinery_unit' => $company->plant_machinery_unit,
+
+        'investment' => $company->investment,
+        'investment_amount' => $company->investment,
+        'investment_unit' => $company->investment_unit,
+
+        'debtors' => $company->debtors,
+        'debtors_amount' => $company->debtors,
+        'debtors_unit' => $company->debtors_unit,
+
+        'cash_bank' => $company->cash_bank,
+        'cash_bank_amount' => $company->cash_bank,
+        'cash_bank_unit' => $company->cash_bank_unit,
+
+        // Compliance
+        'roc_status' => $company->roc_status,
+        'roc_year' => $company->roc_year,
+        'income_tax_status' => $company->income_tax_status,
+        'income_tax_year' => $company->income_tax_year,
+        'gst_status' => $company->gst_status,
+        'gst_year' => $company->gst_year,
+        'rbi_status' => $company->rbi_status,
+        'rbi_year' => $company->rbi_year,
+        'fema_status' => $company->fema_status,
+        'fema_year' => $company->fema_year,
+        'sebi_status' => $company->sebi_status,
+        'sebi_year' => $company->sebi_year,
+        'stock_exchange_status' => $company->stock_exchange_status,
+        'stock_exchange_year' => $company->stock_exchange_year,
+        'ceritificate_status' => $company->ceritificate_status,
+        'ceritificate_year' => $company->ceritificate_year,
+    ];
+
+    // Add Turnover and Profit details
+    for ($i = 1; $i <= 5; $i++) {
+        $data["turnover_year{$i}"] = $company->{"turnover_year{$i}"};
+        $data["turnover{$i}"] = $company->{"turnover{$i}"};
+        $data["turnover_amount{$i}"] = $company->{"turnover_amount{$i}"};
+        $data["turnover_unit{$i}"] = $company->{"turnover_unit{$i}"};
+
+        $data["profit_year{$i}"] = $company->{"profit_year{$i}"};
+        $data["profit{$i}"] = $company->{"profit{$i}"};
+        $data["profit_amount{$i}"] = $company->{"profit_amount{$i}"};
+        $data["profit_unit{$i}"] = $company->{"profit_unit{$i}"};
     }
+
+    return $data;
+}
+
 
 
     protected function getTrademarkDetail($trademark)
@@ -912,6 +986,94 @@ class BuyerController extends Controller
     }
 
     /**
+     * Check if buyer has paid for a specific property
+     */
+    protected function hasPaidForProperty($buyerId, $propertyId)
+    {
+        $buyerPropertyId = \DB::table('buyer_property')
+            ->where('property_id', $propertyId)
+            ->where('buyer_id', $buyerId)
+            ->value('id');
+        
+        if (!$buyerPropertyId) {
+            return false;
+        }
+        
+        return \App\Models\Payment::where([
+            ['user_id', '=', $buyerId],
+            ['service_type', '=', 'buyer_property'],
+            ['service_id', '=', $buyerPropertyId],
+            ['status', '=', 'paid'],
+        ])->exists();
+    }
+
+    /**
+     * Check if buyer has paid for a specific trademark
+     */
+    protected function hasPaidForTrademark($buyerId, $trademarkId)
+    {
+        $buyerTrademarkId = \DB::table('buyer_noc_trademark')
+            ->where('noc_trademark_id', $trademarkId)
+            ->where('buyer_id', $buyerId)
+            ->value('id');
+        
+        if (!$buyerTrademarkId) {
+            return false;
+        }
+        
+        return \App\Models\Payment::where([
+            ['user_id', '=', $buyerId],
+            ['service_type', '=', 'buyer_trademark'],
+            ['service_id', '=', $buyerTrademarkId],
+            ['status', '=', 'paid'],
+        ])->exists();
+    }
+
+    /**
+     * Check if buyer has paid for a specific company
+     */
+    protected function hasPaidForCompany($buyerId, $companyId)
+    {
+        $buyerCompanyId = \DB::table('buyer_company')
+            ->where('company_id', $companyId)
+            ->where('buyer_id', $buyerId)
+            ->value('id');
+        
+        if (!$buyerCompanyId) {
+            return false;
+        }
+        
+        return \App\Models\Payment::where([
+            ['user_id', '=', $buyerId],
+            ['service_type', '=', 'buyer_company'],
+            ['service_id', '=', $buyerCompanyId],
+            ['status', '=', 'paid'],
+        ])->exists();
+    }
+
+    /**
+     * Check if buyer has paid for a specific assignment
+     */
+    protected function hasPaidForAssignment($buyerId, $assignmentId)
+    {
+        $buyerAssignmentId = \DB::table('assignment_buyer')
+            ->where('assignment_id', $assignmentId)
+            ->where('buyer_id', $buyerId)
+            ->value('id');
+        
+        if (!$buyerAssignmentId) {
+            return false;
+        }
+        
+        return \App\Models\Payment::where([
+            ['user_id', '=', $buyerId],
+            ['service_type', '=', 'buyer_assignment'],
+            ['service_id', '=', $buyerAssignmentId],
+            ['status', '=', 'paid'],
+        ])->exists();
+    }
+
+    /**
      * Show payment form for viewing seller details
      */
     public function showSellerDetailsPaymentForm(Request $request)
@@ -929,9 +1091,14 @@ class BuyerController extends Controller
         \Log::debug('Buyer payment initiation', [
             'request' => $request->all(),
         ]);
-        $amount = 2000;
-        $type = $request->input('type', 'global');
+        $amount = 2000; // Fixed amount for buyer payments
+        $type = $request->input('type', 'property');
         $itemId = $request->input('item_id', null);
+
+        // Handle property, company, trademark, and assignment payments
+        if (!in_array($type, ['property', 'company', 'trademark', 'assignment'])) {
+            return back()->with('error', 'Only property, company, trademark, and assignment payments are supported at this time.');
+        }
 
         $appId = config('services.cashfree.app_id');
         $secretKey = config('services.cashfree.secret_key');
@@ -945,9 +1112,9 @@ class BuyerController extends Controller
                 "customer_email" => $user->email,
                 "customer_name" => $user->name ?? "Customer"
             ],
-            "order_note" => "Buyer Payment for Seller Details ($type, $itemId)",
+            "order_note" => "Buyer {$type} Payment for Seller Details ({$type} ID: $itemId)",
             "order_meta" => [
-                "return_url" => route('user.buyer.pay.return') . "?order_id={order_id}&order_token={order_token}"
+                "return_url" => route('user.buyer.pay.return') . "?order_id={order_id}&type=$type&item_id=$itemId"
             ],
             "checkout_mode" => "REDIRECT"
         ];
@@ -979,63 +1146,419 @@ class BuyerController extends Controller
         \Log::debug('Buyer payment return', [
             'query' => $request->query(),
             'input' => $request->all(),
+            'all_params' => $request->all(),
+            'auth_check' => \Auth::guard('user')->check(),
+            'auth_guard' => \Auth::getDefaultDriver(),
+            'user_id' => \Auth::guard('user')->id(),
+            'session_role' => session('role'),
         ]);
-        $orderId = $request->query('order_id');
-        $orderToken = $request->query('order_token');
-        $type = $request->input('type', 'global');
-        $itemId = $request->input('item_id', null);
+        
+        // Try to get order_id from multiple sources
+        $orderId = $request->query('order_id') ?? 
+                   $request->input('order_id') ?? 
+                   $request->query('cf_order_id') ?? 
+                   $request->input('cf_order_id');
+        
+        $type = $request->query('type', 'property');
+        $itemId = $request->query('item_id', null);
         $appId = config('services.cashfree.app_id');
         $secretKey = config('services.cashfree.secret_key');
-        if (!$orderId || !$orderToken) {
-            \Log::error('Invalid payment return', ['order_id' => $orderId, 'order_token' => $orderToken]);
-            return redirect()->route('user.buyer.dashboard')->with('error', 'Invalid payment return.');
+        
+        if (!$orderId) {
+            \Log::error('Invalid payment return - no order_id found', [
+                'query' => $request->query(),
+                'input' => $request->all(),
+                'headers' => $request->headers->all()
+            ]);
+            return redirect()->route('user.login')->with('error', 'Invalid payment return - no order ID found.');
         }
+        
+        // Check if user is authenticated with user guard
+        if (!\Auth::guard('user')->check()) {
+            \Log::error('User not authenticated for payment return', [
+                'order_id' => $orderId,
+                'type' => $type,
+                'item_id' => $itemId
+            ]);
+            return redirect()->route('user.login')->with('error', 'Please login to complete your payment.');
+        }
+        
+        // Check if user has buyer role
+        if (session('role') !== 'buyer') {
+            \Log::error('User does not have buyer role for payment return', [
+                'order_id' => $orderId,
+                'type' => $type,
+                'item_id' => $itemId,
+                'user_role' => session('role'),
+                'user_id' => \Auth::guard('user')->id()
+            ]);
+            return redirect()->route('user.login')->with('error', 'Please login as buyer to complete your payment.');
+        }
+        
         try {
             $client = new \GuzzleHttp\Client();
             $response = $client->get("https://sandbox.cashfree.com/pg/orders/{$orderId}", [
                 'headers' => [
                     'x-client-id' => $appId,
                     'x-client-secret' => $secretKey,
-                    'x-api-version' => '2022-09-01',
+                    'x-api-version' => '2025-01-01',
                     'Content-Type' => 'application/json',
                 ],
             ]);
             $body = json_decode($response->getBody(), true);
             \Log::debug('Cashfree order status response', ['body' => $body]);
-            // Save/update payment in DB
-            $payment = \App\Models\Payment::updateOrCreate(
-                ['order_id' => $orderId],
-                [
-                    'user_id' => auth()->id(),
-                    'amount' => $body['order_amount'] ?? 0,
-                    'status' => $body['order_status'] ?? 'unknown',
-                    'payment_method' => $body['payment_method'] ?? null,
-                    'transaction_id' => $body['payment_id'] ?? null,
-                    'notes' => json_encode([
-                        'type' => $type,
-                        'item_id' => $itemId,
-                        'cashfree' => $body,
-                    ]),
-                    'service_type' => 'buyer_unlock_seller_details',
-                ]
-            );
-            \Log::info('Buyer payment', [
-                'user_id' => auth()->id(),
+            
+            // Log the raw response for debugging
+            \Log::debug('Cashfree raw response', [
+                'status_code' => $response->getStatusCode(),
+                'headers' => $response->getHeaders(),
+                'body' => $response->getBody()->getContents()
+            ]);
+            
+            // Find the buyer record based on type
+            $buyerRecordId = null;
+            $serviceType = '';
+            $buyer_id = \Auth::guard('user')->id();
+            
+            if ($type === 'property') {
+                $buyerRecordId = \DB::table('buyer_property')
+                    ->where('property_id', $itemId)
+                    ->where('buyer_id', $buyer_id)
+                    ->value('id');
+                $serviceType = 'buyer_property';
+            } elseif ($type === 'company') {
+                $buyerRecordId = \DB::table('buyer_company')
+                    ->where('company_id', $itemId)
+                    ->where('buyer_id', $buyer_id)
+                    ->value('id');
+                $serviceType = 'buyer_company';
+            } elseif ($type === 'trademark') {
+                $buyerRecordId = \DB::table('buyer_noc_trademark')
+                    ->where('noc_trademark_id', $itemId)
+                    ->where('buyer_id', $buyer_id)
+                    ->value('id');
+                $serviceType = 'buyer_trademark';
+            } elseif ($type === 'assignment') {
+                $buyerRecordId = \DB::table('assignment_buyer')
+                    ->where('assignment_id', $itemId)
+                    ->where('buyer_id', $buyer_id)
+                    ->value('id');
+                $serviceType = 'buyer_assignment';
+            }
+            
+            if (!$buyerRecordId) {
+                \Log::error('Buyer record not found', [
+                    'type' => $type, 
+                    'item_id' => $itemId, 
+                    'user_id' => $buyer_id,
+                    'auth_check' => \Auth::guard('user')->check(),
+                    'available_properties' => \DB::table('buyer_property')->where('buyer_id', $buyer_id)->get(['id', 'property_id']),
+                    'available_companies' => \DB::table('buyer_company')->where('buyer_id', $buyer_id)->get(['id', 'company_id']),
+                    'available_trademarks' => \DB::table('buyer_noc_trademark')->where('buyer_id', $buyer_id)->get(['id', 'noc_trademark_id'])
+                ]);
+                return redirect()->route('user.buyer.dashboard')->with('error', ucfirst($type) . ' record not found. Please contact support.');
+            }
+            
+            // Check if payment already exists for this order
+            $existingPayment = \App\Models\Payment::where('notes', 'like', '%"order_id":"' . $orderId . '"%')->first();
+            if ($existingPayment) {
+                \Log::info('Payment already exists for order', ['order_id' => $orderId, 'payment_id' => $existingPayment->id]);
+                return redirect()->route('user.buyer.dashboard')->with('status', 'Payment already processed successfully!');
+            }
+            
+            // Save payment in DB
+            $payment = \App\Models\Payment::create([
+                'user_id' => $buyer_id,
+                'amount' => $body['order_amount'] ?? 2000,
+                'status' => $body['order_status'] ?? 'unknown',
+                'payment_method' => $body['payment_method'] ?? 'cashfree',
+                'transaction_id' => $body['payment_id'] ?? null,
+                'service_type' => $serviceType,
+                'service_id' => $buyerRecordId,
+                'service_start_date' => now(),
+                'service_end_date' => now()->addYear(), // 1 year validity
+                'payment_from' => 'buyer',
+                'payment_type' => 'Online',
+                'notes' => json_encode([
+                    'type' => $type,
+                    'item_id' => $itemId,
+                    'cashfree' => $body,
+                    'order_id' => $orderId,
+                ]),
+            ]);
+            
+            \Log::info('Buyer payment created', [
+                'user_id' => $buyer_id,
                 'type' => $type,
                 'item_id' => $itemId,
                 'order_id' => $orderId,
-                'amount' => $body['order_amount'] ?? 0,
+                'amount' => $body['order_amount'] ?? 2000,
                 'status' => $body['order_status'] ?? 'unknown',
                 'payment_db_id' => $payment->id ?? null,
+                'buyer_record_id' => $buyerRecordId,
             ]);
-            if (($body['order_status'] ?? '') === 'paid') {
-                return redirect()->route('user.buyer.dashboard')->with('status', 'Payment successful! You can now view seller details.');
+            
+            // Check for successful payment status (handle different possible values)
+            $paymentStatus = strtolower($body['order_status'] ?? '');
+            $successfulStatuses = ['paid', 'success', 'completed', 'successful'];
+            
+            if (in_array($paymentStatus, $successfulStatuses)) {
+                // Update the buyer record status to active
+                $updateResult = false;
+                if ($type === 'property') {
+                    $updateResult = \DB::table('buyer_property')
+                        ->where('id', $buyerRecordId)
+                        ->update(['is_active' => 'active']);
+                } elseif ($type === 'company') {
+                    $updateResult = \DB::table('buyer_company')
+                        ->where('id', $buyerRecordId)
+                        ->update(['is_active' => 'active']);
+                } elseif ($type === 'trademark') {
+                    $updateResult = \DB::table('buyer_noc_trademark')
+                        ->where('id', $buyerRecordId)
+                        ->update(['is_active' => 'active']);
+                } elseif ($type === 'assignment') {
+                    $updateResult = \DB::table('assignment_buyer')
+                        ->where('id', $buyerRecordId)
+                        ->update(['is_active' => 'active']);
+                }
+                
+                \Log::info('Buyer record status updated', [
+                    'type' => $type,
+                    'buyer_record_id' => $buyerRecordId,
+                    'update_result' => $updateResult,
+                    'new_status' => 'active'
+                ]);
+                
+                return redirect()->route('user.buyer.dashboard')->with('status', "Payment successful! You can now view seller details for this {$type}.");
             } else {
-                return redirect()->route('user.buyer.dashboard')->with('error', 'Payment not successful.');
+                \Log::warning('Payment not successful', [
+                    'order_id' => $orderId,
+                    'status' => $body['order_status'],
+                    'payment_id' => $payment->id
+                ]);
+                return redirect()->route('user.buyer.dashboard')->with('error', 'Payment not successful. Status: ' . ($body['order_status'] ?? 'unknown'));
             }
         } catch (\Exception $e) {
-            \Log::error('Payment verification failed', ['exception' => $e->getMessage()]);
+            \Log::error('Payment verification failed', [
+                'exception' => $e->getMessage(),
+                'order_id' => $orderId,
+                'trace' => $e->getTraceAsString()
+            ]);
             return redirect()->route('user.buyer.dashboard')->with('error', 'Payment verification failed: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Handle Cashfree webhook for payment notifications
+     */
+    public function cashfreeWebhook(Request $request)
+    {
+        \Log::debug('Cashfree webhook received', [
+            'headers' => $request->headers->all(),
+            'body' => $request->all(),
+        ]);
+        
+        try {
+            $orderId = $request->input('orderId');
+            $orderAmount = $request->input('orderAmount');
+            $orderStatus = $request->input('orderStatus');
+            $paymentMode = $request->input('paymentMode');
+            $customerId = $request->input('customerId');
+            
+            if (!$orderId) {
+                \Log::error('Webhook missing orderId');
+                return response()->json(['status' => 'error', 'message' => 'Missing orderId'], 400);
+            }
+            
+            // Check if payment already exists for this order
+            $existingPayment = \App\Models\Payment::where('notes', 'like', '%"order_id":"' . $orderId . '"%')->first();
+            if ($existingPayment) {
+                \Log::info('Payment already exists for order in webhook', ['order_id' => $orderId, 'payment_id' => $existingPayment->id]);
+                return response()->json(['status' => 'success', 'message' => 'Payment already processed']);
+            }
+            
+            // Extract property_id from customerId or other fields
+            $propertyId = null;
+            $type = 'property';
+            
+            // Try to find the buyer property record for this user
+            $user = \App\Models\User::where('email', 'like', '%' . str_replace('_', '@', $customerId) . '%')->first();
+            if ($user) {
+                $buyerPropertyId = \DB::table('buyer_property')
+                    ->where('buyer_id', $user->id)
+                    ->where('is_active', '!=', 'active')
+                    ->first();
+                
+                if ($buyerPropertyId) {
+                    $propertyId = $buyerPropertyId->property_id;
+                }
+            }
+            
+            if (!$propertyId) {
+                \Log::error('Could not determine property_id from webhook', ['order_id' => $orderId, 'customer_id' => $customerId]);
+                return response()->json(['status' => 'error', 'message' => 'Could not determine property_id'], 400);
+            }
+            
+            // Create payment record
+            $payment = \App\Models\Payment::create([
+                'user_id' => $user->id,
+                'amount' => $orderAmount,
+                'status' => $orderStatus,
+                'payment_method' => $paymentMode ?? 'cashfree',
+                'transaction_id' => $orderId,
+                'service_type' => 'buyer_property',
+                'service_id' => $buyerPropertyId->id,
+                'service_start_date' => now(),
+                'service_end_date' => now()->addYear(),
+                'payment_from' => 'buyer',
+                'payment_type' => 'Online',
+                'notes' => json_encode([
+                    'type' => $type,
+                    'property_id' => $propertyId,
+                    'webhook_data' => $request->all(),
+                    'order_id' => $orderId,
+                ]),
+            ]);
+            
+            // Check for successful payment status
+            $paymentStatus = strtolower($orderStatus);
+            $successfulStatuses = ['paid', 'success', 'completed', 'successful'];
+            
+            if (in_array($paymentStatus, $successfulStatuses)) {
+                // Update the buyer property status to active
+                $updateResult = \DB::table('buyer_property')
+                    ->where('id', $buyerPropertyId->id)
+                    ->update(['is_active' => 'active']);
+                
+                \Log::info('Webhook: Buyer property status updated', [
+                    'buyer_property_id' => $buyerPropertyId->id,
+                    'update_result' => $updateResult,
+                    'new_status' => 'active'
+                ]);
+            }
+            
+            \Log::info('Webhook payment processed successfully', [
+                'order_id' => $orderId,
+                'payment_id' => $payment->id,
+                'status' => $orderStatus
+            ]);
+            
+            return response()->json(['status' => 'success', 'message' => 'Payment processed successfully']);
+            
+        } catch (\Exception $e) {
+            \Log::error('Webhook processing failed', [
+                'exception' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return response()->json(['status' => 'error', 'message' => 'Processing failed'], 500);
+        }
+    }
+
+    /**
+     * Test method to manually process payment (for debugging)
+     */
+    public function testPaymentProcessing(Request $request)
+    {
+        $orderId = $request->input('order_id');
+        $itemId = $request->input('item_id');
+        $type = $request->input('type', 'property');
+        $buyer_id = \Auth::guard('user')->id();
+        
+        if (!$orderId || !$itemId) {
+            return response()->json(['error' => 'Missing order_id or item_id'], 400);
+        }
+        
+        try {
+            // Find the buyer record based on type
+            $buyerRecordId = null;
+            $serviceType = '';
+            
+            if ($type === 'property') {
+                $buyerRecordId = \DB::table('buyer_property')
+                    ->where('property_id', $itemId)
+                    ->where('buyer_id', $buyer_id)
+                    ->value('id');
+                $serviceType = 'buyer_property';
+            } elseif ($type === 'company') {
+                $buyerRecordId = \DB::table('buyer_company')
+                    ->where('company_id', $itemId)
+                    ->where('buyer_id', $buyer_id)
+                    ->value('id');
+                $serviceType = 'buyer_company';
+            } elseif ($type === 'trademark') {
+                $buyerRecordId = \DB::table('buyer_noc_trademark')
+                    ->where('noc_trademark_id', $itemId)
+                    ->where('buyer_id', $buyer_id)
+                    ->value('id');
+                $serviceType = 'buyer_trademark';
+            } elseif ($type === 'assignment') {
+                $buyerRecordId = \DB::table('assignment_buyer')
+                    ->where('assignment_id', $itemId)
+                    ->where('buyer_id', $buyer_id)
+                    ->value('id');
+                $serviceType = 'buyer_assignment';
+            }
+            
+            if (!$buyerRecordId) {
+                return response()->json(['error' => ucfirst($type) . ' record not found'], 404);
+            }
+            
+            // Create payment record
+            $payment = \App\Models\Payment::create([
+                'user_id' => $buyer_id,
+                'amount' => 2000,
+                'status' => 'paid',
+                'payment_method' => 'test',
+                'transaction_id' => $orderId,
+                'service_type' => $serviceType,
+                'service_id' => $buyerRecordId,
+                'service_start_date' => now(),
+                'service_end_date' => now()->addYear(),
+                'payment_from' => 'buyer',
+                'payment_type' => 'Test',
+                'notes' => json_encode([
+                    'type' => $type,
+                    'item_id' => $itemId,
+                    'order_id' => $orderId,
+                    'test' => true,
+                ]),
+            ]);
+            
+            // Update the buyer record status to active
+            $updateResult = false;
+            if ($type === 'property') {
+                $updateResult = \DB::table('buyer_property')
+                    ->where('id', $buyerRecordId)
+                    ->update(['is_active' => 'active']);
+            } elseif ($type === 'company') {
+                $updateResult = \DB::table('buyer_company')
+                    ->where('id', $buyerRecordId)
+                    ->update(['is_active' => 'active']);
+            } elseif ($type === 'trademark') {
+                $updateResult = \DB::table('buyer_noc_trademark')
+                    ->where('id', $buyerRecordId)
+                    ->update(['is_active' => 'active']);
+            } elseif ($type === 'assignment') {
+                $updateResult = \DB::table('assignment_buyer')
+                    ->where('id', $buyerRecordId)
+                    ->update(['is_active' => 'active']);
+            }
+            
+            return response()->json([
+                'success' => true,
+                'payment_id' => $payment->id,
+                'buyer_record_id' => $buyerRecordId,
+                'type' => $type,
+                'update_result' => $updateResult,
+                'message' => ucfirst($type) . ' payment processed successfully'
+            ]);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Processing failed',
+                'message' => $e->getMessage()
+            ], 500);
         }
     }
 
