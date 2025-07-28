@@ -890,8 +890,8 @@ class BuyerController extends Controller
         'sebi_year' => $company->sebi_year,
         'stock_exchange_status' => $company->stock_exchange_status,
         'stock_exchange_year' => $company->stock_exchange_year,
-        'ceritificate_status' => $company->ceritificate_status,
-        'ceritificate_year' => $company->ceritificate_year,
+        'certicate_status' => $company->certicate_status,
+        'certicate_year' => $company->certicate_year,
     ];
 
     // Add Turnover and Profit details
