@@ -57,7 +57,7 @@
                             <li>Current Market Price: ₹{{ $company['current_market_price'] ?? 'N/A' }}</li>
                             <li>52 Weeks High: ₹{{ $company['high_52_weeks'] ?? 'N/A' }}</li>
                             <li>52 Weeks Low: ₹{{ $company['low_52_weeks'] ?? 'N/A' }}</li>
-                            <li>Market Capitalization: ₹{{ number_format($company['market_capitalization_amount']) }}
+                            <li>Market Capitalization: ₹{{ number_format($company['market_capitalization']) }}
                                 {{ $company['market_capitalization_unit'] }}</li>
                             <li>Trading Conditions: {{ $company['trading_conditions'] ?? 'N/A' }}</li> 
                             <li>Acquisition Method: {{ $company['acquisition_method'] ?? 'N/A' }}</li>
@@ -111,8 +111,9 @@
                             <li>RBI Status: {{ $company['rbi_status'] }} ({{ $company['rbi_year'] }})</li>
                             <li>FEMA Status: {{ $company['fema_status'] }} ({{ $company['fema_year'] }})</li>
                             <li>SEBI Status: {{ $company['sebi_status'] }} ({{ $company['sebi_year'] }})</li>
-                            <li>Stock Exchange Status: {{ $company['stock_exchange_status'] }} {{ $company['stock_exchange_year'] }}</li>
-                            <li>80G/12A Certificate: {{ $company['ceritificate_status'] ?? '' }} {{ $company['ceritificate_year'] ?? '' }}</li>
+                            <li>Stock Exchange Status: {{ $company['stock_exchange_status'] }} ({{ $company['stock_exchange_year'] }})</li>
+                           
+                            <li>80G/12A Certificate: {{ $company['certicate_status'] ?? '' }} {{ $company['certicate_year'] ?? '' }}</li>
                         </ul>
                     </div>
 
