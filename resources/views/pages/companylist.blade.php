@@ -131,7 +131,7 @@
         <li><strong>Current Market Price:</strong> ₹{{ $company->current_market_price ?? 'N/A' }}</li>
         <li><strong>52 Weeks High:</strong> ₹{{ $company->high_52_weeks ?? 'N/A' }}</li>
         <li><strong>52 Weeks Low:</strong> ₹{{ $company->low_52_weeks ?? 'N/A' }}</li>
-        <li><strong>Market Capitalization:</strong> ₹{{ number_format($company->market_capitalization_amount
+        <li><strong>Market Capitalization:</strong> ₹{{ number_format($company->market_capitalization
           ?? 0) }} {{ $company->market_capitalization_unit ?? '' }}</li>
         <li><strong>Trading Conditions:</strong> {{ $company->trading_conditions ?? 'N/A' }}</li>
         <li><strong>Acquisition Method:</strong> {{ $company->acquisition_method ?? 'N/A' }}</li>
@@ -204,10 +204,10 @@
         <li><strong>SEBI Status:</strong> {{ $company->sebi_status ?? 'N/A' }}
           ({{ $company->sebi_year ?? '' }})</li>
         <li><strong>Stock Exchange Status:</strong> {{ $company->stock_exchange_status ?? 'N/A' }}
-          {{ $company->stock_exchange_year ?? '' }}
+          ({{ $company->stock_exchange_year ?? '' }})
         </li>
-        <li><strong>80G/12A Certificate:</strong> {{ $company->ceritificate_status ?? 'N/A' }}
-          {{ $company->ceritificate_year ?? '' }}
+        <li><strong>80G/12A Certificate:</strong> {{ $company->certicate_status ?? 'N/A' }}
+         ( {{ $company->certicate_year ?? '' }})
         </li>
 
         {{-- Optional --}}
