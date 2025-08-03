@@ -113,7 +113,7 @@
                             <li>SEBI Status: {{ $company['sebi_status'] }} ({{ $company['sebi_year'] }})</li>
                             <li>Stock Exchange Status: {{ $company['stock_exchange_status'] }} ({{ $company['stock_exchange_year'] }})</li>
                            
-                            <li>80G/12A Certificate: {{ $company['certicate_status'] ?? '' }} {{ $company['certicate_year'] ?? '' }}</li>
+                            <li>80G/12A Certificate: {{ $company['certicate_status'] ?? '' }} ({{ $company['certicate_year'] ?? '' }})</li>
                         </ul>
                     </div>
 
