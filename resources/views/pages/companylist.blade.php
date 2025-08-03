@@ -38,7 +38,7 @@
       <div class="card shadow-lg border-0 rounded-4 h-100 hover-scale">
       <div class="card-header bg-primary bg-opacity-10 rounded-top-4">
         <h5 class="card-title fw-bold text-primary mb-0">
-        {{ $company->name }} {{ $company->name_prefix }}
+        {{ $company->name }} {{ $company->name_prefix ?? 'LIMITED' }}
         @if($company->name_prefix == '' && $company->type_of_entity == 'LISTED NBFC (BSE MAIN BOARD)') LIMITED
       @endif()
         </h5>
