@@ -56,12 +56,12 @@
                                         {!! $industry_option !!}
                                     </select>
                                 </div>
-                                <div class="col-md-6">
+                               {{-- - <div class="col-md-6">
                                     <label for="ask_price">Ask price</label>
                                     <div id="ask_price_slider" class="my-3"></div>
                                     <!-- Visible to JavaScript -->
                                     <input type="hidden" id="ask_price_min" name="ask_price_min" value="0">
-                                    <input type="hidden" id="ask_price_max" name="ask_price_max" value="0">
+                                    <input type="hidden" id="ask_price_max" name="ask_price_max" value="0"> --}}
                                 </div>
                             </div>
                         </form>
