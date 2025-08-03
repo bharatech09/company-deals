@@ -29,7 +29,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-xl-3">
+                                    {{--<div class="col-md-6 col-xl-3">
                                         <div class="field">
                                             <label for="type">Ask price</label>
                                             <div class="container my-5">
@@ -40,7 +40,7 @@
                                             </div>
                                         </div>
 
-                                    </div>
+                                    </div>--}}
                                 </div>
                             </form>
                         </div>
