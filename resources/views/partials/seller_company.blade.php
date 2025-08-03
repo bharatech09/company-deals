@@ -25,7 +25,7 @@
                 <li><strong>Status: {{$company['status']}}</strong></li>
                 <li>Type Of Entity: {{$company['type_of_entity']}}</li>
                 <li>ROC: {{$company['roc']}}</li>
-                <li>Name of Company/LLP: {{$company['name']}} {{$company['name_prefix']}}</li>
+                <li>Name of Company/LLP: <b>{{$company['name']}} {{$company['name_prefix'] ?? 'Limited'}}</b></li>
                 <!-- <li>CIN/LLPIN: {{$company['cin_llpin']}}</li> -->
                 <li>Year of Incorporation: {{$company['year_of_incorporation']}}</li>
                 <li>Industry: {{$company['industry']}}</li>
@@ -113,7 +113,7 @@
                             <li>SEBI Status: {{ $company['sebi_status'] }} ({{ $company['sebi_year'] }})</li>
                             <li>Stock Exchange Status: {{ $company['stock_exchange_status'] }} ({{ $company['stock_exchange_year'] }})</li>
                            
-                            <li>80G/12A Certificate: {{ $company['certicate_status'] ?? '' }} {{ $company['certicate_year'] ?? '' }}</li>
+                            <li>80G/12A Certificate: {{ $company['certicate_status'] ?? '' }} ({{ $company['certicate_year'] ?? '' }})</li>
                         </ul>
                     </div>
 
