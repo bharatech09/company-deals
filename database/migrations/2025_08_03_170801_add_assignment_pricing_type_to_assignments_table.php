@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pages', function (Blueprint $table) {
-            $table->id();
-            $table->string('slug')->unique();
-            $table->longText('content')->nullable();
-
-            $table->timestamps();
+        Schema::table('assignments', function (Blueprint $table) {
+            $table->enum('assignment_pricing_type', ['per month', 'per assignment'])->nullable()->after('deal_price_unit');
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pages');
+        Schema::table('assignments', function (Blueprint $table) {
+            $table->dropColumn('assignment_pricing_type');
+        });
     }
 };

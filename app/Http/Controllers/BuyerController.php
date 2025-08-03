@@ -939,6 +939,7 @@ class BuyerController extends Controller
             'description' => $assignment->description,
             'deal_price' => $assignment->deal_price,
             'deal_price_unit' => $assignment->deal_price_unit,
+            'assignment_pricing_type' => $assignment->assignment_pricing_type,
             'is_active' => ($assignment->deal_closed) ? "Deal Closed" : $assignment->is_active,
             'deal_closed' => $assignment->deal_closed
         );

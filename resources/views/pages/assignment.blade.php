@@ -58,7 +58,7 @@
               <ul class="feature-list flex-grow-1">
                 <li><strong>Category:</strong> {{ $assignment['category'] }}</li>
                 <li><strong>Description:</strong> {{ Str::limit($assignment['description'], 90, '...') }}</li>
-                <li><strong>Ask Price:</strong> ₹{{ number_format($assignment['deal_price']) }}</li>
+                <li><strong>Ask Price:</strong> ₹{{ number_format($assignment['deal_price']) }} {{ $assignment['deal_price_unit'] }} {{ $assignment['assignment_pricing_type'] }}</li>
                 <li>
                   <strong>Status:</strong>
                   @if(strtolower($assignment['is_active']) == 'yes' || strtolower($assignment['is_active']) == 'active')

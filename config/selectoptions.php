@@ -266,6 +266,10 @@ return [
 		"Lac"=>"Lac",
 		"Crore"=>"Crore"
 	],
+	'assignment_price_unit_option' => [
+		"per month"=>"per month",
+		"per assignment"=>"per assignment"
+	],
 	'states' => [
 		"Andhra Pradesh"=>"Andhra Pradesh",
 		"Andaman and Nicobar Islands"=>"Andaman and Nicobar Islands",

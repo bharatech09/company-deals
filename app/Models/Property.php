@@ -113,7 +113,17 @@ class Property extends Model
             }
 
             $buyers = $eachProperty->buyers;
-            $tempArr['no_interested_buyer'] = count($buyers);
+            $tempArr['no_interested_buyer'] = 0;
+            if (count($buyers) > 0) {
+                // Count only buyers who have paid (is_active = 'active')
+                $paidBuyersCount = 0;
+                foreach ($buyers as $eachBuyer) {
+                    if (!is_null($eachBuyer->pivot) && $eachBuyer->pivot->is_active == 'active') {
+                        $paidBuyersCount++;
+                    }
+                }
+                $tempArr['no_interested_buyer'] = $paidBuyersCount;
+            }
             $buyersArr = [];
 
             foreach ($buyers as $eachBuyer) {

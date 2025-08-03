@@ -63,7 +63,7 @@
                 <li>Category: {{$assignment['category']}}</li>
                 <li>Subject: {{$assignment['subject']}}</li>
                 <li>Brief of the work: {{$assignment['description']}}</li>
-                <li>Minimum Deal Value: {{$assignment['deal_price']}} {{$assignment['deal_price_unit']}}</li>
+                <li>Minimum Deal Value: {{$assignment['deal_price']}} {{$assignment['deal_price_unit']}} {{$assignment['assignment_pricing_type']}}</li>
                 <li>Status: {{$assignment['is_active']}}</li>
                 @if($assignment['deal_closed'] == 1 && $assignment['buyer_id'] > 0)
                     <li>Buyer Details: <br> {!!$assignment['finalBuyer']!!}</li>

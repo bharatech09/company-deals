@@ -27,6 +27,7 @@ class Assignment extends Model
         'description',
         'deal_price',
         'deal_price_unit',
+        'assignment_pricing_type',
         'deal_price_amount',
         'payment_id',
         'is_active',
@@ -112,6 +113,7 @@ class Assignment extends Model
                 'is_active' => $eachAssignment->is_active,
                 'deal_price' => $eachAssignment->deal_price,
                 'deal_price_unit' => $eachAssignment->deal_price_unit,
+                'assignment_pricing_type' => $eachAssignment->assignment_pricing_type,
                 'deal_closed' => $eachAssignment->deal_closed,
                 'approved' => $eachAssignment->approved,
                 'payment_id' => $eachAssignment->payment_id,
@@ -127,7 +129,14 @@ class Assignment extends Model
             $buyers = $eachAssignment->buyers;
             $tempArr['no_interested_buyer'] = 0;
             if (count($buyers) > 0) {
-                $tempArr['no_interested_buyer'] = count($buyers);
+                // Count only buyers who have paid (is_active = 'active')
+                $paidBuyersCount = 0;
+                foreach ($buyers as $eachBuyer) {
+                    if (!is_null($eachBuyer->pivot) && $eachBuyer->pivot->is_active == 'active') {
+                        $paidBuyersCount++;
+                    }
+                }
+                $tempArr['no_interested_buyer'] = $paidBuyersCount;
             }
 
             $buyersArr = array();

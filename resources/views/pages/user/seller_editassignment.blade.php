@@ -4,9 +4,10 @@
 use App\Http\Controllers\Utils\GeneralUtils;
 $selected_category = old('category',isset($assignment)? $assignment->category:'');
 $category_option = GeneralUtils::get_select_option('assignment_category',$selected_category);
-GeneralUtils::get_select_option('assignment_category',$selected_category);
 $selected_deal_price_unit = old('deal_price_unit',isset($assignment)? $assignment->deal_price_unit:'');
-$ask_price_unit_option = GeneralUtils::get_select_option('ask_price_unit_option',$selected_deal_price_unit);
+$deal_price_unit_option = GeneralUtils::get_select_option('ask_price_unit_option',$selected_deal_price_unit);
+$selected_assignment_pricing_type = old('assignment_pricing_type',isset($assignment)? $assignment->assignment_pricing_type:'');
+$assignment_pricing_type_option = GeneralUtils::get_select_option('assignment_price_unit_option',$selected_assignment_pricing_type);
 @endphp
 <section class="dashboard-wrap">
     <div class="container">
@@ -76,8 +77,17 @@ $ask_price_unit_option = GeneralUtils::get_select_option('ask_price_unit_option'
                                         <label>&nbsp;</label>
                                         <select id="deal_price_unit" class="form-select" name="deal_price_unit" required="">
                                             <option value="">-Select-</option>
-                                            {!!$ask_price_unit_option!!}
+                                            {!!$deal_price_unit_option!!}
 
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="field">
+                                        <label for="assignment_pricing_type">Pricing Type</label>
+                                        <select id="assignment_pricing_type" class="form-select" name="assignment_pricing_type" required="">
+                                            <option value="">-Select-</option>
+                                            {!!$assignment_pricing_type_option!!}
                                         </select>
                                     </div>
                                 </div>

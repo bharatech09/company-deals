@@ -104,7 +104,14 @@ class NocTrademark extends Model
              $buyers = $eachTrademark->buyers;
             $tempArr['no_interested_buyer'] = 0;
             if (count($buyers) > 0) {
-                $tempArr['no_interested_buyer'] = count($buyers);
+                // Count only buyers who have paid (is_active = 'active')
+                $paidBuyersCount = 0;
+                foreach ($buyers as $eachBuyer) {
+                    if (!is_null($eachBuyer->pivot) && $eachBuyer->pivot->is_active == 'active') {
+                        $paidBuyersCount++;
+                    }
+                }
+                $tempArr['no_interested_buyer'] = $paidBuyersCount;
             }
             $buyersArr = array();
             foreach ($buyers as $eachBuyer) {

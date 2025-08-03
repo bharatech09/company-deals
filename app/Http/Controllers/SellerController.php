@@ -36,6 +36,7 @@ class SellerController extends Controller
             'description' => ['required', new NoEmailNoMobile()],
             'deal_price' => ['required', 'numeric'],
             'deal_price_unit' => 'required',
+            'assignment_pricing_type' => 'required',
         ]);
         $validated['deal_price_amount'] = GeneralUtils::calculate_actual_ask_price($request->input('deal_price'), $request->input('deal_price_unit'));
         $validated['urn'] = uniqid();
@@ -58,6 +59,7 @@ class SellerController extends Controller
             'description' => ['required', new NoEmailNoMobile()],
             'deal_price' => ['required', 'numeric'],
             'deal_price_unit' => 'required',
+            'assignment_pricing_type' => 'required',
 
         ]);
         $validated['deal_price_amount'] = GeneralUtils::calculate_actual_ask_price($request->input('deal_price'), $request->input('deal_price_unit'));
