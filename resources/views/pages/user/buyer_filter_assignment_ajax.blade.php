@@ -8,7 +8,7 @@
             <li>Category: {{$assignment['category']}}</li>
             <li>Subject: {{$assignment['subject']}}</li>
             <li>Brief of the work: {{$assignment['description']}}</li>
-            <li>Ask Price: {{$assignment['deal_price']}}</li>         
+            <li><b>Ask Price: {{$assignment['deal_price']}}</b></li>         
             <li>Status : {{$assignment['is_active']}}</li>
             <li> 
                 <a href="{{ route('user.buyer.assignment.addtointerested', $assignment['id']) }}" class="cta-primary interested_assignment" type="submit">I am interested in this assignment</a>

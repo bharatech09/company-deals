@@ -29,7 +29,7 @@
                 <!-- <li>CIN/LLPIN: {{$company['cin_llpin']}}</li> -->
                 <li>Year of Incorporation: {{$company['year_of_incorporation']}}</li>
                 <li>Industry: {{$company['industry']}}</li>
-                <li>Ask Price: ₹{{ number_format($company['ask_price'] ?? $company['ask_price']) }} {{ $company['ask_price_unit'] ?? 'Rupees' }}</li>
+                <li><b>Ask Price:  ₹{{ number_format($company['ask_price'] ?? $company['ask_price']) }} {{ $company['ask_price_unit'] ?? 'Rupees' }}</b></li>
                 @if($company['deal_closed'] == 1)
                     <li>Buyer Details: <br> {!!$company['finalBuyer']!!}</li>
                 @endif

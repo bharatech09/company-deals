@@ -78,7 +78,7 @@
                 <li>Address: {{$property['address']}}</li>
                 <li>Space: {{$property['space']}} Sq. ft.</li>
                 <li>Type: {{$property['type']}}</li>
-                <li>Ask price: {{$property['ask_price']}} {{$property['ask_price_unit']}} per month</li>
+                <li><b>Ask price: {{$property['ask_price']}} {{$property['ask_price_unit']}} per month</b></li>
 
                 @if($property['deal_closed'] == 1 && $property['buyer_id'] > 0)
                     <li style="border-bottom:1px solid black;">Buyer Details: <br> {!!$property['finalBuyer']!!}</li>

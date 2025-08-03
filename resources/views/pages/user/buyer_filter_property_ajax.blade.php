@@ -9,7 +9,7 @@
                     <li>Pincode: {{$property['pincode']}}</li>
                     <li>Space: {{$property['space']}} Sq ft.</li>
                     <li>Type: {{$property['type']}}</li>
-                    <li>Ask price: {{$property['ask_price']}} {{$property['ask_price_unit']}} per month</li>
+                    <li><b>Ask price: {{$property['ask_price']}} {{$property['ask_price_unit']}} per month</b></li>
                     <li> 
                         <a href="{{ route('user.buyer.property.addtointerested', $property['id']) }}" class="cta-primary interested_property" type="submit">I am interested in this Property</a>
                     </li>

@@ -12,7 +12,7 @@
                         <li>ROC: {{$company['roc']}}</li>
                         <li>Year of Incorporation: {{$company['year_of_incorporation']}}</li>
                         <li>Industry: {{$company['industry']}}</li>
-                        <li>Ask price: {{$company['ask_price']}} {{$company['ask_price_unit']}} per month</li>
+                        <li><b>Ask price: {{$company['ask_price']}} {{$company['ask_price_unit']}} per month</b></li>
                         <li>
                             <a href="{{ route('user.buyer.company.addtointerested', $company['id']) }}"
                                 class="cta-primary interested_company" type="submit">

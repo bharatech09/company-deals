@@ -86,7 +86,7 @@
                 <li>Status: {{$trademark['status']}}</li>
                 <li>Valid Upto: {{$valid_upto}}</li>
                 <li> Description: {{$trademark['description']}}</li>
-                <li>Ask Price: {{$trademark['ask_price']}} {{$trademark['ask_price_unit']}} per month</li>
+                <li><b>Ask Price: {{$trademark['ask_price']}} {{$trademark['ask_price_unit']}} per month</b></li>
                 @if($trademark['deal_closed'] == 1 && $trademark['buyer_id'] > 0)
                     <li>Buyer Details: <br> {!!$trademark['finalBuyer']!!}</li>
                 @endif
