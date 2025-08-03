@@ -208,7 +208,7 @@ class CompanyController extends Controller
         $validatedData['paidup_capital_amount'] = GeneralUtils::calculate_actual_ask_price($request->input('paidup_capital'), $request->input('paidup_capital_unit'));
         $validatedData['activity_code'] = $request->input('activity_code');
 
-        $validatedData['name_prefix'] = $request->input('name_prefix');
+        $validatedData['name_prefix'] = $request->input('name_prefix','Limited');
         $validatedData['current_market_price'] = $request->input('current_market_price');
         $validatedData['high_52_weeks'] = $request->input('high_52_weeks');
         $validatedData['low_52_weeks'] = $request->input('low_52_weeks');
