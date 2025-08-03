@@ -7,7 +7,7 @@
             <div class="card-featured">
                 <article>
                     <ul class="feature-list">
-                        <li>Name: <b>{{$company['name']}} {{$company['name_prefix'] ?? 'Limited'}}</b></li>
+                        <li>Name: <b>{{$company['name']}} {{$company['name_prefix'] ?? 'LIMITED'}}</b></li>
                         <li>Type Of Entity: {{$company['type_of_entity']}}</li>
                         <li>ROC: {{$company['roc']}}</li>
                         <li>Year of Incorporation: {{$company['year_of_incorporation']}}</li>
