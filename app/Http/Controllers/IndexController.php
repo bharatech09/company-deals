@@ -20,7 +20,7 @@ class IndexController extends Controller
     {
         $dashBoardData = array();
 
-        $dashBoardData['no_users'] = \DB::table('users')->where([['email_verified', 1], ['phone_verified', 1]])->count('*');
+        $dashBoardData['no_users'] = \DB::table('users')->where([['email_verified', 1]])->count('*');
         $companies = \DB::table('companies')
             ->where('status', 'active')
             ->where('deal_closed', 1)
