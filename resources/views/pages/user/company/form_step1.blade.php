@@ -74,6 +74,8 @@
                             <label for="type_of_entity">Type Of Entity <span class="text-danger">*</span></label>
                             @if ($companyData && $companyData->status == 'active')
                                 {{$companyData->type_of_entity}}
+                                
+                                <input type="hidden" id="type_of_entity" value="{{$companyData->type_of_entity}}">
                             @else
                                 <select id="type_of_entity" class="form-select" name="type_of_entity" required>
                                  <option value="">-Select-</option>

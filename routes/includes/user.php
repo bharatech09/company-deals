@@ -72,7 +72,7 @@ Route::middleware('sellerloggedin')->group(function () {
 
 
 	Route::get('/user/seller/companylist', [CompanyController::class, 'seller_companylist'])->name('user.seller.companylist');
-Route::get('/user/seller/{id}/{buyer_id}/closedealcompany', [CompanyController::class, 'closedeal'])->name('user.seller.closedealcompany');
+	Route::get('/user/seller/{id}/{buyer_id}/closedealcompany', [CompanyController::class, 'closedeal'])->name('user.seller.closedealcompany');
 
 	/***add edit company start****/
 	Route::get('/user/seller/companyform/showstep1', [CompanyController::class, 'showstep1'])->name('user.seller.companyform.showstep1');
@@ -126,15 +126,15 @@ Route::middleware('buyerloggedin')->group(function () {
 	// Buyer one-time payment to view seller details
 	Route::get('/user/buyer/pay', [BuyerController::class, 'showSellerDetailsPaymentForm'])->name('user.buyer.pay');
 	Route::post('/user/buyer/pay/process', [BuyerController::class, 'processSellerDetailsPayment'])->name('user.buyer.pay.process');
-	
+
 	// Cashfree webhook for payment notifications
 	Route::post('/user/buyer/pay/webhook', [BuyerController::class, 'cashfreeWebhook'])->name('user.buyer.pay.webhook');
-	
+
 	// Test route for manual payment processing (for debugging)
 	Route::post('/user/buyer/pay/test', [BuyerController::class, 'testPaymentProcessing'])->name('user.buyer.pay.test');
-	
+
 	// Debug page for payment testing
-	Route::get('/user/buyer/pay/debug', function() {
+	Route::get('/user/buyer/pay/debug', function () {
 		return view('pages.user.payment_debug');
 	})->name('user.buyer.pay.debug');
 });
