@@ -35,6 +35,7 @@ class NocTrademark extends Model
         'payment_id',
         'is_active',
         'deal_closed',
+        'trademark_type',
         'home_featured'
     ];
 
@@ -91,6 +92,7 @@ class NocTrademark extends Model
                 'buyer_id' => $eachTrademark->buyer_id,
                 'approved' => $eachTrademark->approved,
                 'payment_id' => $eachTrademark->payment_id,
+                'trademark_type' => $eachTrademark->trademark_type,
                 'is_active' => ($eachTrademark->deal_closed) ? "Deal Closed" : $eachTrademark->is_active,
 
 

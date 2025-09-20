@@ -317,6 +317,7 @@ class BuyerController extends Controller
             //      continue;
             $tempTrademark = $this->getTrademarkDetail($trademark);
             $tempTrademark['buyer_status'] = $trademark->pivot->is_active;
+            $tempTrademark['trademark_type'] = $trademark->trademark_type;
             
             // Check if buyer has paid for this trademark
             $hasPaid = $this->hasPaidForTrademark($buyer_id, $trademark->id);
@@ -925,6 +926,7 @@ class BuyerController extends Controller
             'valid_upto' => date('j F, Y', strtotime($trademark->valid_upto)),
             'description' => $trademark->description,
             'ask_price' => $trademark->ask_price,
+            'trademark_type' => $trademark->trademark_type,
             'ask_price_unit' => $trademark->ask_price_unit,
             'is_active' => ($trademark->deal_closed) ? "Deal Closed" : $trademark->is_active,
         );

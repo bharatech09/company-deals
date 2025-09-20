@@ -84,7 +84,7 @@
 
                         <div class="buyer-seller-details">
                             <header>
-                                <h2>Properties of your interest.</h2>
+                                <h2>Properties of your interest ({{ count($interestedPropertyArr) }})</h2>
                             </header>
                             <div style="border: 1px solid green;"></div>
 
@@ -119,6 +119,7 @@
                                                         @endif
                                                         <li>State: {{$property['state']}}</li>
                                                         <li>Pincode: {{$property['pincode']}}</li>
+                                                        <li>Address: {{$property['address']}}</li>
                                                         <li>Space: {{$property['space']}} Sq. Ft.</li>
                                                         <li>Type: {{$property['type']}}</li>
                                                         <li>Ask price: {{$property['ask_price']}}
@@ -143,7 +144,7 @@
                         </div>
                         <div class="buyer-seller-details">
                             <header>
-                                <h2>NOC trademarks of your interest.</h2>
+                                <h2>NOC trademarks of your interest ({{ count($interestedTrademarkArr) }})</h2>
                             </header>
                             <div style="border: 1px solid green;"></div>
 
@@ -173,9 +174,14 @@
                                                         </li>
                                                         <li> Description: {{$trademark['description']}}</li>
                                                         <li>Ask price: {{$trademark['ask_price']}}
-                                                            {{$trademark['ask_price_unit']}} per month
+                                                        
+                                                            {{$trademark['ask_price_unit']}}  @if($trademark['trademark_type'] == 0)
+                    per month
+                  @else
+  per year
+                @endif
                                                         </li>
-                                                        <li>Is active: {{$trademark['is_active']}}</li>
+                                                        <li>Status: {{$trademark['is_active']}}</li>
                                                         @if($trademark['buyer_status'] == 'inactive')
                                                             <li>
                                                                 <a href="{{ route('user.buyer.trademark.removefrominterested', $trademark['id']) }}"
@@ -393,7 +399,7 @@
                                                             <li>Ask price: {{$trademark['ask_price']}}
                                                                 {{$trademark['ask_price_unit']}} per month
                                                             </li>
-                                                            <li>Is active: {{$trademark['is_active']}}</li>
+                                                            <li>Status: {{$trademark['is_active']}}</li>
                                                             @if($trademark['buyer_status'] == 'inactive')
                                                                 <li>
                                                                     <a href="{{ route('user.buyer.trademark.removefrominterested', $trademark['id']) }}"

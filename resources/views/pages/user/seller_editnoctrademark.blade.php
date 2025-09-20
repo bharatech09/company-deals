@@ -5,6 +5,7 @@ use App\Http\Controllers\Utils\GeneralUtils;
 $selected_class = $trademark->class_no;
 $class_option = GeneralUtils::get_class_option($selected_class);
 $ask_price_unit_option = Config::get('selectoptions.ask_price_unit_option');
+$comman_type_option = Config::get('selectoptions.comman_type');
 
 if(is_null($trademark->valid_upto)){
 $valid_upto = "";
@@ -98,13 +99,13 @@ $valid_upto = date('Y-m-d', strtotime(old('valid_upto', $trademark->valid_upto))
                                         <textarea id="description" class="form-control" name="description" placeholder="Description" required="">{{old('description', $trademark->description) }}</textarea>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="field">
                                         <label for="ask_price">Ask price</label>
                                         <input id="ask_price" type="number" class="form-control" name="ask_price" placeholder="Ask price" required="" value="{{old('ask_price', $trademark->ask_price)}}">
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="field input-group">
                                         <label>&nbsp;</label>
                                         <select id="ask_price_unit" class="form-select" name="ask_price_unit" required="" aria-describedby="ask_price_time">
@@ -112,8 +113,20 @@ $valid_upto = date('Y-m-d', strtotime(old('valid_upto', $trademark->valid_upto))
                                             @foreach ($ask_price_unit_option as $key => $eachOption)
                                             <option value="{{$key}}" {{ old('ask_price_unit', $trademark->ask_price_unit) == $key ? "selected" : "" }}>{{$eachOption}}</option>
                                             @endforeach
-                                        </select><span class="input-group-text" id="ask_price_time">per month</span>
+                                        </select>
 
+                                    </div>
+                                </div>
+
+                                  <div class="col-md-4">
+                                    <div class="field input-group">
+                                        <label>&nbsp;</label>
+                                        <select id="trademark_type" class="form-select" name="trademark_type" required="" value="{{ old('trademark_type') }}" aria-describedby="trademark_type">
+                                            <option value="">-Select-</option>
+                                            @foreach ($comman_type_option as $key => $eachOption)
+                                            <option value="{{$key}}" {{ old('trademark_type', $trademark->trademark_type) == $key ? "selected" : "" }}>{{$eachOption}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
 

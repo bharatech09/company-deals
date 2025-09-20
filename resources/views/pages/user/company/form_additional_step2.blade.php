@@ -4,11 +4,22 @@ use App\Http\Controllers\Utils\GeneralUtils;
 
 @if($turnover_base_yr > 0)
 @php
-$selected_authorized_capital_unit = old('authorized_capital_unit',isset($companyData)? $companyData->authorized_capital_unit:'');
+
+$selected_authorized_capital_unit = old('authorized_capital_unit',optional($companyData)->authorized_capital_unit
+        ?? optional($companyData)->authorised_capital_unit
+);
 $authorized_capital_unit_option = GeneralUtils::get_select_option('price_unit',$selected_authorized_capital_unit,'',$companyData->authorised_capital_unit);
 
-$selected_paid_up_capital_unit = old('paid_up_capital_unit',isset($companyData)? $companyData->paid_up_capital_unit:'');
-$paid_up_capital_unit_option = GeneralUtils::get_select_option('price_unit',$selected_paid_up_capital_unit,'',$companyData->authorised_capital_unit);
+
+
+
+
+// authorised 
+
+
+
+$selected_paid_up_capital_unit = old('paid_up_capital_unit',optional($companyData)->paidup_capital_unit ?? optional($companyData)->paid_up_capital_unit);
+$paid_up_capital_unit_option = GeneralUtils::get_select_option('price_unit',$selected_paid_up_capital_unit,'',optional($companyData)->paidup_capital_unit ?? optional($companyData)->paid_up_capital_unit);
 
 $selected_net_worth_unit = old('net_worth_unit',isset($companyData)? $companyData->net_worth_unit:'');
 $net_worth_unit_option = GeneralUtils::get_select_option('price_unit',$selected_net_worth_unit,'',$companyData->authorised_capital_unit);
@@ -60,7 +71,7 @@ $requiredstar = '<span class="text-danger">*</span>';
 
         <div class="field">
             <input type="hidden" name="{{$eachTurnover['turnoverYearField']}}" value="{{$eachTurnover['turnoverYear']}}">
-            <input id="{{$eachTurnover['turnoverField']}}"  oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 4);" type="text" min="0" max="9999" class="form-control onlynumber fourdigit" name="{{$eachTurnover['turnoverField']}}" placeholder="Turnover for year {{$yr}}" {{$required}} value="{{$eachTurnover['turnover']}} " title="If you have no turnover, enter '0'">
+            <input id="{{$eachTurnover['turnoverField']}}" oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 4);" type="text" min="0" max="9999" class="form-control onlynumber fourdigit" name="{{$eachTurnover['turnoverField']}}" placeholder="Turnover for year {{$yr}}" {{$required}} value="{{$eachTurnover['turnover']}} " title="If you have no turnover, enter '0'">
 
         </div>
         <div class="field">
@@ -94,20 +105,19 @@ $requiredstar = '<span class="text-danger">*</span>';
 
         <div class="field">
             <input type="hidden" name="{{$eachProfit['profitYearField']}}" value="{{$eachProfit['profitYear']}}">
-<input 
-    title="If you have no Profit After Tax, enter '0'." 
-    id="{{ $eachProfit['profitField'] }}" 
-    type="text" 
-    min="-9999" 
-    max="9999" 
-    step="any" 
-    class="form-control onlynumber fourdigit" 
-    name="{{ $eachProfit['profitField'] }}" 
-    placeholder="Profit After Tax for year {{ $yr }}" 
-    {{ $required }} 
-    value="{{ $eachProfit['profit'] ?? '0' }}" 
-    oninput="this.value = this.value.replace(/[^-?\d.]/g, '')"
-/>
+            <input
+                title="If you have no Profit After Tax, enter '0'."
+                id="{{ $eachProfit['profitField'] }}"
+                type="text"
+                min="-9999"
+                max="9999"
+                step="any"
+                class="form-control onlynumber fourdigit"
+                name="{{ $eachProfit['profitField'] }}"
+                placeholder="Profit After Tax for year {{ $yr }}"
+                {{ $required }}
+                value="{{ $eachProfit['profit'] ?? '0' }}"
+                oninput="this.value = this.value.replace(/[^-?\d.]/g, '')" />
 
         </div>
         <div class="field">
@@ -127,9 +137,19 @@ $requiredstar = '<span class="text-danger">*</span>';
     <fieldset class="scheduler-border pricewithunit">
         <legend class="scheduler-border">Authorized Capital for year {{$turnover_base_yr}} <span class="text-danger">*</span></legend>
         <div class="field">
-
-            <input id="authorized_capital" type="number" min="0" max="9999" class="form-control onlynumber fourdigit" name="authorized_capital" placeholder="Authorized Capital for year {{$turnover_base_yr}}" required value="{{ old('authorized_capital',isset($companyData)? $companyData->authorized_capital:'')}}">
+            <input
+                id="authorized_capital"
+                type="number"
+                min="0"
+                max="9999"
+                step="1"
+                class="form-control onlynumber fourdigit"
+                name="authorized_capital"
+                placeholder="Authorized Capital for year {{ $turnover_base_yr }}"
+                required
+                value="{{ old('authorized_capital', optional($companyData)->authorized_capital ?? optional($companyData)->authorised_capital) }}">
         </div>
+
         <div class="field">
 
             <select id="authorized_capital_unit" class="form-select" name="authorized_capital_unit">
@@ -139,12 +159,15 @@ $requiredstar = '<span class="text-danger">*</span>';
         </div>
     </fieldset>
 </div>
+
+
+
 <div class="col-md-6">
     <fieldset class="scheduler-border pricewithunit">
         <legend class="scheduler-border">Paid Up Capital for year {{$turnover_base_yr}} <span class="text-danger">*</span></legend>
         <div class="field">
 
-            <input id="paid_up_capital" type="number" min="0" max="9999" class="form-control onlynumber fourdigit" name="paid_up_capital" placeholder="Paid Up Capital for year {{$turnover_base_yr}}" required value="{{ old('paid_up_capital',isset($companyData)? $companyData->paid_up_capital:'')}}">
+            <input id="paid_up_capital" type="number" min="0" max="9999" class="form-control onlynumber fourdigit" name="paid_up_capital" placeholder="Paid Up Capital for year {{$turnover_base_yr}}" required value="{{ old('paid_up_capital',optional($companyData)->paid_up_capital ?? optional($companyData)->paidup_capital)}}">
         </div>
         <div class="field">
 
@@ -160,7 +183,7 @@ $requiredstar = '<span class="text-danger">*</span>';
         <legend class="scheduler-border">Net Worth for year {{$turnover_base_yr}} <span class="text-danger">*</span></legend>
         <div class="field">
 
-            <input title="If you have no Net Worth, enter '0'." id="net_worth" type="text"  oninput="this.value = this.value.replace(/[^-?\d.]/g, '')" min="-9999" max="9999" class="form-control onlynumber fourdigit" name="net_worth" placeholder="Net Worth for year {{$turnover_base_yr}}" required value="{{ old('net_worth',isset($companyData)? $companyData->net_worth:'')}}">
+            <input title="If you have no Net Worth, enter '0'." id="net_worth" type="text" oninput="this.value = this.value.replace(/[^-?\d.]/g, '')" min="-9999" max="9999" class="form-control onlynumber fourdigit" name="net_worth" placeholder="Net Worth for year {{$turnover_base_yr}}" required value="{{ old('net_worth',isset($companyData)? $companyData->net_worth:'')}}">
         </div>
         <div class="field">
 
@@ -177,7 +200,7 @@ $requiredstar = '<span class="text-danger">*</span>';
         <div class="field">
 
             <input id="reserve" title="If you have no Reserve, enter '0'." oninput="this.value = this.value.replace(/[^-?\d.]/g, '')"
- type="text" min="-9999" max="9999" class="form-control onlynumber fourdigit" name="reserve" placeholder="Reserve for year {{$turnover_base_yr}}" required value="{{ old('reserve',isset($companyData)? $companyData->reserve:'')}}">
+                type="text" min="-9999" max="9999" class="form-control onlynumber fourdigit" name="reserve" placeholder="Reserve for year {{$turnover_base_yr}}" required value="{{ old('reserve',isset($companyData)? $companyData->reserve:'')}}">
         </div>
         <div class="field">
 

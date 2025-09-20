@@ -170,6 +170,7 @@ class CompanyController extends Controller
                 );
             }
         }
+        // return $companyData;
         return view('pages.user.company.form_additional_step2', compact('companyData', 'turnover_base_yr', 'turnoverData', 'profitData'));
     }
     public function savestep1(Request $request)

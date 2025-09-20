@@ -10,6 +10,11 @@ return [
 		'Software Developer', 
 		'Others'
 	],
+	'comman_type' => [
+		'month',  
+		'year', 
+	],
+	
 	'compliance_status1' => [
 		'Updated upto',
 		'Not Updated'

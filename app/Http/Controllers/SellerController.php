@@ -94,6 +94,7 @@ class SellerController extends Controller
             ]
         );
         $validated['valid_upto'] = $request->input('valid_upto');
+        $validated['trademark_type'] = $request->input('trademark_type');
         $validated['ask_price_amount'] = GeneralUtils::calculate_actual_ask_price($request->input('ask_price'), $request->input('ask_price_unit'));
         $trademark->update($validated);
         return redirect()->route("user.seller.noctrademark")->with('status', 'Your data for NOC trademark has been updated successfully.');
@@ -193,6 +194,7 @@ class SellerController extends Controller
         $validated['urn'] = uniqid();
         $validated['is_active'] = 'inactive';
         $validated['user_id'] = \Auth::guard('user')->id();
+        $validated['trademark_type'] = $request->input('trademark_type');
         $validated['ask_price_amount'] = GeneralUtils::calculate_actual_ask_price($request->input('ask_price'), $request->input('ask_price_unit'));
         NocTrademark::create($validated);
         return redirect()->route("user.seller.noctrademark")->with('status', 'Your trademark has been saved successfully.');
@@ -203,7 +205,7 @@ class SellerController extends Controller
     }
     public function seller_noctrademark()
     {
-        $arrTrademark = NocTrademark::seller_noctrademark('inactive');
+         $arrTrademark = NocTrademark::seller_noctrademark('inactive');
         return view('pages.user.seller_noctrademark', compact('arrTrademark'));
     }
     public function addProperty()
