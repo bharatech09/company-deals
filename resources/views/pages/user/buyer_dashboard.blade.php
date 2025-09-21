@@ -123,7 +123,7 @@
                                                         <li>Space: {{$property['space']}} Sq. Ft.</li>
                                                         <li>Type: {{$property['type']}}</li>
                                                         <li>Ask price: {{$property['ask_price']}}
-                                                            {{$property['ask_price_unit']}} per month
+                                                            {{$property['ask_price_unit']}} {{$property['property_type']}}
                                                         </li>
                                                         <li>Status: {{$property['status']}}</li>
 

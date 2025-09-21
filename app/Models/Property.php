@@ -31,7 +31,8 @@ class Property extends Model
         'status',
         'payment_id',
         'home_featured',
-        'approved'
+        'approved',
+        'property_type',
     ];
 
     /**
@@ -105,6 +106,7 @@ class Property extends Model
                 'buyer_id' => $eachProperty->buyer_id,
                 'approved' => $eachProperty->approved,
                 'payment_id' => $eachProperty->payment_id,
+                'property_type' => $eachProperty->property_type,
             ];
 
             if ($eachProperty->deal_closed == 1 && $eachProperty->buyer_id > 0) {

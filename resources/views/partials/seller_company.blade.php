@@ -1,3 +1,8 @@
+@php 
+$amount  = config('payments.buyer_payment_amount'); // adjust key to yours
+@endphp
+
+
 <div class="cards">
     <div class="card-featured">
         <article>
@@ -130,7 +135,7 @@
                 @if($company['status'] == 'inactive')
                     <div class="col-md-6">
                         <a class="cta-primary mt-4"
-                            href="{{ route('user.seller.company.payment', ['company_id' => $company['id']]) }}">Pay ₹100
+                            href="{{ route('user.seller.company.payment', ['company_id' => $company['id']]) }}">Pay ₹ {{$amount}}
                                 to Activate</a>
                     </div>
                 @endif

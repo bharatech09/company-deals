@@ -63,7 +63,7 @@ Route::middleware('sellerloggedin')->group(function () {
 	Route::get('/user/seller/property/payment/return/{property_id}', [SellerController::class, 'propertyPaymentSuccess'])->name('user.seller.property.payment.return');
 
 	// Trademark payment routes
-	Route::get('/user/seller/trademark/pay/{trademark_id}', [SellerController::class, 'initiateTrademarkPayment'])->name('user.seller.trademark.payment');
+	Route::get('/user/seller/trademark/pay/{trademark_id}', [SellerController::class, 'initiateTradem/user/buyer/dashboardarkPayment'])->name('user.seller.trademark.payment');
 	Route::get('/user/seller/trademark/payment/return/{trademark_id}', [SellerController::class, 'trademarkPaymentSuccess'])->name('user.seller.trademark.payment.return');
 
 	// Assignment payment routes

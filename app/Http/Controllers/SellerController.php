@@ -260,6 +260,7 @@ class SellerController extends Controller
         ]);
         $validated['urn'] = uniqid();
         $validated['status'] = 'inactive';
+        $validated['property_type'] = $request->property_type;
         $validated['user_id'] = \Auth::guard('user')->id();
         $validated['ask_price_amount'] = GeneralUtils::calculate_actual_ask_price($request->input('ask_price'), $request->input('ask_price_unit'));
 
@@ -307,7 +308,7 @@ class SellerController extends Controller
             'x-client-secret' => $secretKey,
             'x-api-version' => '2025-01-01',
             'Content-Type' => 'application/json',
-        ])->post('https://sandbox.cashfree.com/pg/orders', $orderData);
+        ])->post('https://api.cashfree.com/pg/orders', $orderData);
 
         $body = $response->json();
 
@@ -333,7 +334,7 @@ class SellerController extends Controller
 
         try {
             $client = new \GuzzleHttp\Client();
-            $response = $client->get("https://sandbox.cashfree.com/pg/orders/{$orderId}", [
+            $response = $client->get("https://api.cashfree.com/pg/orders/{$orderId}", [
                 'headers' => [
                     'x-client-id' => $appId,
                     'x-client-secret' => $secretKey,
@@ -393,10 +394,10 @@ class SellerController extends Controller
 
         $appId = config('services.cashfree.app_id');        // OR env('CASHFREE_APP_ID')
         $secretKey = config('services.cashfree.secret_key'); // OR env('CASHFREE_SECRET_KEY')
-
+        $amount = config('payments.buyer_payment_amount'); // default ₹100
 
         $orderData = [
-            "order_amount" => 100,
+            "order_amount" => $amount,
             "order_currency" => "INR",
             "customer_details" => [
                 "customer_id" => str_replace(['@', '.'], '_', $user->email),
@@ -411,14 +412,16 @@ class SellerController extends Controller
             "checkout_mode" => "REDIRECT"
         ];
 
+        // https://api.cashfree.com/pg/orders
         $response = Http::withHeaders([
             'x-client-id' => $appId,
             'x-client-secret' => $secretKey,
             'x-api-version' => '2025-01-01',
             'Content-Type' => 'application/json',
-        ])->post('https://sandbox.cashfree.com/pg/orders', $orderData);
+        ])->post('https://api.cashfree.com/pg/orders', $orderData);
 
         $body = $response->json();
+        // dd($body)
 
         if (isset($body['payment_session_id'])) {
             return view('pages.seller.company.payment_session', [
@@ -505,6 +508,7 @@ class SellerController extends Controller
     // for property payment
     public function initiatePropertyPayment($property_id)
     {
+        $amount = Config('payments.buyer_payment_amount'); // default ₹100
         $property = Property::findOrFail($property_id);
         $user = \Auth::guard('user')->user();
 
@@ -512,7 +516,7 @@ class SellerController extends Controller
         $secretKey = config('services.cashfree.secret_key'); // OR env('CASHFREE_SECRET_KEY')
 
         $orderData = [
-            "order_amount" => 100,
+            "order_amount" => $amount,
             "order_currency" => "INR",
             "customer_details" => [
                 "customer_id" => str_replace(['@', '.'], '_', $user->email),
@@ -532,7 +536,7 @@ class SellerController extends Controller
             'x-client-secret' => $secretKey,
             'x-api-version' => '2025-01-01',
             'Content-Type' => 'application/json',
-        ])->post('https://sandbox.cashfree.com/pg/orders', $orderData);
+        ])->post('https://api.cashfree.com/pg/orders', $orderData);
 
         $body = $response->json();
 
@@ -594,9 +598,9 @@ class SellerController extends Controller
 
         $appId = config('services.cashfree.app_id');        // OR env('CASHFREE_APP_ID')
         $secretKey = config('services.cashfree.secret_key'); // OR env('CASHFREE_SECRET_KEY')
-
+        $amount = config('payments.buyer_payment_amount'); // default ₹100
         $orderData = [
-            "order_amount" => 100,
+            "order_amount" => $amount,
             "order_currency" => "INR",
             "customer_details" => [
                 "customer_id" => str_replace(['@', '.'], '_', $user->email),
@@ -616,7 +620,7 @@ class SellerController extends Controller
             'x-client-secret' => $secretKey,
             'x-api-version' => '2025-01-01',
             'Content-Type' => 'application/json',
-        ])->post('https://sandbox.cashfree.com/pg/orders', $orderData);
+        ])->post('https://api.cashfree.com/pg/orders', $orderData);
 
         $body = $response->json();
 
@@ -675,12 +679,13 @@ class SellerController extends Controller
     {
         $assignment = Assignment::findOrFail($assignment_id);
         $user = \Auth::guard('user')->user();
+        $amount = Config('payments.buyer_payment_amount'); // default ₹100
 
         $appId = config('services.cashfree.app_id');        // OR env('CASHFREE_APP_ID')
         $secretKey = config('services.cashfree.secret_key'); // OR env('CASHFREE_SECRET_KEY')
 
         $orderData = [
-            "order_amount" => 100,
+            "order_amount" => $amount,
             "order_currency" => "INR",
             "customer_details" => [
                 "customer_id" => str_replace(['@', '.'], '_', $user->email),
@@ -700,7 +705,7 @@ class SellerController extends Controller
             'x-client-secret' => $secretKey,
             'x-api-version' => '2025-01-01',
             'Content-Type' => 'application/json',
-        ])->post('https://sandbox.cashfree.com/pg/orders', $orderData);
+        ])->post('https://api.cashfree.com/pg/orders', $orderData);
 
         $body = $response->json();
 

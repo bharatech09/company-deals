@@ -35,7 +35,7 @@
 
       <div class="mt-auto">
         <span class="fs-5 fw-bold text-success">
-        Ask Price: ₹{{ number_format($property->ask_price) }} {{ $property->ask_price_unit }} / month
+        Ask Price: ₹{{ number_format($property->ask_price) }} {{ $property->ask_price_unit }} {{$property->property_type}}
         </span>
       </div>
       </div>

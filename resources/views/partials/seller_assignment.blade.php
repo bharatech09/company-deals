@@ -3,7 +3,10 @@
         -webkit-box-orient: horizontal !important;
     }
 </style>
+@php #moreDetailss
+$amount  = config('payments.buyer_payment_amount'); // adjust key to yours
 
+@endphp
 <div class="cards">
     <div class="card-featured">
         <article>
@@ -72,7 +75,7 @@
             @if($assignment['approved'] == 1)
                 @if($assignment['payment_id'] == null)
                     <div class="col-md-6">
-                        <a class="cta-primary mt-4" href="{{ route('user.seller.assignment.payment', ['assignment_id' => $assignment['id']]) }}">Pay ₹100 to Activate</a>
+                        <a class="cta-primary mt-4" href="{{ route('user.seller.assignment.payment', ['assignment_id' => $assignment['id']]) }}">Pay ₹{{$amount}} to Activate</a>
                     </div>
                 @endif()
             @endif

@@ -3,6 +3,9 @@
         -webkit-box-orient: horizontal !important;
     }
 </style>
+@php 
+$amount  = config('payments.buyer_payment_amount'); // adjust key to yours
+@endphp
 
 <div class="cards">
     <div class="card-featured">
@@ -78,19 +81,20 @@
                 <li>Address: {{$property['address']}}</li>
                 <li>Space: {{$property['space']}} Sq. ft.</li>
                 <li>Type: {{$property['type']}}</li>
-                <li><b>Ask price: {{$property['ask_price']}} {{$property['ask_price_unit']}} per month</b></li>
+                <li><b>Ask price: {{$property['ask_price']}} {{$property['ask_price_unit']}} {{$property['property_type']}}</b></li>
 
                 @if($property['deal_closed'] == 1 && $property['buyer_id'] > 0)
                     <li style="border-bottom:1px solid black;">Buyer Details: <br> {!!$property['finalBuyer']!!}</li>
                 @endif
 
             </ul>
+            
             <div class="row">
                 @if($property['approved'] == 1)
                     @if($property['payment_id'] == null)
                         <div class="col-md-6">
                             <a class="cta-primary mt-4"
-                                href="{{ route('user.seller.property.payment', ['property_id' => $property['id']]) }}">Pay ₹100
+                                href="{{ route('user.seller.property.payment', ['property_id' => $property['id']]) }}">Pay ₹{{$amount}}
                                 to Activate</a>
                         </div>
                     @endif()

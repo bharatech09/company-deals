@@ -1,5 +1,9 @@
 @extends('layout.master')
 @section('content')
+@php
+
+$comman_type_option = Config::get('selectoptions.assignment_price_unit_option');
+@endphp
 <section class="dashboard-wrap">
     <div class="container">
         <div class="row">
@@ -67,7 +71,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="field">
                                         <label for="space">Type</label>
                                         <select id="type" class="form-select" name="type" required="">
@@ -79,13 +83,13 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="field">
                                         <label for="ask_price">Ask price</label>
                                         <input id="ask_price" type="number" class="form-control" name="ask_price" placeholder="Ask price" required="" value="{{ old('ask_price') }}">
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="input-group field">
 
                                         <label>&nbsp;</label>
@@ -95,9 +99,21 @@
                                             <option value="{{$key}}" {{ old("ask_price_unit") == $key ? "selected" : "" }}>{{$eachOption}}</option>
                                             @endforeach
                                         </select>
-                                        <span class="input-group-text" id="ask_price_time">per month</span>
+                                   
 
 
+                                    </div>
+                                </div>
+
+                                 <div class="col-md-4">
+                                    <div class="field input-group">
+                                        <label>&nbsp;</label>
+                                        <select id="property_type" class="form-select" name="property_type" required="" value="{{ old('property_type') }}" aria-describedby="property_type">
+                                            <option value="">-Select-</option>
+                                            @foreach ($comman_type_option as $key => $eachOption)
+                                            <option value="{{$key}}" {{ old("property_type") == $key ? "selected" : "" }}>{{$eachOption}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
 

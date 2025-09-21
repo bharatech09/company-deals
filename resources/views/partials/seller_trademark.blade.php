@@ -11,6 +11,12 @@
         -webkit-box-orient: horizontal !important;
     }
 </style>
+@php 
+
+$amount = Config('payments.buyer_payment_amount'); // default ₹100
+
+
+@endphp
 
 <div class="cards">
     <div class="card-featured">
@@ -99,7 +105,7 @@
             @if($trademark['approved'] == 1)
                 @if($trademark['payment_id'] == null)
                     <div class="col-md-6">
-                        <a class="cta-primary mt-4" href="{{ route('user.seller.trademark.payment', ['trademark_id' => $trademark['id']]) }}">Pay ₹100 to Activate</a>
+                        <a class="cta-primary mt-4" href="{{ route('user.seller.trademark.payment', ['trademark_id' => $trademark['id']]) }}">Pay ₹{{$amount }} to Activate</a>
                     </div>
                 @endif
             @endif

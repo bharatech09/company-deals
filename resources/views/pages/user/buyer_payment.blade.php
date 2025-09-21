@@ -7,7 +7,12 @@
                 <div class="dashboard-details">
                     <header>
                         <h2>Pay to View Seller Details</h2>
-                        <p class="text-muted">Pay ₹2000 to unlock seller contact information for this {{ ucfirst($type ?? 'property') }}.</p>
+                        @php 
+                        $amount = config('payments.seller_payment_amount'); // adjust key to yours
+
+                        @endphp
+
+                        <p class="text-muted">Pay ₹{{ $amount }} to unlock seller contact information for this {{ ucfirst($type ?? 'property') }}.</p>
                     </header>
                     @if (session('status'))
                         <div class="alert alert-success">
@@ -34,7 +39,7 @@
                         <input type="hidden" name="item_id" value="{{ $id ?? '' }}">
                         <div class="mb-3">
                             <label for="amount" class="form-label">Amount (INR)</label>
-                            <input type="number" class="form-control" id="amount" name="amount" value="2000" readonly required>
+                            <input type="number" class="form-control" id="amount" name="amount" value="{{$amount}}" readonly required>
                             <small class="form-text text-muted">Fixed amount for {{ ucfirst($type ?? 'property') }} seller details access</small>
                         </div>
                         <div class="mb-3">
@@ -47,7 +52,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-success w-100">Pay ₹2000 with Cashfree</button>
+                        <button type="submit" class="btn btn-success w-100">Pay ₹{{ $amount }} with Cashfree</button>
                     </form>
                 </div>
             </div>
