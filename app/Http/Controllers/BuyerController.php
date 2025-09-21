@@ -1132,7 +1132,7 @@ class BuyerController extends Controller
             'x-client-secret' => $secretKey,
             'x-api-version' => '2025-01-01',
             'Content-Type' => 'application/json',
-        ])->post('https://api.cashfree.com/pg/orders', $orderData);
+        ])->post('https://sandbox.cashfree.com/pg/orders', $orderData);
         $body = $response->json();
         \Log::debug('Cashfree response', ['body' => $body]);
         if (isset($body['payment_session_id'])) {
@@ -1205,7 +1205,7 @@ class BuyerController extends Controller
 
         try {
             $client = new \GuzzleHttp\Client();
-            $response = $client->get("https://api.cashfree.com/pg/orders/{$orderId}", [
+            $response = $client->get("https://sandbox.cashfree.com/pg/orders/{$orderId}", [
                 'headers' => [
                     'x-client-id' => $appId,
                     'x-client-secret' => $secretKey,

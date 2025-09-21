@@ -308,7 +308,7 @@ class SellerController extends Controller
             'x-client-secret' => $secretKey,
             'x-api-version' => '2025-01-01',
             'Content-Type' => 'application/json',
-        ])->post('https://api.cashfree.com/pg/orders', $orderData);
+        ])->post('https://sandbox.cashfree.com/pg/orders', $orderData);
 
         $body = $response->json();
 
@@ -334,7 +334,7 @@ class SellerController extends Controller
 
         try {
             $client = new \GuzzleHttp\Client();
-            $response = $client->get("https://api.cashfree.com/pg/orders/{$orderId}", [
+            $response = $client->get("https://sandbox.cashfree.com/pg/orders/{$orderId}", [
                 'headers' => [
                     'x-client-id' => $appId,
                     'x-client-secret' => $secretKey,
@@ -412,13 +412,13 @@ class SellerController extends Controller
             "checkout_mode" => "REDIRECT"
         ];
 
-        // https://api.cashfree.com/pg/orders
+        // https://sandbox.cashfree.com/pg/orders
         $response = Http::withHeaders([
             'x-client-id' => $appId,
             'x-client-secret' => $secretKey,
             'x-api-version' => '2025-01-01',
             'Content-Type' => 'application/json',
-        ])->post('https://api.cashfree.com/pg/orders', $orderData);
+        ])->post('https://sandbox.cashfree.com/pg/orders', $orderData);
 
         $body = $response->json();
         // dd($body)
@@ -536,7 +536,7 @@ class SellerController extends Controller
             'x-client-secret' => $secretKey,
             'x-api-version' => '2025-01-01',
             'Content-Type' => 'application/json',
-        ])->post('https://api.cashfree.com/pg/orders', $orderData);
+        ])->post('https://sandbox.cashfree.com/pg/orders', $orderData);
 
         $body = $response->json();
 
@@ -620,7 +620,7 @@ class SellerController extends Controller
             'x-client-secret' => $secretKey,
             'x-api-version' => '2025-01-01',
             'Content-Type' => 'application/json',
-        ])->post('https://api.cashfree.com/pg/orders', $orderData);
+        ])->post('https://sandbox.cashfree.com/pg/orders', $orderData);
 
         $body = $response->json();
 
@@ -705,7 +705,7 @@ class SellerController extends Controller
             'x-client-secret' => $secretKey,
             'x-api-version' => '2025-01-01',
             'Content-Type' => 'application/json',
-        ])->post('https://api.cashfree.com/pg/orders', $orderData);
+        ])->post('https://sandbox.cashfree.com/pg/orders', $orderData);
 
         $body = $response->json();
 
