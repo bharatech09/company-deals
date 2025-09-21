@@ -46,7 +46,11 @@
 
             <div class="mt-auto">
               <span class="fs-5 fw-bold text-success">
-                Ask Price: ₹{{ number_format($trademark->ask_price) }} {{ $trademark->ask_price_unit }} / month
+                Ask Price: ₹{{ number_format($trademark->ask_price) }} {{ $trademark->ask_price_unit }} /    @if($trademark->trademark_type == 0)
+                     month
+                  @else
+   year
+                @endif
               </span>
             </div>
           </div>

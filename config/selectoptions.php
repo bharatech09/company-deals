@@ -273,7 +273,8 @@ return [
 	],
 	'assignment_price_unit_option' => [
 		"per month"=>"per month",
-		"per assignment"=>"per assignment"
+		"per assignment"=>"per assignment",
+		"per year"=>"per year",
 	],
 	'states' => [
 		"Andhra Pradesh"=>"Andhra Pradesh",
