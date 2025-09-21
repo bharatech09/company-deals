@@ -209,7 +209,7 @@ class CompanyController extends Controller
         $validatedData['paidup_capital_amount'] = GeneralUtils::calculate_actual_ask_price($request->input('paidup_capital'), $request->input('paidup_capital_unit'));
         $validatedData['activity_code'] = $request->input('activity_code');
 
-        $validatedData['name_prefix'] = $request->input('name_prefix','Limited');
+        $validatedData['name_prefix'] = $request->input('name_prefix', 'Limited');
         $validatedData['current_market_price'] = $request->input('current_market_price');
         $validatedData['high_52_weeks'] = $request->input('high_52_weeks');
         $validatedData['low_52_weeks'] = $request->input('low_52_weeks');
@@ -360,7 +360,7 @@ class CompanyController extends Controller
 
     public function showstep3(Request $request)
     {
-        $companyData = Company::findOrFail($request->input('id'));
+         $companyData = Company::findOrFail($request->input('id'));
         return view('pages.user.company.form_step3', compact('companyData'));
     }
     public function savestep3(Request $request)
@@ -415,6 +415,14 @@ class CompanyController extends Controller
         if ($request->input('certicate_status') == 'Updated upto') {
             $validatedData['certicate_year'] = $request->input('certicate_year');
         }
+
+        $validatedData['isin_status'] = $request->input('isin_status');
+
+        // dd($validatedData['isin_year']);
+        if ($request->input('isin_status') == 'Updated upto') {
+            $validatedData['isin_year'] = $request->input('isin_year');
+        }
+        // dd($validatedData);
         $companyData->update($validatedData);
         return redirect()->route('user.seller.companyform.showstep4', ['id' => $companyData->id]);
     }

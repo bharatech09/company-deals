@@ -135,6 +135,8 @@ class Company extends Model
         'paid_up_capital_unit',
         'paid_up_capital_amount',
 
+
+
         'net_worth',
         'net_worth_unit',
         'net_worth_amount',
@@ -188,6 +190,9 @@ class Company extends Model
 
         'certicate_status',
         'certicate_year',
+
+        'isin_status',
+        'isin_year',
 
         'ask_price',
         'ask_price_unit',
@@ -378,6 +383,8 @@ class Company extends Model
                 'stock_exchange_year' => $eachCompany->stock_exchange_year,
                 'certicate_status' => $eachCompany->certicate_status,
                 'certicate_year' => $eachCompany->certicate_year,
+                'isin_status' => $eachCompany->isin_status,
+                'isin_year' => $eachCompany->isin_year,
 
                 // Documents
                 'certificate_incorporation' => $eachCompany->certificate_incorporation,
@@ -416,7 +423,7 @@ class Company extends Model
             $buyersArr = array();
             foreach ($buyers as $eachBuyer) {
                 // var_dump($eachBuyer);&& $eachBuyer->pivot->is_active == 'active'
-                if (!is_null($eachBuyer->pivot) && $eachBuyer->pivot->is_active == 'active' ) {
+                if (!is_null($eachBuyer->pivot) && $eachBuyer->pivot->is_active == 'active') {
                     $tempBuyer = array();
                     $tempBuyer['buyerDetail'] = "Name: " . $eachBuyer->name . ", Whatsapp: " . $eachBuyer->phone . ", Email: " . $eachBuyer->email . ",<br> Previous deals done: " . $eachBuyer->buyer_no_deal_closed . ", Amount of deals closed: " . number_format(($eachBuyer->buyer_amount_deal_closed) / 1000) . " Thousands";
                     $tempBuyer['buyer_id'] = $eachBuyer->pivot->buyer_id;

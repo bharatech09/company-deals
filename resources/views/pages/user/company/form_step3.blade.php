@@ -46,6 +46,17 @@ $certificate_year_option = GeneralUtils::get_compliance_year_option($selected_ce
 
 
 
+
+
+
+$selected_isin_status = old('isin_status',isset($companyData)? $companyData->isin_status:'');
+$isin_status_option = GeneralUtils::get_select_option('compliance_status2', $selected_isin_status);
+$selected_isin_year = old('isin_year',isset($companyData)? $companyData->isin_year:'');
+$isin_year_option = GeneralUtils::get_compliance_year_option($selected_isin_year, $companyData->isin_year);
+
+
+
+
 @endphp
 @extends('layout.master')
 @section('content')
@@ -229,6 +240,25 @@ $certificate_year_option = GeneralUtils::get_compliance_year_option($selected_ce
                                             <select id="certicate_year" class="form-select" name="certicate_year">
                                                 <option value="">-Select-</option>
                                                 {!!$certificate_year_option!!}
+                                            </select>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                 <div class="col-md-6">
+                                    <fieldset class="scheduler-border">
+                                        <legend class="scheduler-border"> ISIN <span class="text-danger">*</span></legend>
+                                        <div class="field">
+
+
+                                            <select id="isin_status" required class="form-select" name="isin_status">
+                                                <option value="">-Select-</option>
+                                                {!!$isin_status_option!!}
+                                            </select>
+                                        </div>
+                                        <div class="field d-none">
+                                            <select id="isin_year" class="form-select" name="isin_year">
+                                                <option value="">-Select-</option>
+                                                {!!$isin_year_option!!}
                                             </select>
                                         </div>
                                     </fieldset>

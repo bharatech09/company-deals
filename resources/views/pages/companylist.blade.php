@@ -210,6 +210,10 @@
          ( {{ $company->certicate_year ?? '' }})
         </li>
 
+        <li><strong>ISIN:</strong> {{ $company->isin_status ?? 'N/A' }}
+         ( {{ $company->isin_year ?? '' }})
+        </li>
+
         {{-- Optional --}}
         {{-- <li><strong>Auditor's Report:</strong> {{ $company->auditor_report ?? 'N/A' }}</li> --}}
 
