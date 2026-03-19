@@ -11,6 +11,10 @@ class Company extends Model
 {
     use Sortable;
 
+    protected $casts = [
+        'is_ask_price_on_demand' => 'boolean',
+    ];
+
     public $sortable = [
         'urn',
         'name',
@@ -197,7 +201,9 @@ class Company extends Model
         'ask_price',
         'ask_price_unit',
         'ask_price_amount',
-
+        'is_ask_price_on_demand',
+        'reference_name',
+        'reference_mobile',
 
         'status',
         'payment_id',
@@ -251,6 +257,9 @@ class Company extends Model
                 'ask_price' => $eachCompany->ask_price,
                 'ask_price_unit' => $eachCompany->ask_price_unit,
                 'ask_price_amount' => $eachCompany->ask_price_amount,
+                'is_ask_price_on_demand' => $eachCompany->is_ask_price_on_demand,
+                'reference_name' => $eachCompany->reference_name,
+                'reference_mobile' => $eachCompany->reference_mobile,
                 'deal_closed' => $eachCompany->deal_closed,
                 'buyer_id' => $eachCompany->buyer_id,
                 'home_featured' => $eachCompany->home_featured,

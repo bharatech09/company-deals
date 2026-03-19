@@ -59,15 +59,19 @@ $ask_price_unit_option = GeneralUtils::get_select_option('ask_price_unit_option'
                                 <fieldset class="scheduler-border pricewithunit">
                                     <legend class="scheduler-border">Ask price</legend>
                                     <div class="row">
-
-                                        <div class="col-md-6">
+                                        <div class="col-md-12 mb-3">
+                                            <label>
+                                                <input type="checkbox" name="is_ask_price_on_demand" id="is_ask_price_on_demand" value="1" {{ old('is_ask_price_on_demand', $companyData->is_ask_price_on_demand) ? 'checked' : '' }}> Price On Demand
+                                            </label>
+                                        </div>
+                                        <div class="col-md-6 ask_price_div" style="{{ old('is_ask_price_on_demand', $companyData->is_ask_price_on_demand) ? 'display:none' : '' }}">
                                             <div class="field">
-                                                <input id="ask_price" type="number" class="form-control onlynumber fourdigit" name="ask_price" placeholder="Ask price" required="" value="{{old('ask_price',isset($companyData)? $companyData->ask_price:'')}}">
+                                                <input id="ask_price" type="number" class="form-control onlynumber fourdigit" name="ask_price" placeholder="Ask price" {{ old('is_ask_price_on_demand', $companyData->is_ask_price_on_demand) ? '' : 'required' }} value="{{old('ask_price',isset($companyData)? $companyData->ask_price:'')}}">
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 ask_price_div" style="{{ old('is_ask_price_on_demand', $companyData->is_ask_price_on_demand) ? 'display:none' : '' }}">
                                             <div class="field">
-                                                <select id="ask_price_unit" class="form-select" name="ask_price_unit" required="">
+                                                <select id="ask_price_unit" class="form-select" name="ask_price_unit" {{ old('is_ask_price_on_demand', $companyData->is_ask_price_on_demand) ? '' : 'required' }}>
                                                     <option value="">-Select-</option>
                                                     {!!$ask_price_unit_option!!}
                                                 </select>
@@ -75,6 +79,25 @@ $ask_price_unit_option = GeneralUtils::get_select_option('ask_price_unit_option'
                                         </div>
 
 
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="col-md-12">
+                                <fieldset class="scheduler-border">
+                                    <legend class="scheduler-border">Reference Details</legend>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="field">
+                                                <label for="reference_name">Reference Name</label>
+                                                <input id="reference_name" type="text" class="form-control" name="reference_name" placeholder="Reference Name" value="{{old('reference_name',isset($companyData)? $companyData->reference_name:'')}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="field">
+                                                <label for="reference_mobile">Reference Mobile No.</label>
+                                                <input id="reference_mobile" type="text" class="form-control onlynumber tendigit" name="reference_mobile" placeholder="Reference Mobile No." value="{{old('reference_mobile',isset($companyData)? $companyData->reference_mobile:'')}}">
+                                            </div>
+                                        </div>
                                     </div>
                                 </fieldset>
                             </div>
@@ -187,6 +210,18 @@ $ask_price_unit_option = GeneralUtils::get_select_option('ask_price_unit_option'
                 e.preventDefault(); // Prevent form submission
             } else {
                 $(".text-danger").addClass("d-none");
+            }
+        });
+
+        $('#is_ask_price_on_demand').on('change', function() {
+            if ($(this).is(':checked')) {
+                $('.ask_price_div').hide();
+                $('#ask_price').prop('required', false);
+                $('#ask_price_unit').prop('required', false);
+            } else {
+                $('.ask_price_div').show();
+                $('#ask_price').prop('required', true);
+                $('#ask_price_unit').prop('required', true);
             }
         });
     });

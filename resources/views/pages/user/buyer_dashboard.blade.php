@@ -61,9 +61,7 @@
 
                                                         <li>Name: {{ $company['name'] }} {{ $company['name_prefix'] }}</li>
                                                         <li>Type Of Entity: {{ $company['type_of_entity'] }}</li>
-                                                        <li>Ask Price: ₹{{ number_format($company['ask_price_amount']) }}
-                                                            {{ $company['ask_price_unit'] }} per month
-                                                        </li>
+                                                        <li>Ask Price: @if($company['is_ask_price_on_demand']) On Demand @else ₹{{ number_format($company['ask_price_amount']) }} {{ $company['ask_price_unit'] }} per month @endif</li>
                                                         <li>Status: {{ ucfirst($company['status']) }}</li>
 
                                                         @if(!isset($company['has_paid']) || !$company['has_paid'])

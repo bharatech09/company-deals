@@ -36,7 +36,7 @@
               <tr>
                 <td>{{ $company->urn }}</td>
                 <td class="text-center">{{ $company->name }}</td>
-                <td class="text-center">{{ $company->ask_price }} {{ $company->ask_price_unit }}</td>
+                <td class="text-center">@if($company->is_ask_price_on_demand) On Demand @else {{ $company->ask_price }} {{ $company->ask_price_unit }} @endif</td>
                 <td class="text-center">{{ $company->status }}</td>
                 <td class="text-center">{{ $company->deal_closed ? 'Yes' : 'No' }}</td>
                 <td class="text-center">{{ $company->home_featured ? 'Yes' : 'No' }}</td>

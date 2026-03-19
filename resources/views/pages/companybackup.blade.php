@@ -45,7 +45,7 @@
               <li class="mb-2"><strong>ROC:</strong> <span class="text-secondary">{{ $company->roc }}</span></li>
               <li class="mb-2"><strong>Year of Incorporation:</strong> <span class="text-secondary">{{ $company->year_of_incorporation }}</span></li>
               <li class="mb-2"><strong>Industry:</strong> <span class="text-secondary">{{ $company->industry }}</span></li>
-              <li class="mb-2"><strong>Ask Price:</strong> <span class="text-success fw-semibold">₹{{ number_format($company->ask_price_amount ?? 0) }}
+              <li class="mb-2"><strong>Ask Price:</strong> <span class="text-success fw-semibold">@if($company->is_ask_price_on_demand) On Demand @else ₹{{ number_format($company->ask_price_amount ?? 0) }} @endif
                  <!-- {{ $company->ask_price_unit ?? 'Rupees' }}/month -->
                 </span></li>
               <li class="mb-2">

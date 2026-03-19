@@ -469,12 +469,32 @@ class CompanyController extends Controller
 
         $companyData = Company::findOrFail($request->input('id'));
 
-        $validated = $request->validate([
-            'ask_price' => ['required', 'numeric', 'max:9999'],
-            'ask_price_unit' => 'required',
+        $rules = [
+            'reference_name' => 'nullable|string|max:255',
+            'reference_mobile' => 'nullable|string|max:15',
+            'is_ask_price_on_demand' => 'nullable|boolean',
+        ];
 
-        ]);
-        $validated['ask_price_amount'] = GeneralUtils::calculate_actual_ask_price($request->input('ask_price'), $request->input('ask_price_unit'));
+        if (!$request->has('is_ask_price_on_demand')) {
+            $rules['ask_price'] = ['required', 'numeric', 'max:9999'];
+            $rules['ask_price_unit'] = 'required';
+        } else {
+            $rules['ask_price'] = 'nullable';
+            $rules['ask_price_unit'] = 'nullable';
+        }
+
+        $validated = $request->validate($rules);
+
+        if ($request->has('is_ask_price_on_demand')) {
+            $validated['is_ask_price_on_demand'] = true;
+            $validated['ask_price'] = null;
+            $validated['ask_price_unit'] = null;
+            $validated['ask_price_amount'] = null;
+        } else {
+            $validated['is_ask_price_on_demand'] = false;
+            $validated['ask_price_amount'] = GeneralUtils::calculate_actual_ask_price($request->input('ask_price'), $request->input('ask_price_unit'));
+        }
+
         $companyData->update($validated);
         return redirect()->route('user.seller.companylist')->with('status', 'Company saved successfully.');
     }

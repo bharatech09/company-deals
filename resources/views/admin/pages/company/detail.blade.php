@@ -77,7 +77,9 @@
 				            <li class="list-group-item">Address: {{$company->address}}</li>
 				            <li class="list-group-item">Space: {{$company->space}}</li>
 				            <li class="list-group-item">Type: {{$company->type}}</li>
-				            <li class="list-group-item">Ask price: {{$company->ask_price}} {{$company->ask_price_unit}} per month</li>
+				            <li class="list-group-item">Ask price: @if($company->is_ask_price_on_demand) On Demand @else {{$company->ask_price}} {{$company->ask_price_unit}} per month @endif</li>
+				            <li class="list-group-item">Reference Name: {{$company->reference_name}}</li>
+				            <li class="list-group-item">Reference Mobile No.: {{$company->reference_mobile}}</li>
 				            </ul>
 	        		</div>
 	        	</div>

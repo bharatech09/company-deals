@@ -34,7 +34,7 @@ $amount  = config('payments.buyer_payment_amount'); // adjust key to yours
                 <!-- <li>CIN/LLPIN: {{$company['cin_llpin']}}</li> -->
                 <li>Year of Incorporation: {{$company['year_of_incorporation']}}</li>
                 <li>Industry: {{$company['industry']}}</li>
-                <li><b>Ask Price:  ₹{{ number_format($company['ask_price'] ?? $company['ask_price']) }} {{ $company['ask_price_unit'] ?? 'Rupees' }}</b></li>
+                <li><b>Ask Price:  @if($company['is_ask_price_on_demand']) On Demand @else ₹{{ number_format($company['ask_price'] ?? $company['ask_price']) }} {{ $company['ask_price_unit'] ?? 'Rupees' }} @endif</b></li>
                 @if($company['deal_closed'] == 1)
                     <li>Buyer Details: <br> {!!$company['finalBuyer']!!}</li>
                 @endif
